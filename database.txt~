@@ -1,0 +1,90 @@
+create database Elearing;
+
+create table user( 
+     user_id  int unsigned not null auto_increment primary key, 
+     user_name varchar(50) not null unique, 
+     user_type ENUM('student', 'teacher' , 'super admin', 'admin') default 'student',
+     user_password varchar(50) not null,
+     user_email varchar(100) not null unique, 
+     user_active boolean default 0,
+     user_admin boolean default 0
+) Engine= Innodb;
+
+create table category( 
+    cat_id  int unsigned not null auto_increment primary key, 
+    cat_name varchar(100) not null unique ,
+    cat_parent_id int unsigned not null default 0 
+
+) Engine= Innodb;
+
+create table course( 
+     course_id  int unsigned not null auto_increment primary key, 
+     course_title varchar(50) not null , 
+     course_desc varchar(200) ,
+     course_start_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+     course_end_time TIMESTAMP not null ,
+     course_time_zone varchar(20) not null ,
+     course_cat_id int unsigned not null ,
+     course_teacher_id int unsigned not null ,
+     
+     FOREIGN KEY (course_cat_id) REFERENCES category (cat_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE ,
+
+     FOREIGN KEY (course_teacher_id) REFERENCES user (user_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE 
+) Engine= Innodb;
+
+
+create table topic( 
+     topic_id  int unsigned not null auto_increment primary key, 
+     topic_title varchar(50) not null , 
+     topic_desc varchar(200) ,
+    
+     
+     topic_course_id int unsigned not null ,
+     
+     FOREIGN KEY (topic_course_id) REFERENCES course (course_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE 
+
+) Engine= Innodb;
+
+create table class( 
+     class_id  int unsigned not null auto_increment primary key, 
+     class_title varchar(50) not null , 
+     class_desc varchar(200) ,
+     class_start_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+     class_time_zone varchar(20) not null ,
+     class_duration int unsigned not null ,
+     class_create_recording boolean ,
+     class_type enum('audio','video'),
+     class_status enum('free','close'),
+     class_language_culture_name varchar(20),
+     class_topic_id int unsigned not null ,
+     
+     FOREIGN KEY (class_topic_id) REFERENCES topic (topic_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE 
+
+) Engine= Innodb;
+
+
+
+
+
+create table coursestudent( 
+     coursestudent_id  int unsigned not null auto_increment primary key, 
+     coursestudent_course_id int unsigned not null ,
+     coursestudent_student_id int unsigned not null ,
+     
+     FOREIGN KEY (coursestudent_course_id) REFERENCES course (course_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE ,
+
+     FOREIGN KEY (coursestudent_student_id) REFERENCES user (user_id)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE
+
+) Engine= Innodb;
