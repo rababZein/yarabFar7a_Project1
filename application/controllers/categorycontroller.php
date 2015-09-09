@@ -5,6 +5,8 @@ class Categorycontroller extends CI_Controller {
 
 	public function addcategory(){
 
+		//echo "string"; exit();
+
         $this->load->model('category');
 		$data['categories']=$this->category->get_categories();
 
