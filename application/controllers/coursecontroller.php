@@ -395,6 +395,62 @@ Thanks');
 
 	}
 
+    public function outsideInvitation(){
+
+        $courseId = $this->input->get('courseId');
+    	$emails=Request::get('emails');
+        $studentEmails = explode(",", $emails);
+
+        $teacher=$this->course->getTeacher($course[0]->course_teacher_id);
+
+		$config = Array(		
+				    'protocol' => 'smtp',
+				    'smtp_host' => 'ssl://smtp.googlemail.com',
+				    'smtp_port' => 465,
+				    'smtp_user' => 'rababzein2012@gmail.com',
+				    'smtp_pass' => 'vfhf2011',
+				    'smtp_timeout' => '4',
+				    'mailtype'  => 'text', 
+				    'charset'   => 'iso-8859-1'
+				  );
+
+		$this->load->library('email', $config);
+		$this->email->set_newline("\r\n");
+
+
+
+		foreach ($studentEmails as $studentEmail) {
+		 	# code...
+
+
+			$this->email->from('rababzein2012@gmail.com', 'rababzein2012');
+			$this->email->to($studentEmail);
+			// $this->email->cc('rababelzen@yahoo.com');
+			// $this->email->bcc('rababelzen@yahoo.com');
+
+		    $this->email->subject('Invitation To Attend '.$course[0]->course_title);
+			$this->email->message('Dear  Student  ,
+You are Invite to attende this Course :
+
+	 TiTle : '.$course[0]->course_title.'
+	 Description : '.$course[0]->course_desc.'
+	 Start time : '.$course[0]->course_start_time.'
+	 Duration : '.$course[0]->course_end_time.'
+	 Teacher : '.$teacher[0]->user_name.'
+	 For contact with teacher : '.$teacher[0]->user_email.' 
+
+
+
+Courses Team
+
+<br>
+
+Thanks');
+
+			$this->email->send();
+		 }
+    }
+
 
 }
 
