@@ -37,16 +37,18 @@ Select All : <input id="selectAll" type="checkbox" onclick="checkAll(this,<?php 
 		<br/>
 		<br/>
 
-		<label> Enter all Emails of student , who not in site , by coma seperator  like this ( , ).</label>
-		<br/>
-		<textarea id='emails' name="enterEmails" cols="70" rows="5"></textarea>
-		<button id="button" onclick="outsideInvitation(<?php echo $courseId;?>);">Send</button> 
+		<a href="outsideInvitationView?courseId=<?php echo $courseId ;?>"> Send Invitation To Students not here</a>
 
+		
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>  
 
 <script type="text/javascript">
 
 var base_url="<?=base_url()?>";
+
+
+
+
 function checkAll(bx,courseId) {
 	//alert('yarab far7a');
  $("#actionOfSelectAll").text("Wait To Send .....");
@@ -94,20 +96,7 @@ function sendinvitation(studentId,courseId,studentName){
 
 }
 
-function outsideInvitation(courseId) {
 
-	
-	
-	 var emails = document.getElementById('emails').value;
-	 alert(emails);
-
-	 var base_url="<?=base_url()?>";
-
-	 // $.get(base_url+"coursecontroller/outsideInvitation",{courseId:courseId},function(data){
-
-	 // }
-	
-}
 
 </script>
 </body>

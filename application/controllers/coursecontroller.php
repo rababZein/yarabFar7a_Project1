@@ -395,14 +395,20 @@ Thanks');
 
 	}
 
+	public function outsideInvitationView(){
+		$data['courseId'] = $this->input->get('courseId');
+		$this->load->view('course/outsideInvitationView',$data);
+	}
+
     public function outsideInvitation(){
 
         $courseId = $this->input->get('courseId');
-    	$emails=Request::get('emails');
+    	$emails=$this->input->get('emails');
         $studentEmails = explode(",", $emails);
-
+        $this->load->model('course');
+        $course=$this->course->getCourse($courseId);
         $teacher=$this->course->getTeacher($course[0]->course_teacher_id);
-
+        
 		$config = Array(		
 				    'protocol' => 'smtp',
 				    'smtp_host' => 'ssl://smtp.googlemail.com',
