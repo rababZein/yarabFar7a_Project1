@@ -10,6 +10,13 @@ Class Course extends CI_Model {
 
     }
 
+    function getCourse($courseId){
+
+    	$this->db->where('course_id',$courseId);
+	    $query=$this->db->get('course');
+	    return $query->result();
+    }
+
     function delete($id){
 	    $this->db->where('course_id',$id);
 	    $this->db->delete('course');
@@ -36,6 +43,36 @@ Class Course extends CI_Model {
 
     }
 
+    function getAllTeachers(){
+
+    	$this->db->where('user_type','teacher');
+	    $query=$this->db->get('user');
+	    return $query->result();
+
+    }
+
+    function getTeacher($teacherId){
+
+       $this->db->where('user_id',$teacherId);
+       $query=$this->db->get('user');
+	   return $query->result();
+    }
+
+
+    function listStudent(){
+
+       $this->db->where('user_type','student');
+       $query=$this->db->get('user');
+       return $query->result();
+    }
+
+    function getStudent($studentId){
+
+       $this->db->where('user_id',$studentId);
+       $query=$this->db->get('user');
+       return $query->result();
+
+    }
 
 }
 

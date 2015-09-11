@@ -11,10 +11,6 @@
    <?php echo validation_errors(); ?>
    <?php echo form_open('coursecontroller/storecourse'); ?>
 
-    <label for="price">Price:</label>
-     <input type="number" size="20" id="price" name="price" value="<?php echo set_value('price');?>"/>
-     <br/>
-
 
      <label for="Course_title">Title:</label>
      <input type="text" size="20" id="course_title" name="course_title" value="<?php echo set_value('course_title');?>"/>
@@ -56,7 +52,7 @@
 
 
      <label for="course_desc">Desc:</label>
-     <textarea  id="course_desc" name="desc" ><?php echo set_value('desc'); ?></textarea>
+     <textarea  id="course_desc" name="course_desc" ><?php echo set_value('course_desc'); ?></textarea>
      <br/>
 
 
