@@ -24,30 +24,21 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css">
 
 
-	<title> Show Course </title>
+	<title> Show Topic </title>
 </head>
 <body>
 
 <p>
-	TiTle: <?php echo $course[0]->course_title; ?>
-	<br/>
-	Main Category : <?php echo $parent[0]->cat_name; ?>
+	TiTle: <?php echo $topic[0]->topic_title; ?>
     <br/>
-	Sub Category : <?php echo $category[0]->cat_name; ?>
+	
+    Description : <?php echo $topic[0]->topic_desc; ?>
     <br/>
-    Description : <?php echo $course[0]->course_desc; ?>
-    <br/>
-    Teacher : <?php echo $teacher[0]->user_name; ?>
-    <br/>
-    Start Time: <?php echo $course[0]->course_start_time; ?>
-    <br/>
-    End Time : <?php echo $course[0]->course_end_time; ?>
-    <br/>
+    
 </p>
 
 <p>
     
- <td><a href='../topiccontroller/addtopic?id=<?php echo $course[0]->course_id; ?>'> Add Topic </a></td>
 
 </p>
 
@@ -59,27 +50,24 @@
 
 
 
-<th> Topic TiTle </th>
+<th> Class TiTle </th>
+<th> Duration </th>
+<th> Start Time</th>
 
-<th> Add Live Class</th>
 
-<th> Edit </th>
-<th> Delete </th>
 
 </tr>
 </thead>
     
 <?php
     
-    foreach ($topics as $topic) {
+    foreach ($classes as $class) {
         
-        echo "<tr id='".$topic->topic_id."'>";
-        echo "<td><a href='../topiccontroller/showtopic?id=".$topic->topic_id."'>".$topic->topic_title."</a></td>";
-        echo "<td><a href='../classcontroller/addclass?courseId=".$topic->topic_course_id."&topicId=".$topic->topic_id."'>Add Class</a></td>";
+        echo "<tr>";
+        echo "<td>".$class->class_title."</a></td>";
+        echo "<td>".$class->class_duration."</a></td>";
+        echo "<td>".$class->class_start_time."</a></td>";
 
-        echo "<td><a href='../topiccontroller/edit?id=".$topic->topic_id."'>Edit</a></td>";
-        
-        echo "<td><button  onclick='deletetopic(".$topic->topic_id.")' > Delete button </button></td>";
         echo "</tr>";
    
     }

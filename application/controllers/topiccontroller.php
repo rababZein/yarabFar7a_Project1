@@ -129,4 +129,23 @@ class Topiccontroller extends CI_Controller {
 	}
 
 
+	public function showtopic(){
+
+        $topicId = $this->input->get('id');
+		$this->load->model('topic');
+		$data['topic']=$this->topic->getTopic($topicId);
+		$this->load->model('course');
+		$data['course']=$this->course->getCourse($data['topic'][0]->topic_course_id);
+		
+		$this->load->model('Liveclass');
+		$data['classes']=$this->Liveclass->getTopicByTopicId($data['topic'][0]->topic_id);      
+
+
+		//$this->load->view('course/showcourse',$data);
+		$data['content'] = "topic/showtopic";
+	    $this->load->view('lay',$data);
+
+	}
+
+
 }

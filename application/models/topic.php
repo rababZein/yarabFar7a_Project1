@@ -36,6 +36,14 @@ Class Topic extends CI_Model {
 
     }
 
+      function getTopic($topicId){
+
+    	$this->db->where('topic_id',$topicId);
+	    $query=$this->db->get('topic');
+	    return $query->result();
+
+    }
+
 
 
 }
