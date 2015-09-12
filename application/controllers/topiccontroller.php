@@ -75,7 +75,9 @@ class Topiccontroller extends CI_Controller {
 		$data = $data->result_array();
 	    $data['result'] = $data[0];
 		$this->load->helper(array('form'));
-		$this->load->view('topic/updatetopic',$data);
+		//$this->load->view('topic/updatetopic',$data);
+		$data['content'] = "topic/updatetopic";
+		$this->load->view('lay',$data);
 	}
 
 
@@ -100,7 +102,8 @@ class Topiccontroller extends CI_Controller {
 
 			$this->load->helper(array('form'));
 
-			$this->load->view('topic/updatetopic',$data);
+			$data['content'] = "topic/updatetopic";
+			$this->load->view('lay',$data);
 
 
 	   }

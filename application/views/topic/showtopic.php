@@ -53,6 +53,7 @@
 <th> Class TiTle </th>
 <th> Duration </th>
 <th> Start Time</th>
+<th> Edit </th>
 <th> Delete </th>
 
 
@@ -67,6 +68,8 @@
         echo "<td>".$class->class_title."</a></td>";
         echo "<td>".$class->class_duration."</a></td>";
         echo "<td>".$class->class_start_time."</a></td>";
+        echo "<td><a href='../classcontroller/edit?id=".$class->class_id."'>Edit</a></td>";
+
         echo "<td><button  onclick='deleteclass(".$class->class_id.")' > Delete button </button></td>";
 
         echo "</tr>";
