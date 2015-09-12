@@ -12,7 +12,9 @@ class Categorycontroller extends CI_Controller {
 
         $this->load->helper(array('form'));
 
-		$this->load->view('addcategory',$data);
+		//$this->load->view('addcategory',$data);
+		$data['content'] = "category/addcategory";
+		$this->load->view('lay',$data);
 
 	}
 
@@ -29,7 +31,9 @@ class Categorycontroller extends CI_Controller {
 	   {
             $this->load->model('category');
 		    $data['categories']=$this->category->get_categories();
-	   	    $this->load->view('addcategory',$data);
+	   	    $data['content'] = "category/addcategory";
+		    $this->load->view('lay',$data);
+
 
 	   }
 	   else
@@ -53,7 +57,10 @@ class Categorycontroller extends CI_Controller {
 		$this->load->model('category');
 		$data['categories']=$this->category->get_categories();
 
-		$this->load->view('listcategories',$data);
+		//$this->load->view('listcategories',$data);
+		$data['content'] = "category/listcategories";
+		$this->load->view('lay',$data);
+
 
 	}
 
@@ -85,7 +92,9 @@ class Categorycontroller extends CI_Controller {
 
 	    $data['result'] = $data[0];
 		$this->load->helper(array('form'));
-		$this->load->view('updatecategory',$data);
+		//$this->load->view('updatecategory',$data);
+		$data['content'] = "category/updatecategory";
+		$this->load->view('lay',$data);
 	}
 
 	public function updatecategory(){
@@ -106,7 +115,8 @@ class Categorycontroller extends CI_Controller {
 		    $data['result'] = $data[0];
 			$this->load->helper(array('form'));
 
-			$this->load->view('updatecategory',$data);
+				$data['content'] = "category/updatecategory";
+		        $this->load->view('lay',$data);
 
 
 	   }

@@ -2,6 +2,12 @@
 
 class Usercontroller extends CI_Controller {
 
+	public function registration(){
+		 $this->load->helper(array('form'));
+		 $this->load->view('user/registration');
+
+	}
+
 	public function approve ()
 
 	{
@@ -22,7 +28,7 @@ class Usercontroller extends CI_Controller {
 		$data['users']=$this->user->get_users();
 
 
-		$data['content'] = "user";
+		$data['content'] = "user/user";
 		$this->load->view('lay',$data);
 
 
@@ -49,7 +55,7 @@ class Usercontroller extends CI_Controller {
 
 
 
-$data['content'] = "updateuser";
+$data['content'] = "user/updateuser";
 $this->load->view('lay',$data);
 
 
@@ -77,7 +83,7 @@ $this->load->view('lay',$data);
 
 
 
-$data['content'] = "updateuser";
+$data['content'] = "user/updateuser";
 $this->load->view('lay',$data);
 
 	   	//echo "FALSE"; exit();
@@ -115,7 +121,7 @@ $this->load->view('lay',$data);
 
 	public function add()
 	   {
-	   			$data = array('content'=>'adduser');
+	   			$data = array('content'=>'user/adduser');
 $this->load->view('lay',$data);
 
 	   	
@@ -127,7 +133,12 @@ $this->load->view('lay',$data);
 		$data['user_name']= $this->input->post('username');
 		$data['user_email']= $this->input->post('email');
 		$data['user_password']= MD5($this->input->post('password'));
-		$data['user_type']= $this->input->post('type');
+		if (empty($this->input->post('type'))) {
+			# code...
+			$data['user_type']='student';
+		}else{
+				$data['user_type']= $this->input->post('type');
+	    }
 		
 		if($this->input->post('admin') == "admin")
 		$data['user_admin']= 1;

@@ -432,7 +432,9 @@ Thanks');
 
 	public function outsideInvitationView(){
 		$data['courseId'] = $this->input->get('courseId');
-		$this->load->view('course/outsideInvitationView',$data);
+		//$this->load->view('course/outsideInvitationView',$data);
+		$data['content'] = "course/outsideInvitationView";
+		$this->load->view('lay',$data);
 	}
 
     public function outsideInvitation(){

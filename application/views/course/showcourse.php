@@ -1,6 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+ 
+  <link rel="stylesheet" type="text/css" href="../css/reset.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href=".../css/text.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../css/grid.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../css/layout.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../css/nav.css" media="screen" />
+    <link href="../css/table/demo_page.css" rel="stylesheet" type="text/css" />
+
+
+      
+    <script src="../js/jquery-1.6.4.min.js" type="text/javascript"></script>
+    <script src="../js/table/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui/jquery.ui.widget.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui/jquery.ui.accordion.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui/jquery.effects.core.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui/jquery.effects.slide.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui/jquery.ui.mouse.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui/jquery.ui.sortable.min.js" type="text/javascript"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css">
+
+
 	<title> Show Course </title>
 </head>
 <body>
@@ -29,20 +52,22 @@
 </p>
 
 
-<table border="2">
+<table class="data display datatable" id="example" cellpadding="0" cellspacing="0" border="2">
+<thead>
 
 <tr>
 
 
 
-<td> Topic TiTle </td>
+<th> Topic TiTle </th>
 
-<td> Add Live Class</td>
+<th> Add Live Class</th>
 
-<td> Edit </td>
-<td> Delete </td>
+<th> Edit </th>
+<th> Delete </th>
 
 </tr>
+</thead>
     
 <?php
     
@@ -64,7 +89,6 @@
 
 </table>
 
-<script src="http://code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 
 var base_url="<?=base_url()?>";

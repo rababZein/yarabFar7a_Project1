@@ -3,33 +3,33 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title>Typography | BlueWhale Admin</title>
-    <link rel="stylesheet" type="text/css" href="../../css/reset.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="../../css/text.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="../../css/grid.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="../../css/layout.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="../../css/nav.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../css/reset.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../css/text.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../css/grid.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../css/layout.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../css/nav.css" media="screen" />
     <!--[if IE 6]><link rel="stylesheet" type="text/css" href="css/ie6.css" media="screen" /><![endif]-->
     <!--[if IE 7]><link rel="stylesheet" type="text/css" href="css/ie.css" media="screen" /><![endif]-->
-    <link href="../../css/table/demo_page.css" rel="stylesheet" type="text/css" />
+    <link href="../css/table/demo_page.css" rel="stylesheet" type="text/css" />
     <!-- BEGIN: load jquery -->
-    <script src="../../js/jquery-1.6.4.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-1.6.4.min.js" type="text/javascript"></script>
            <script src="http://code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
 
-    <script type="text/javascript" src="../../js/jquery-ui/jquery.ui.core.min.js"></script>
-    <script src="../../js/jquery-ui/jquery.ui.widget.min.js" type="text/javascript"></script>
-    <script src="../../js/jquery-ui/jquery.ui.accordion.min.js" type="text/javascript"></script>
-    <script src="../../js/jquery-ui/jquery.effects.core.min.js" type="text/javascript"></script>
-    <script src="../../js/jquery-ui/jquery.effects.slide.min.js" type="text/javascript"></script>
-    <script src="../../js/jquery-ui/jquery.ui.mouse.min.js" type="text/javascript"></script>
-    <script src="../../js/jquery-ui/jquery.ui.sortable.min.js" type="text/javascript"></script>
-    <script src="../../js/table/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../js/jquery-ui/jquery.ui.core.min.js"></script>
+    <script src=".../js/jquery-ui/jquery.ui.widget.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui/jquery.ui.accordion.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui/jquery.effects.core.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui/jquery.effects.slide.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui/jquery.ui.mouse.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui/jquery.ui.sortable.min.js" type="text/javascript"></script>
+    <script src="../js/table/jquery.dataTables.min.js" type="text/javascript"></script>
 
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css">
 
 
     <!-- END: load jquery -->
-    <script src="../../js/setup.js" type="text/javascript"></script>
+    <script src="../js/setup.js" type="text/javascript"></script>
     <script type="text/javascript">
 
         $(document).ready(function () {
@@ -54,7 +54,7 @@
                         <ul class="inline-ul floatleft">
                             <li>Hello <?php session_start(); ?></li>
                           
-                            <li><a href="http://localhost/q8DZ/login/logout">Logout</a></li>
+                            <li><a href="../home/logout">Logout</a></li>
                         </ul>
                         <br />
                        
@@ -81,38 +81,35 @@
                     <ul class="section menu">
 
 
-                       <li><a class="menuitem">Advertisements</a>
+                        <li><a class="menuitem">Categories</a>
                             <ul class="submenu">
-                                <li><a href="/q8DZ/advcontroller/listadv">All advertisements</a> </li>
-                                <li><a href="/q8DZ/advcontroller/add">add advertise</a> </li>
-                                                <li><a href="/q8DZ/advcontroller/approval">approval advertisements</a> </li>
+                              <li><a href="../categorycontroller/listcategories">All category</a> </li>
+                                <li><a href="../categorycontroller/addcategory">add category</a> </li>
+                               
+                               
+                            </ul>
+                        </li>
 
-                                   </ul>
+
+                       <li><a class="menuitem">Courses</a>
+                            <ul class="submenu">
+                                <li><a href="../coursecontroller/listcourses">All Courses</a> </li>
+                                <li><a href="../coursecontroller/addcourse">Add Course</a> </li>
+
+                            </ul>
                         </li>
                        
 
-                         <li><a class="menuitem">Users</a>
-                            <ul class="submenu">
-                                <li><a href="/q8DZ/usercontroller/listuser">All users</a> </li>
-                                <li><a href="/q8DZ/usercontroller/add">add user</a> </li>
-
-                            </ul>
-                        </li>
+                     
 
 
-                        <li><a class="menuitem">Wishes</a>
+
+
+                        <li><a class="menuitem">Users</a>
                             <ul class="submenu">
-                               <li><a href="/q8DZ/whishcontroller/listwhish">All wishes</a> </li>
-                                <li><a href="/q8DZ/advcontroller/add" >Add wish</a> </li>
-                               
-                            </ul>
-                        </li>
-                        <li><a class="menuitem">Categories</a>
-                            <ul class="submenu">
-                              <li><a href="/q8DZ/categorycontroller/listcategories">All category</a> </li>
-                                <li><a href="/q8DZ/categorycontroller/addcategory">add category</a> </li>
-                               
-                               
+                                <li><a href="../usercontroller/listuser">All users</a> </li>
+                                <li><a href="../usercontroller/add">add user</a> </li>
+
                             </ul>
                         </li>
                     </ul>
@@ -122,7 +119,7 @@
         <div class="grid_10">
             <div class="box round first grid">
                 <h2>
-                    Add Adv </h2>
+                    </h2>
                 <div class="block">
 
 

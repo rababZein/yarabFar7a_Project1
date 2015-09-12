@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+ 
   <link rel="stylesheet" type="text/css" href="../css/reset.css" media="screen" />
     <link rel="stylesheet" type="text/css" href=".../css/text.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="../css/grid.css" media="screen" />
@@ -9,7 +14,7 @@
       
     <script src="../js/jquery-1.6.4.min.js" type="text/javascript"></script>
     <script src="../js/table/jquery.dataTables.min.js" type="text/javascript"></script>
-	<script src="../js/jquery-ui/jquery.ui.widget.min.js" type="text/javascript"></script>
+  <script src="../js/jquery-ui/jquery.ui.widget.min.js" type="text/javascript"></script>
     <script src="../js/jquery-ui/jquery.ui.accordion.min.js" type="text/javascript"></script>
     <script src="../js/jquery-ui/jquery.effects.core.min.js" type="text/javascript"></script>
     <script src="../js/jquery-ui/jquery.effects.slide.min.js" type="text/javascript"></script>
@@ -18,41 +23,23 @@
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css">
 
-<script type="text/javascript">
-var base_url="<?=base_url()?>";
 
-function outsideInvitation (courseId) {
-	$("#msg").text("Wait .. ");
-	var emails = document.getElementById('emails').value;
+	<title>Update Category</title>
+</head>
+<body>
 
-	$.ajax({
-	    url: base_url+'coursecontroller/outsideInvitation' ,
-	    type: 'GET',
-	    data: {  
-	   		emails: emails, 
-            courseId: courseId,
-	   	    },
-	    success: function(result) {
-	    			$("#msg").text("Done ^_^");
-	    			document.getElementById('emails').value="";
-				  },
-		error: function(jqXHR, textStatus, errorThrown) {
-	                $("#msg").text("Failed try again .. ");
-	           }
+<h1>Update User </h1>
+   <?php echo validation_errors(); ?>
+   <?php echo form_open('categorycontroller/updatecategory'); ?>
+     <label for="category">Category:</label>
+     <input type="text" size="20" id="category" name="category" value="<?php echo $result['cat_name'];?>"/>
+     <br/>
+     <input type="text" size="20" id="id" name="id" value="<?php echo $result['cat_id'];?>" hidden/>
+     <br/>
 
-	});
-		    	
+   
+     <input type="submit" value="Add"/>
+   </form>
 
-
-}
-</script>
-
-<label> Enter all Emails of student , who not in site , by coma seperator  like this ( , ).</label>
-		<br/>
-		<textarea id='emails' name="enterEmails" cols="70" rows="5"></textarea>
-		<button id="button" onclick="outsideInvitation(<?php echo $courseId;?>)">Send</button> 
-
-
-		<span id='msg'></span>
-
-
+</body>
+</html>

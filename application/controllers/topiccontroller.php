@@ -8,7 +8,9 @@ class Topiccontroller extends CI_Controller {
 
 	        $this->load->helper(array('form'));
 
-			$this->load->view('topic/addtopic',$data);
+			//$this->load->view('topic/addtopic',$data);
+			$data['content'] = "topic/addtopic";
+		    $this->load->view('lay',$data);
 
 	   }
 
@@ -20,7 +22,9 @@ class Topiccontroller extends CI_Controller {
 	   if($this->form_validation->run() == FALSE){
             $data['courseId']= $this->input->post('topic_course_id');
 	        $this->load->helper(array('form'));
-			$this->load->view('topic/addtopic',$data);
+			//$this->load->view('topic/addtopic',$data);
+			$data['content'] = "topic/addtopic";
+		    $this->load->view('lay',$data);
 
         
        }else{

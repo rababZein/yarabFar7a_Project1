@@ -13,18 +13,18 @@ class VerifyLogin extends CI_Controller {
    //This method will have the credentials validation
    $this->load->library('form_validation');
 
-   $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean');
+   $this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean');
    $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|callback_check_database');
 
    if($this->form_validation->run() == FALSE)
    {
      //Field validation failed.  User redirected to login page
-     $this->load->view('login_view');
+     $this->load->view('user/login');
    }
    else
    {
      //Go to private area
-     redirect('home', 'refresh');
+     redirect('coursecontroller/listcourses', 'refresh');
    }
 
  }
@@ -32,11 +32,11 @@ class VerifyLogin extends CI_Controller {
  function check_database($password)
  {
    //Field validation succeeded.  Validate against database
-   $username = $this->input->post('username');
+   $email = $this->input->post('email');
 
    //query the database
-   $result = $this->user->login($username, $password);
-
+   $result = $this->user->login($email, $password);
+   //var_dump($result); exit();
    if($result)
    {
      $sess_array = array();
@@ -44,7 +44,10 @@ class VerifyLogin extends CI_Controller {
      {
        $sess_array = array(
          'id' => $row->user_id,
-         'username' => $row->user_name
+         'username' => $row->user_name,
+         'type'=>$row->user_type,
+         'admin'=>$row->user_admin,
+         'active'=>$row->user_active
        );
        $this->session->set_userdata('logged_in', $sess_array);
      }
