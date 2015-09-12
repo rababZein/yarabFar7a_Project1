@@ -36,22 +36,28 @@ class VerifyLogin extends CI_Controller {
 
    //query the database
    $result = $this->user->login($email, $password);
-   //var_dump($result); exit();
    if($result)
    {
-     $sess_array = array();
-     foreach($result as $row)
-     {
-       $sess_array = array(
-         'id' => $row->user_id,
-         'username' => $row->user_name,
-         'type'=>$row->user_type,
-         'admin'=>$row->user_admin,
-         'active'=>$row->user_active
-       );
-       $this->session->set_userdata('logged_in', $sess_array);
-     }
-     return TRUE;
+         if($result[0]->user_active==1){
+             $sess_array = array();
+             foreach($result as $row)
+             {
+               $sess_array = array(
+                 'id' => $row->user_id,
+                 'username' => $row->user_name,
+                 'type'=>$row->user_type,
+                 'admin'=>$row->user_admin,
+                 'active'=>$row->user_active
+               );
+               $this->session->set_userdata('logged_in', $sess_array);
+             }
+             return TRUE;
+         }else{
+
+             $this->form_validation->set_message('check_database', 'Activate your account first');
+             return false;
+
+         }
    }
    else
    {

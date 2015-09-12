@@ -74,6 +74,12 @@ Class Course extends CI_Model {
 
     }
 
+    function getCoursesOfTeacher($teacherId){
+       $this->db->where('course_teacher_id',$teacherId);
+       $query=$this->db->get('course');
+       return $query->result();
+    }
+
 }
 
 

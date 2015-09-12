@@ -17,6 +17,15 @@ class Usercontroller extends CI_Controller {
 		$data['user_active']=1;
 		$this->load->model('user');
 		$this->user->update($data);
+        $user=$this->user->get_user($user_id);
+		$sess_array = array(
+	                 'id' => $user[0]->user_id,
+	                 'username' => $user[0]->user_name,
+	                 'type'=>$user[0]->user_type,
+	                 'admin'=>$user[0]->user_admin,
+	                 'active'=>$user[0]->user_active
+                     );
+        $this->session->set_userdata('logged_in', $sess_array);
 
 	    redirect('usercontroller/listuser', 'location');
 
@@ -144,53 +153,52 @@ $this->load->view('lay',$data);
 		$data['user_admin']= 1;
 
 		if($this->input->post('admin') == "not")
-		$data['user_admin']= 0;
-		
-	  
+			 $data['user_admin']= 0;
+			
+		  
 
 
 
-			$this->load->model('user');
-			$this->user->adduser($data);
+			 $this->load->model('user');
+			 $this->user->adduser($data);
 
 
-				$this->load->model('user');
+			 $this->load->model('user');
 
-		$user=$this->user->get_user_by_email($data['user_email']); 
-		$user_id= $user[0]->user_id;
- $config = Array(
-  'protocol' => 'smtp',
-  'smtp_host' => 'ssl://smtp.googlemail.com',
-  'smtp_port' => 465,
-  'smtp_user' => 'engy.elmoshrify@gmail.com', // change it to yours
-  'smtp_pass' => 'engy751093', // change it to yours
-  'mailtype' => 'html',
-  'charset' => 'iso-8859-1',
-  'wordwrap' => TRUE
-);
-
-  $message = "Welcome in our website ! To activate your account please visit the following link 
-
-"."http://localhost/yarabfar7a1/yarabFar7a_Project1"."/usercontroller/approve?id=".$user_id;
+			 $user=$this->user->get_user_by_email($data['user_email']); 
+			 $user_id= $user[0]->user_id;
+			 $config = Array(
+			  'protocol' => 'smtp',
+			  'smtp_host' => 'ssl://smtp.googlemail.com',
+			  'smtp_port' => 465,
+			  'smtp_user' => 'engy.elmoshrify@gmail.com', // change it to yours
+			  'smtp_pass' => 'engy751093', // change it to yours
+			  'mailtype' => 'html',
+			  'charset' => 'iso-8859-1',
+			  'wordwrap' => TRUE
+			);
 
 
-        $this->load->library('email', $config);
-      $this->email->set_newline("\r\n");
-      $this->email->from('engy.elmoshrify@gmail.com'); 
-      $this->email->to($data['user_email']);
-      $this->email->subject('explore new advertisements !');
-      $this->email->message($message);
-      if($this->email->send())
-     {
-      echo 'Email sent.';
-     }
-     else
-    {
-     show_error($this->email->print_debugger());
-    }
+			 $this->load->helper('url');
+ 		     $message = "Welcome in our website ! To activate your account please visit the following link: localhost".base_url()."usercontroller/approve?id=".$user_id;
 
 
-		    redirect('usercontroller/listuser', 'location');
+	         $this->load->library('email', $config);
+	         $this->email->set_newline("\r\n");
+	         $this->email->from('engy.elmoshrify@gmail.com'); 
+	         $this->email->to($data['user_email']);
+	         $this->email->subject('Activate Your Account !');
+	         $this->email->message($message);
+	         if($this->email->send()){
+	      			echo 'Email sent.';
+	     	 }else{
+	     			show_error($this->email->print_debugger());
+	         }
+
+
+		    //redirect('coursecontroller/listcourses', 'location');
+
+    echo "Check you mail box to activate account";
 
 
 	}

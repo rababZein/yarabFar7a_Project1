@@ -19,4 +19,12 @@ Class Coursestudent extends CI_Model {
 	    return $query->result();
     }
 
+    function getcourses($studentId){
+
+    	$this->db->where('coursestudent_student_id',$studentId);
+	    $query=$this->db->get('coursestudent');
+	    return $query->result();
+
+    }
+
 }

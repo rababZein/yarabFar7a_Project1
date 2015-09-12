@@ -88,28 +88,53 @@ class Coursecontroller extends CI_Controller {
 
 	public function listcourses(){
 
+		$session_data = $this->session->userdata('logged_in');
+
 		$this->load->model('course');
-		$data['courses']=$this->course->getAllCourses();
+		if($session_data['type']=='admin' || $session_data['type']=='super admin'){
+			$data['courses']=$this->course->getAllCourses();
+	    }elseif ($session_data['type']=='teacher') {
+	    	# code...
+
+	    	$data['courses']=$this->course->getCoursesOfTeacher($session_data['id']);
+	    
+
+	    }else {
+	    	# code...
+           // echo "string"; exit();
+	    	$this->load->model('coursestudent');
+	    	//echo $session_data['id']; exit();
+            $coursesID=$this->coursestudent->getcourses($session_data['id']);
+            //var_dump($coursesID); exit();
+            $this->load->model('course');
+            foreach ($coursesID as $courseId) {
+
+            		$data['courses']=$this->course->getCourse($courseId->coursestudent_course_id);
+
+            }
+
+	    }
         $this->load->model('category');
         $i=0;
-       foreach ($data['courses'] as $row) {
-       	   
-       	   $category=$this->category->get_category($row->course_cat_id);
-           $data['category'][$i]=$category[0];
-           $i++;
+        if(!empty($data['courses'])){
+		       foreach ($data['courses'] as $row) {
+		       	   
+		       	   $category=$this->category->get_category($row->course_cat_id);
+		           $data['category'][$i]=$category[0];
+		           $i++;
 
-       }
-       $this->load->model('course');
-       $i=0;
-       foreach ($data['courses'] as $row) {
-       	   
-       	   $teacher=$this->course->getTeacher($row->course_teacher_id);
-           $data['teacher'][$i]=$teacher[0];
-           $i++;
+		       }
+		       $this->load->model('course');
+		       $i=0;
+		       foreach ($data['courses'] as $row) {
+		       	   
+		       	   $teacher=$this->course->getTeacher($row->course_teacher_id);
+		           $data['teacher'][$i]=$teacher[0];
+		           $i++;
 
-       }
+		       }
 		 //var_dump()
-        
+       } 
        $data['content'] = "course/listcourses";
 	   $this->load->view('lay',$data);
         

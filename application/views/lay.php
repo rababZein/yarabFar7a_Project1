@@ -43,6 +43,9 @@
     </script>
 </head>
 <body>
+
+<?php session_start(); $session_data = $this->session->userdata('logged_in'); ?>
+
     <div class="container_12">
         <div class="grid_12 header-repeat">
             <div id="branding">
@@ -52,7 +55,7 @@
                     
                     <div class="floatleft marginleft10">
                         <ul class="inline-ul floatleft">
-                            <li>Hello <?php session_start(); ?></li>
+                            <li>Hello </li>
                           
                             <li><a href="../home/logout">Logout</a></li>
                         </ul>
@@ -81,6 +84,7 @@
                     <ul class="section menu">
 
 
+<?php if($session_data['type']!='student'){?>
                         <li><a class="menuitem">Categories</a>
                             <ul class="submenu">
                               <li><a href="../categorycontroller/listcategories">All category</a> </li>
@@ -90,7 +94,7 @@
                             </ul>
                         </li>
 
-
+<?php }?>
                        <li><a class="menuitem">Courses</a>
                             <ul class="submenu">
                                 <li><a href="../coursecontroller/listcourses">All Courses</a> </li>
@@ -102,7 +106,7 @@
 
                      
 
-
+<?php if($session_data['type']!='student'){?>
 
 
                         <li><a class="menuitem">Users</a>
@@ -112,6 +116,7 @@
 
                             </ul>
                         </li>
+<?php }?>                        
                     </ul>
                 </div>
             </div>

@@ -27,7 +27,7 @@
 	<title>List Courses</title>
 </head>
 <body>
-
+<?php $session_data = $this->session->userdata('logged_in'); ?>
 <table class="data display datatable" id="example" cellpadding="0" cellspacing="0" border="0">
 
 
@@ -39,12 +39,12 @@
 <th> Course TiTle </th>
 <th> Course category </th>
 <th> Course Teacher </th>
+<?php if($session_data['type']!='student'){?>
 <th> Send Invitation To Student </th>
-
-
 <th> Add Topic </th>
 <th> Edit </th>
 <th> Delete </th>
+<?php }?>
 
 </tr>
 	</thead>
@@ -52,21 +52,25 @@
 	<tbody>
 <?php
         $i=0;
-	foreach ($courses as $course) {
-		
-		echo "<tr id='".$course->course_id."'>";
-		echo "<td>".$course->course_id."</td>";
-		echo "<td><a href='showcourse?id=".$course->course_id."'>".$course->course_title."</a></td>";
-		echo "<td>".$category[$i]->cat_name."</td>";
-		echo "<td>".$teacher[$i]->user_name."</td>";
-		echo "<td><a href='listStudent?courseId=".$course->course_id."'>Invite</a></td>";
-		echo "<td><a href='../topiccontroller/addtopic?id=".$course->course_id."'>Add Topic</a></td>";
-		echo "<td><a href='edit?id=".$course->course_id."'>Edit</a></td>";
-		
-		echo "<td><button  onclick='deletecourse(".$course->course_id.")' > Delete button </button></td>";
-		echo "</tr>";
-		$i++;
-	}
+        if(!empty($courses)){
+				foreach ($courses as $course) {
+					
+					echo "<tr id='".$course->course_id."'>";
+					echo "<td>".$course->course_id."</td>";
+					echo "<td><a href='showcourse?id=".$course->course_id."'>".$course->course_title."</a></td>";
+					echo "<td>".$category[$i]->cat_name."</td>";
+					echo "<td>".$teacher[$i]->user_name."</td>";
+				    if($session_data['type']!='student'){
+						echo "<td><a href='listStudent?courseId=".$course->course_id."'>Invite</a></td>";
+						echo "<td><a href='../topiccontroller/addtopic?id=".$course->course_id."'>Add Topic</a></td>";
+						echo "<td><a href='edit?id=".$course->course_id."'>Edit</a></td>";
+						
+						echo "<td><button  onclick='deletecourse(".$course->course_id.")' > Delete button </button></td>";
+						}
+					echo "</tr>";
+					$i++;
+				}
+        }
 
 
 ?>
