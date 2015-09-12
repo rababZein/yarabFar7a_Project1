@@ -339,8 +339,20 @@ Courses Team
 Thanks');
 
 			$this->email->send();
-		 }
 
+	    $D['coursestudent_course_id']=$course[0]->course_id;
+		$D['coursestudent_student_id']=$student->user_id;
+		$this->load->model('coursestudent');
+
+		$S=$this->coursestudent->getStudent($student->user_id);
+
+		if(empty($S[0]->coursestudent_student_id)){
+				$this->coursestudent->addcoursestudent($D);
+		}
+
+		
+		 }
+//echo $S;
 	}
 
 	public function inviteStudent(){
@@ -391,7 +403,17 @@ Thanks');
 
 		$this->email->send();
 
-		echo $this->email->print_debugger();
+	//	echo $this->email->print_debugger();
+		$D['coursestudent_course_id']=$course[0]->course_id;
+		$D['coursestudent_student_id']=$student[0]->user_id;
+		$this->load->model('coursestudent');
+
+		
+		$S=$this->coursestudent->getStudent($student[0]->user_id);
+
+		if(empty($S[0]->coursestudent_student_id)){
+				$this->coursestudent->addcoursestudent($D);
+		}
 
 	}
 

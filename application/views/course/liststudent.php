@@ -27,7 +27,7 @@ Select All : <input id="selectAll" type="checkbox" onclick="checkAll(this,<?php 
 				            <td class="text-center">
 				             <input id='<?php echo $student->user_name; ?>' class="group1" type="checkbox" onclick="sendinvitation(<?php echo $student->user_id ?>,<?php echo $courseId; ?>,'<?php echo $student->user_name;?>');">
 				            </td>
-				            <td id='action'></td>
+				            <td id='<?php echo $student->user_name."action"; ?>'></td>
 				        </tr>
 		     	<?php } ?>
 	
@@ -73,6 +73,8 @@ function checkAll(bx,courseId) {
   			$("input.group1").attr("disabled", true);
   			$("#actionOfSelectAll").text("Done ^_^");
 
+  			//console.log(data);
+
 
 	});
 
@@ -81,14 +83,14 @@ function checkAll(bx,courseId) {
 }
 function sendinvitation(studentId,courseId,studentName){
 
-	$("#action").text("Wait To Send .....");
+	$("#"+studentName+"action").text("Wait To Send .....");
 
 	$.get(base_url+"coursecontroller/inviteStudent",{courseId:courseId,studentId:studentId},function(data){
 
              //alert('congratulation your invitation was send successfully  ^_^');
 			 $("#"+studentName).attr("disabled", true);
 			 $("#action").text(" ");
-			 $("#action").text("Done ^_^ ")
+			 $("#"+studentName+"action").text("Done ^_^ ")
 
 
 	});
