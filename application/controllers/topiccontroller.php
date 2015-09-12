@@ -45,7 +45,7 @@ class Topiccontroller extends CI_Controller {
 
 	}
 
-	public function listcourses(){
+	public function listtopics(){
 
 		$this->load->model('topic');
 		$data['topics']=$this->topic->getAllTpoics();

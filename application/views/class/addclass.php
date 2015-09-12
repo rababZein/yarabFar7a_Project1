@@ -1,53 +1,58 @@
-<?php
-//$id = $_GET['ID'] ;
-//$Msg="";
+<!DOCTYPE html>
+<html>
+<head>
 
-$par=array();
-$par["name"]='rabab';
-    $par["email"]= 'Mohamed_tc@hotmail.com';
-    $par["password"]= '123456';
-    $par["image"]= 'abd.jpg';
-    $par["phone_number"]= '+20 1284064635';
-    
-    $par["about_the_teacher"]= "Online Facilitator and Teacher, British Columbia, Canada";
-    $par["is_active"]= '1';
-  $access_key="FneRTyilJ9Q=";
-                $secretAcessKey="bKfMCZOU3ZhUsJqtHRsFpQ==";
-                $webServiceUrl="http://class.api.wiziq.com/";
-                require("add_techer.php");
-          //$obj = new addteacher($secretAcessKey,$access_key,$webServiceUrl,$par);
+    <link rel="stylesheet" type="text/css" href="../css/reset.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href=".../css/text.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../css/grid.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../css/layout.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../css/nav.css" media="screen" />
+    <link href="../css/table/demo_page.css" rel="stylesheet" type="text/css" />
 
 
-  $parmeters = array();
-  //$start_time = $_POST['d_year'].'-'.sprintf('%02d', intval($_POST['d_month'])).'-'.sprintf('%02d', intval($_POST['d_day'])).' '.sprintf('%02d', intval($_POST['d_hour'])).':'.sprintf('%02d', intval($_POST['d_minute']));
-  $parmeters['start_time'] = '20:15 2016-9-12';  // 20:15 2013-12-22
+      
+    <script src="../js/jquery-1.6.4.min.js" type="text/javascript"></script>
+    <script src="../js/table/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui/jquery.ui.widget.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui/jquery.ui.accordion.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui/jquery.effects.core.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui/jquery.effects.slide.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui/jquery.ui.mouse.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui/jquery.ui.sortable.min.js" type="text/javascript"></script>
 
-  $parmeters["presenter_email"]='mosleh7@hotmail.com';
-    #for room based account pass parameters 'presenter_id', 'presenter_name'
-    //$requestParameters["presenter_id"] = "40";
-    //$requestParameters["presenter_name"] = "vinugeorge";  
-    //$parmeters["start_time"] = $array['start_time'];
-    $parmeters["title"]= 'yarab far7a' ;//Required
-    $parmeters["duration"]=""; //optional
-    $parmeters["time_zone"]="Africa/Cairo"; //optional
-    $parmeters["attendee_limit"]=""; //optional
-    $parmeters["control_category_id"]=""; //optional
-    $parmeters["create_recording"]=""; //optional
-    $parmeters["return_url"]=""; //optional
-    $parmeters["status_ping_url"]=""; //optional
-        $parmeters["language_culture_name"]="ar-SA";
-               
-                $webServiceUrl="http://class.api.wiziq.com/";
-                require("add_schedule.php");
-          $obj = new addschedule($secretAcessKey,$access_key,$webServiceUrl,$parmeters);
-          
-          $result = $obj->return_result();
-          if($result['state']){
-            echo 'done';
-            
-           // RunQuery("INSERT INTO schedule ($row) VALUES ($values) ");
-          }
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css">
 
-?>
+
+  <title>Add New Class </title>
+</head>
+<body>
+
+ <?php echo validation_errors(); ?>
+ <?php echo form_open('classcontroller/storeclass'); ?>
+
+ <label for="title">Title:</label>
+ <input type="text" size="20" id="title" name="title" value="<?php echo set_value('title');?>"/>
+ <br/>
+
+ <label for="Duration">Duration:</label>
+ <input type="number" size="20" id="duration" name="duration" value="<?php echo set_value('duration');?>"/>
+ <br/>
+
+ <label for="attendee_limit">attendee_limit:</label>
+ <input type="text" size="20" id="attendee_limit" name="attendee_limit" value="<?php echo set_value('attendee_limit');?>"/>
+ <br/>
+
+  <label for="start_time">start_time:</label>
+ <input type="data" size="20" id="start_time" name="start_time" value="<?php echo set_value('start_time');?>"/>
+ <br/>
+
+ <input type="hidden" name="topicId" value="<?php echo $topicId;?>">
+  <input type="hidden" name="courseId" value="<?php echo $courseId;?>">
+ <input type="submit" value="Add"/>
+
+ </form>
+
+</body>
+</html>
 
 
