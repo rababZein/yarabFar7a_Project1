@@ -53,7 +53,7 @@
 <th> Class TiTle </th>
 <th> Duration </th>
 <th> Start Time</th>
-
+<th> Delete </th>
 
 
 </tr>
@@ -63,10 +63,11 @@
     
     foreach ($classes as $class) {
         
-        echo "<tr>";
+        echo "<tr id='".$class->class_id."'>";
         echo "<td>".$class->class_title."</a></td>";
         echo "<td>".$class->class_duration."</a></td>";
         echo "<td>".$class->class_start_time."</a></td>";
+        echo "<td><button  onclick='deleteclass(".$class->class_id.")' > Delete button </button></td>";
 
         echo "</tr>";
    
@@ -83,10 +84,10 @@ var base_url="<?=base_url()?>";
     
 
 
-    function deletetopic (id){
+    function deleteclass (id){
         //alert(id);
 
-        $.get(base_url+"topiccontroller/deletetopic",{topicId:id},function(data){
+        $.get(base_url+"classcontroller/deleteclass",{classId:id},function(data){
 
 
             var row=document.getElementById(id);

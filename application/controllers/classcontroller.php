@@ -53,4 +53,12 @@ class Classcontroller extends CI_Controller {
 
       }
 	}
+
+	  public function deleteclass(){
+
+		$this->load->model('Liveclass');
+		$id = $this->input->get('classId');
+		$this->Liveclass->delete($id);
+
+	}
 }

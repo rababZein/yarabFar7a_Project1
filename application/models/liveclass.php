@@ -11,7 +11,7 @@ Class Liveclass extends CI_Model {
 
     function delete($id){
 
-	    $this->db->where('cat_id',$id);
+	    $this->db->where('class_id',$id);
 	    $this->db->delete('class');
 
     }
