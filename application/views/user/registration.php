@@ -17,7 +17,7 @@
  </span>
  <?php echo form_open('usercontroller/adduser'); ?>
 
- <span class="fontawesome-user"></span><input type="text" required placeholder="Nombre de usuario" autocomplete="off">
+ <span class="fontawesome-user"></span><input type="text" name="username" required placeholder="User Name .." autocomplete="off">
 
 <span class="fontawesome-envelope-alt"></span><input type="text"  name="email" id="email" required placeholder="Email .. " autocomplete="off">
 <span class="fontawesome-lock"></span><input type="password" name="password" id="password" required placeholder="PassWord .. " autocomplete="off"> 
