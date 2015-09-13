@@ -7,7 +7,7 @@
 
 <h1>Add User </h1>
 
-<form action="/yarabfar7a1/usercontroller/adduser" method="post">
+<form action="/yarabfar7a1/yarabFar7a_Project1/usercontroller/adduser" method="post">
      <label for="username">Username:</label>
      <input type="text" size="20" id="username" name="username"/>
      <br/>

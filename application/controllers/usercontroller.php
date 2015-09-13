@@ -7,7 +7,12 @@ class Usercontroller extends CI_Controller {
 	{
 		$user_id= $_GET['id'];
 
+		$data['user_id']=$user_id;
+		$data['user_active']=1;
+		$this->load->model('user');
+		$this->user->update($data);
 
+	    redirect('usercontroller/listuser', 'location');
 
 	}
 
@@ -17,8 +22,8 @@ class Usercontroller extends CI_Controller {
 		$data['users']=$this->user->get_users();
 
 
-$data['content'] = "user";
-$this->load->view('lay',$data);
+		$data['content'] = "user";
+		$this->load->view('lay',$data);
 
 
 		// $this->load->view('user',$data);
@@ -85,7 +90,7 @@ $this->load->view('lay',$data);
 		$data['user_name'] = $this->input->post('username');
 		$data['user_type'] = $this->input->post('type');
 		$data['user_email'] = $this->input->post('email');
-		
+
 		if($this->input->post('admin') == "admin")
 		$data['user_admin']= 1;
 
@@ -130,9 +135,50 @@ $this->load->view('lay',$data);
 		if($this->input->post('admin') == "not")
 		$data['user_admin']= 0;
 		
+	  
+
+
 
 			$this->load->model('user');
 			$this->user->adduser($data);
+
+
+				$this->load->model('user');
+
+		$user=$this->user->get_user_by_email($data['user_email']); 
+		$user_id= $user[0]->user_id;
+ $config = Array(
+  'protocol' => 'smtp',
+  'smtp_host' => 'ssl://smtp.googlemail.com',
+  'smtp_port' => 465,
+  'smtp_user' => 'engy.elmoshrify@gmail.com', // change it to yours
+  'smtp_pass' => 'engy751093', // change it to yours
+  'mailtype' => 'html',
+  'charset' => 'iso-8859-1',
+  'wordwrap' => TRUE
+);
+
+  $message = "Welcome in our website ! To activate your account please visit the following link 
+
+"."http://localhost/yarabfar7a1/yarabFar7a_Project1"."/usercontroller/approve?id=".$user_id;
+
+
+        $this->load->library('email', $config);
+      $this->email->set_newline("\r\n");
+      $this->email->from('engy.elmoshrify@gmail.com'); 
+      $this->email->to($data['user_email']);
+      $this->email->subject('explore new advertisements !');
+      $this->email->message($message);
+      if($this->email->send())
+     {
+      echo 'Email sent.';
+     }
+     else
+    {
+     show_error($this->email->print_debugger());
+    }
+
+
 		    redirect('usercontroller/listuser', 'location');
 
 

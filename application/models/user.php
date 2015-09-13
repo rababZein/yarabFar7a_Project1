@@ -42,6 +42,13 @@ Class User extends CI_Model
 
 }
 
+function get_user_by_email($email){
+
+      $this->db->where('user_email',$email);
+      $query=$this->db->get('user');
+      return $query->result();
+
+}
 
  function adduser($data){
   $this->db->insert('user',$data);

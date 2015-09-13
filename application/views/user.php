@@ -37,6 +37,7 @@
 <th> User Name </th>
 <th> User Type </th>
 <th> User Email </th>
+<th> Active </th>
 <th> Edit </th>
 <th> Delete </th>
 
@@ -55,6 +56,11 @@
 		echo "<td>".$row->user_name."</td>";
 		echo "<td>".$row->user_type."</td>";
 		echo "<td>".$row->user_email."</td>";
+		if($row->user_active == 0)
+		echo "<td>"."not active"."</td>";
+	else 
+		echo "<td>"."active"."</td>";
+
 		echo "<td><a href='edit?id=".$row->user_id."'>Edit</a></td>";
 		
 		echo "<td><button  onclick='deleteuser(".$row->user_id.")' > Delete button </button></td>";
