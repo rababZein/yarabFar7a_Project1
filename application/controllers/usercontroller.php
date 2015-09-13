@@ -2,9 +2,10 @@
 
 class Usercontroller extends CI_Controller {
 
-	public function index ()
+	public function approve ()
 
 	{
+		$user_id= $_GET['id'];
 
 
 
@@ -15,7 +16,12 @@ class Usercontroller extends CI_Controller {
 		$this->load->model('user');
 		$data['users']=$this->user->get_users();
 
-		$this->load->view('user',$data);
+
+$data['content'] = "user";
+$this->load->view('lay',$data);
+
+
+		// $this->load->view('user',$data);
 
 	}
 
@@ -36,7 +42,12 @@ class Usercontroller extends CI_Controller {
 	    $data['result'] = $data[0];
 		$this->load->helper(array('form'));
 
-		$this->load->view('updateuser',$data);
+
+
+$data['content'] = "updateuser";
+$this->load->view('lay',$data);
+
+
 	}
 
 	public function updateuser(){
@@ -45,9 +56,7 @@ class Usercontroller extends CI_Controller {
 	   $this->load->library('form_validation');
 	   $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean');
 	   $this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean');
-	   $this->form_validation->set_rules('mobile', 'Mobile', 'trim|required|xss_clean');
        $this->form_validation->set_rules('type', 'Type', 'trim|required|xss_clean');
-	   $this->form_validation->set_rules('address', 'Address', 'trim|required|xss_clean');
 
 	   if($this->form_validation->run() == FALSE)
 	   {
@@ -61,7 +70,10 @@ class Usercontroller extends CI_Controller {
 		    $data['result'] = $data[0];
 			$this->load->helper(array('form'));
 
-			$this->load->view('updateuser',$data);
+
+
+$data['content'] = "updateuser";
+$this->load->view('lay',$data);
 
 	   	//echo "FALSE"; exit();
 
@@ -70,14 +82,22 @@ class Usercontroller extends CI_Controller {
 	   {
 	    
 	   	$this->load->model('user');
-		$name = $this->input->post('username');
-
-		$mobile = $this->input->post('mobile');
-		$address = $this->input->post('address');
-		$type = $this->input->post('type');
+		$data['user_name'] = $this->input->post('username');
+		$data['user_type'] = $this->input->post('type');
+		$data['user_email'] = $this->input->post('email');
 		
-		$id=$this->input->post('id');
-	    $this->user->update($id,$name,$mobile,$address,$type);
+		if($this->input->post('admin') == "admin")
+		$data['user_admin']= 1;
+
+		if($this->input->post('admin') == "not")
+		$data['user_admin']= 0;
+		
+		$data['user_id']=$this->input->post('id');
+	    $this->user->update($data);
+
+
+// $data['content'] = "listuser";
+// $this->load->view('lay',$data);
 	    redirect('usercontroller/listuser', 'location');
 	   }
 
@@ -90,7 +110,8 @@ class Usercontroller extends CI_Controller {
 
 	public function add()
 	   {
-	   			$this->load->view('adduser');
+	   			$data = array('content'=>'adduser');
+$this->load->view('lay',$data);
 
 	   	
 	   }

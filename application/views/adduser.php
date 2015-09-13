@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Add User</title>
+  <title>Add User</title>
 </head>
 <body>
 
