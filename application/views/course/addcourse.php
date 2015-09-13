@@ -74,7 +74,6 @@
    </form>
 
 
-   <script src="http://code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
    <script type="text/javascript">
 
           var flag=199999;

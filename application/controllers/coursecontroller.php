@@ -9,7 +9,9 @@ class Coursecontroller extends CI_Controller {
 
         $this->load->helper(array('form'));
 
-		$this->load->view('course/addcourse',$data);
+		//$this->load->view('course/addcourse',$data);
+		$data['content'] = "course/addcourse";
+		$this->load->view('lay',$data);
 
 	}
 
@@ -48,7 +50,9 @@ class Coursecontroller extends CI_Controller {
 
         $this->load->helper(array('form'));
 
-		$this->load->view('course/addcourse',$data);
+		//$this->load->view('course/addcourse',$data);
+		$data['content'] = "course/addcourse";
+		$this->load->view('lay',$data);
 
         
        }else{
@@ -106,10 +110,11 @@ class Coursecontroller extends CI_Controller {
        }
 		 //var_dump()
         
-
+       $data['content'] = "course/listcourses";
+	   $this->load->view('lay',$data);
         
 
-		$this->load->view('course/listcourses',$data);
+		//$this->load->view('course/listcourses',$data);
 
 	}
 
@@ -167,7 +172,9 @@ class Coursecontroller extends CI_Controller {
 
 
 		$this->load->helper(array('form'));
-		$this->load->view('course/updatecourse',$data);
+		//$this->load->view('course/updatecourse',$data);
+		$data['content'] = "course/updatecourse";
+	   $this->load->view('lay',$data);
 	}
 
 
@@ -217,7 +224,9 @@ class Coursecontroller extends CI_Controller {
             
 			$this->load->helper(array('form'));
 
-			$this->load->view('course/updatecourse',$data);
+			//$this->load->view('course/updatecourse',$data);
+			$data['content'] = "course/updatecourse";
+	   		$this->load->view('lay',$data);
 
 
 	   }
@@ -272,7 +281,9 @@ class Coursecontroller extends CI_Controller {
 		$data['topics']=$this->topic->getTopicByCourseId($data['course'][0]->course_id);      
 
 
-		$this->load->view('course/showcourse',$data);
+		//$this->load->view('course/showcourse',$data);
+		$data['content'] = "course/showcourse";
+	   $this->load->view('lay',$data);
 
 	}
 
@@ -283,7 +294,9 @@ class Coursecontroller extends CI_Controller {
 		$this->load->model('course');
 		$data['students']=$this->course->listStudent();
 
-		$this->load->view('course/liststudent',$data);
+		//$this->load->view('course/liststudent',$data);
+		$data['content'] = "course/liststudent";
+	   $this->load->view('lay',$data);
 	}
 
 	public function inviteAll(){

@@ -3,41 +3,33 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title>Typography | BlueWhale Admin</title>
-    <link rel="stylesheet" type="text/css" href="/q8DZ/css/reset.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="/q8DZ/css/text.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="/q8DZ/css/grid.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="/q8DZ/css/layout.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="/q8DZ/css/nav.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../../css/reset.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../../css/text.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../../css/grid.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../../css/layout.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../../css/nav.css" media="screen" />
     <!--[if IE 6]><link rel="stylesheet" type="text/css" href="css/ie6.css" media="screen" /><![endif]-->
     <!--[if IE 7]><link rel="stylesheet" type="text/css" href="css/ie.css" media="screen" /><![endif]-->
-    <link href="/q8DZ/css/table/demo_page.css" rel="stylesheet" type="text/css" />
+    <link href="../../css/table/demo_page.css" rel="stylesheet" type="text/css" />
     <!-- BEGIN: load jquery -->
-    <script src="/q8DZ/js/jquery-1.6.4.min.js" type="text/javascript"></script>
+    <script src="../../js/jquery-1.6.4.min.js" type="text/javascript"></script>
            <script src="http://code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
 
-    <script type="text/javascript" src="/q8DZ/js/jquery-ui/jquery.ui.core.min.js"></script>
-    <script src="/q8DZ/js/jquery-ui/jquery.ui.widget.min.js" type="text/javascript"></script>
-    <script src="/q8DZ/js/jquery-ui/jquery.ui.accordion.min.js" type="text/javascript"></script>
-    <script src="/q8DZ/js/jquery-ui/jquery.effects.core.min.js" type="text/javascript"></script>
-    <script src="/q8DZ/js/jquery-ui/jquery.effects.slide.min.js" type="text/javascript"></script>
-    <script src="/q8DZ/js/jquery-ui/jquery.ui.mouse.min.js" type="text/javascript"></script>
-    <script src="/q8DZ/js/jquery-ui/jquery.ui.sortable.min.js" type="text/javascript"></script>
-    <script src="/q8DZ/js/table/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../../js/jquery-ui/jquery.ui.core.min.js"></script>
+    <script src="../../js/jquery-ui/jquery.ui.widget.min.js" type="text/javascript"></script>
+    <script src="../../js/jquery-ui/jquery.ui.accordion.min.js" type="text/javascript"></script>
+    <script src="../../js/jquery-ui/jquery.effects.core.min.js" type="text/javascript"></script>
+    <script src="../../js/jquery-ui/jquery.effects.slide.min.js" type="text/javascript"></script>
+    <script src="../../js/jquery-ui/jquery.ui.mouse.min.js" type="text/javascript"></script>
+    <script src="../../js/jquery-ui/jquery.ui.sortable.min.js" type="text/javascript"></script>
+    <script src="../../js/table/jquery.dataTables.min.js" type="text/javascript"></script>
 
 
-
-
-
-
-
-
-
-
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css">
 
 
     <!-- END: load jquery -->
-    <script type="text/javascript" src="/q8DZ/js/table/table.js"></script>
-    <script src="/q8DZ//js/setup.js" type="text/javascript"></script>
+    <script src="../../js/setup.js" type="text/javascript"></script>
     <script type="text/javascript">
 
         $(document).ready(function () {
