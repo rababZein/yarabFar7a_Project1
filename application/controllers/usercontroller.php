@@ -191,6 +191,10 @@ $this->load->view('lay',$data);
 			$requestParameters["is_active"]=1;
 
 			$obj = new addteacher($secretAcessKey,$access_key,$webServiceUrl,$requestParameters);
+           
+			$result = $obj->return_result();
+
+			echo $result['teacher_id'];
             exit();
 		}  
 

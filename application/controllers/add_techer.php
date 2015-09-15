@@ -2,7 +2,7 @@
 class addteacher
 {
 	
-	
+	private $result = array();
 	function addteacher($secretAcessKey,$access_key,$webServiceUrl,$array = array())
 	{
 		require_once("AuthBase.php");
@@ -50,13 +50,15 @@ class addteacher
 			$methodTag=$objDOM->getElementsByTagName("method");
 			echo "method=".$method=$methodTag->item(0)->nodeValue;
 			$class_idTag=$objDOM->getElementsByTagName("class_id");
-			echo "<br>Class ID=".$class_id=$class_idTag->item(0)->nodeValue;
+			//echo "<br>Class ID=".$class_id=$class_idTag->item(0)->nodeValue;
 			$recording_urlTag=$objDOM->getElementsByTagName("recording_url");
-			echo "<br>recording_url=".$recording_url=$recording_urlTag->item(0)->nodeValue;
+			//echo "<br>recording_url=".$recording_url=$recording_urlTag->item(0)->nodeValue;
 			$presenter_emailTag=$objDOM->getElementsByTagName("presenter_email");
-			echo "<br>presenter_email=".$presenter_email=$presenter_emailTag->item(0)->nodeValue;
+			//echo "<br>presenter_email=".$presenter_email=$presenter_emailTag->item(0)->nodeValue;
 			$presenter_urlTag=$objDOM->getElementsByTagName("presenter_url");
-			echo "<br>presenter_url=".$presenter_url=$presenter_urlTag->item(0)->nodeValue;
+			//echo "<br>presenter_url=".$presenter_url=$presenter_urlTag->item(0)->nodeValue;
+			echo 'teacher_id'.$objDOM->getElementsByTagName("teacher_id")->item(0)->nodeValue;
+
 		}
 		else if($attribNode=="fail")
 		{
@@ -66,6 +68,10 @@ class addteacher
 		}
 	 }//end if	
    }//end function
+
+   public function return_result(){
+   		return $this->result;
+   }
 	
 }
 ?>

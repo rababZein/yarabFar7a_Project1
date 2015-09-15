@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= '/yarabFar7a_Project1';
+$config['base_url']	= '/yarabFar7a_Project1/index.php';
 
 /*
 |--------------------------------------------------------------------------
