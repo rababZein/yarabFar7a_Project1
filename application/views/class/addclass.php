@@ -38,12 +38,10 @@
  <input type="number" size="20" id="duration" name="duration" value="<?php echo set_value('duration');?>"/>
  <br/>
 
- <label for="attendee_limit">attendee_limit:</label>
- <input type="text" size="20" id="attendee_limit" name="attendee_limit" value="<?php echo set_value('attendee_limit');?>"/>
- <br/>
+ 
 
   <label for="start_time">start_time:</label>
- <input type="data" size="20" id="start_time" name="start_time" value="<?php echo set_value('start_time');?>"/>
+ <input type="date" size="20" id="start_time" name="start_time" value="<?php echo set_value('start_time');?>"/>
  <br/>
 
  <input type="hidden" name="topicId" value="<?php echo $topicId;?>">

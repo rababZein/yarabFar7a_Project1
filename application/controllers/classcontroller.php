@@ -1,5 +1,9 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+require("add_schedule.php");
+require("ModifyClass.php");
+require("CancelClass.php");
+
 class Classcontroller extends CI_Controller {
 
 	 public function addclass()
@@ -33,21 +37,61 @@ class Classcontroller extends CI_Controller {
 
         
        }else{
-
+            $courseId= $this->input->post('courseId');
+		    $topicId= $this->input->post('topicId');
       	   // $data['class_course_id'] = $this->input->post('courseId');
-      	    $data['class_topic_id']= $this->input->post('topicId');
-			$data['class_title'] = $this->input->post('title');
-			$data['class_duration'] = $this->input->post('duration');
+      	    
+			$data['class_start_time'] = 
 			//$data['class_attendee_limit'] = $this->input->post('attendee_limit');
-	        $data["class_time_zone"]="Africa/Cairo" ;
+	       
 
 	        $this->load->model('course');
 	        $course=$this->course->getCourse($courseId);
 	        $teacher=$this->course->getTeacher($course[0]->course_teacher_id);
 	        
 
-			$this->load->model('Liveclass');
-			$this->Liveclass->addclass($data);
+
+
+			//connect with web site 
+			$access_key="FneRTyilJ9Q=";
+            $secretAcessKey="bKfMCZOU3ZhUsJqtHRsFpQ==";
+            $webServiceUrl="http://class.api.wiziq.com/";
+            $parmeters = array();
+            $parmeters['start_time'] = $this->input->post('start_time');
+            $parmeters["presenter_email"]='mosleh7@hotmail.com';
+		    #for room based account pass parameters 'presenter_id', 'presenter_name'
+		    //$requestParameters["presenter_id"] = "40";
+		    //$requestParameters["presenter_name"] = "vinugeorge";  
+		    //$parmeters["start_time"] = $array['start_time'];
+		    $parmeters["title"]= $this->input->post('title');//Required
+		    $parmeters["duration"]=$this->input->post('duration'); //optional
+		    $parmeters["time_zone"]="Africa/Cairo" ; //optional
+		    $parmeters["attendee_limit"]=""; //optional
+		    $parmeters["control_category_id"]=""; //optional
+		    $parmeters["create_recording"]=""; //optional
+		    $parmeters["return_url"]=""; //optional
+		    $parmeters["status_ping_url"]=""; //optional
+		    $parmeters["language_culture_name"]="ar-SA";
+		    $obj = new addschedule($secretAcessKey,$access_key,$webServiceUrl,$parmeters);
+          
+            $result = $obj->return_result();
+	        if($result['state']){
+	            
+	            $data['class_id']=$result['id'];
+	            $data['class_presenter_url']=$result['presenter_url'];
+	            $data['class_start_time']=$this->input->post('start_time');
+	            $data['class_presenter_email']=$result['presenter_email'];
+	            $data['class_recording_url']=$result['recording_url'];
+	            $data['class_topic_id']= $this->input->post('topicId');
+				$data['class_title'] = $this->input->post('title');
+				$data['class_duration'] = $this->input->post('duration');
+				$data["class_time_zone"]="Africa/Cairo" ;				
+				$this->load->model('Liveclass');
+				$this->Liveclass->addclass($data);
+
+
+	        }
+	          //exit();
 
 		    redirect('coursecontroller/listcourses', 'location');
 
@@ -60,6 +104,12 @@ class Classcontroller extends CI_Controller {
 	$this->load->model('Liveclass');
 	$id = $this->input->get('classId');
 	$this->Liveclass->delete($id);
+
+	$access_key="+tICOf0HtcA=";
+	$secretAcessKey="tBgg5peb5TCwFUfFkbOQbg==";
+	$webServiceUrl="http://class.api.wiziq.com/";
+    $obj = new CancelClass($secretAcessKey,$access_key,$webServiceUrl,$id);
+								
 
   }
 
@@ -121,7 +171,40 @@ class Classcontroller extends CI_Controller {
 	    $data['class_duration'] = $this->input->post('duration');
         $data['class_start_time'] = $this->input->post('start_time');
 		$data['class_id']=$this->input->post('id');
+		$data["class_time_zone"]="Africa/Cairo" ;
         $this->Liveclass->update($data);
+
+
+        $access_key="+tICOf0HtcA=";
+		$secretAcessKey="tBgg5peb5TCwFUfFkbOQbg==";
+		$webServiceUrl="http://class.api.wiziq.com/";
+
+		$parmeters = array();
+		$parmeters['class_id']=$data['class_id'];
+        $parmeters['start_time'] = $data['class_start_time'];
+        $parmeters["presenter_email"]='mosleh7@hotmail.com';
+	    #for room based account pass parameters 'presenter_id', 'presenter_name'
+	    //$requestParameters["presenter_id"] = "40";
+	    //$requestParameters["presenter_name"] = "vinugeorge";  
+	    //$parmeters["start_time"] = $array['start_time'];
+	    $parmeters["title"]= $data['class_title'] ;//Required
+	    $parmeters["duration"]=$data['class_duration']; //optional
+	    $parmeters["time_zone"]=$data["class_time_zone"]; //optional
+	    $parmeters["attendee_limit"]=""; //optional
+	    $parmeters["control_category_id"]=""; //optional
+	    $parmeters["create_recording"]=""; //optional
+	    $parmeters["return_url"]=""; //optional
+	    $parmeters["status_ping_url"]=""; //optional
+	    $parmeters["language_culture_name"]="ar-SA";
+
+								
+		$obj = new ModifyClass($secretAcessKey,$access_key,$webServiceUrl,$parmeters);
+		$result = $obj->return_result();
+					if($result['state']){
+						
+						echo "done"; exit();
+                    }
+                    exit();
 
 	    redirect('coursecontroller/listcourses', 'location');
 

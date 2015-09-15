@@ -30,7 +30,7 @@
 
 <h1>Add User </h1>
 
-<form action="/usercontroller/adduser" method="post">
+<form action="adduser" method="post">
      <label for="username">Username:</label>
      <input type="text" size="20" id="username" name="username"/>
      <br/>

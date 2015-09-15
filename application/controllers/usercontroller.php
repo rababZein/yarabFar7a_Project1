@@ -1,5 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
+require_once("add_techer.php");
+require_once("edit_techer.php");
 class Usercontroller extends CI_Controller {
 
 	public function registration(){
@@ -92,10 +93,10 @@ $this->load->view('lay',$data);
 
 
 
-$data['content'] = "user/updateuser";
-$this->load->view('lay',$data);
+			$data['content'] = "user/updateuser";
+			$this->load->view('lay',$data);
 
-	   	//echo "FALSE"; exit();
+				   	//echo "FALSE"; exit();
 
 	   }
 	   else
@@ -114,6 +115,23 @@ $this->load->view('lay',$data);
 		
 		$data['user_id']=$this->input->post('id');
 	    $this->user->update($data);
+
+	    if($this->input->post('type')=='teacher'){
+ $access_key="NUh89jJp5jc=";
+			$secretAcessKey="X7Hxt9Fs383plSbsXWB3nQ==";
+			$webServiceUrl="http://class.api.wiziq.com/";
+			$requestParameters["name"]= $this->input->post('username');
+			$requestParameters["email"]= $this->input->post('email');
+			$requestParameters["password"]= '12345678';
+			$requestParameters["image"]= "image.png";
+			//$requestParameters["phone_number"]= "+2 01284064635";
+			//$requestParameters["work_number"]="+2 01284064635";
+			$requestParameters["about_the_teacher"]= "Online Facilitator and Teacher, British Columbia, Canada";
+			$requestParameters["is_active"]=1;
+			$requestParameters['teacher_id']=1;
+	    		$obj = new editteacher($secretAcessKey,$access_key,$webServiceUrl,$requestParameters);
+exit();
+	    }
 
 
 // $data['content'] = "listuser";
@@ -154,13 +172,31 @@ $this->load->view('lay',$data);
 
 		if($this->input->post('admin') == "not")
 			 $data['user_admin']= 0;
+
+	    $this->load->model('user');
+	    $this->user->adduser($data);
 			
-		  
+		if($this->input->post('type')=='teacher'){
+
+            $access_key="NUh89jJp5jc=";
+			$secretAcessKey="X7Hxt9Fs383plSbsXWB3nQ==";
+			$webServiceUrl="http://class.api.wiziq.com/";
+			$requestParameters["name"]= $this->input->post('username');
+			$requestParameters["email"]= $this->input->post('email');
+			$requestParameters["password"]= '12345678';
+			$requestParameters["image"]= "image.png";
+			//$requestParameters["phone_number"]= "+2 01284064635";
+			//$requestParameters["work_number"]="+2 01284064635";
+			$requestParameters["about_the_teacher"]= "Online Facilitator and Teacher, British Columbia, Canada";
+			$requestParameters["is_active"]=1;
+
+			$obj = new addteacher($secretAcessKey,$access_key,$webServiceUrl,$requestParameters);
+            exit();
+		}  
 
 
 
-			 $this->load->model('user');
-			 $this->user->adduser($data);
+			
 
 
 			 $this->load->model('user');
