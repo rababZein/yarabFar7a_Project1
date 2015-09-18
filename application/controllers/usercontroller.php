@@ -117,7 +117,7 @@ $this->load->view('lay',$data);
 	    $this->user->update($data);
 
 	    if($this->input->post('type')=='teacher'){
- $access_key="NUh89jJp5jc=";
+            $access_key="NUh89jJp5jc=";
 			$secretAcessKey="X7Hxt9Fs383plSbsXWB3nQ==";
 			$webServiceUrl="http://class.api.wiziq.com/";
 			$requestParameters["name"]= $this->input->post('username');
@@ -148,8 +148,9 @@ exit();
 
 	public function add()
 	   {
-	   			$data = array('content'=>'user/adduser');
-$this->load->view('lay',$data);
+
+		$data = array('content'=>'user/adduser');
+		$this->load->view('lay',$data);
 
 	   	
 	   }
@@ -157,88 +158,105 @@ $this->load->view('lay',$data);
 	public function adduser()
 	{
 
-		$data['user_name']= $this->input->post('username');
-		$data['user_email']= $this->input->post('email');
-		$data['user_password']= MD5($this->input->post('password'));
-		if (empty($this->input->post('type'))) {
-			# code...
-			$data['user_type']='student';
-		}else{
-				$data['user_type']= $this->input->post('type');
-	    }
-		
-		if($this->input->post('admin') == "admin")
-		$data['user_admin']= 1;
 
-		if($this->input->post('admin') == "not")
-			 $data['user_admin']= 0;
+	    $this->load->library('form_validation');
+	    $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean|min_length[5]|max_length[12]|is_unique[user.user_name]');
+	    $this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean|is_unique[user.user_email]');
+        $this->form_validation->set_rules('type', 'Type', 'trim|xss_clean');
+        $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|min_length[5]|max_length[12]|matches[passconf]');
+	    $this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('phone', 'Phone', 'trim|required|xss_clean|min_length[5]');
 
-	    $this->load->model('user');
-	    $this->user->adduser($data);
+        if($this->form_validation->run() == FALSE){
+
+        	    $data = array('content'=>'user/adduser');
+		        $this->load->view('lay',$data);
+
+        }else{
+				$data['user_name']= $this->input->post('username');
+				$data['user_email']= $this->input->post('email');
+				$data['user_password']= MD5($this->input->post('password'));
+				if (empty($this->input->post('type'))) {
+					# code...
+					$data['user_type']='student';
+				}else{
+						$data['user_type']= $this->input->post('type');
+			    }
+				
+				if($this->input->post('admin') == "admin")
+				$data['user_admin']= 1;
+
+				if($this->input->post('admin') == "not")
+					 $data['user_admin']= 0;
+
+			    $this->load->model('user');
+			    $this->user->adduser($data);
+					
+				if($this->input->post('type')=='teacher'){
+
+		            $access_key="NUh89jJp5jc=";
+					$secretAcessKey="X7Hxt9Fs383plSbsXWB3nQ==";
+					$webServiceUrl="http://class.api.wiziq.com/";
+					$requestParameters["name"]= $this->input->post('username');
+					$requestParameters["email"]= $this->input->post('email');
+					$requestParameters["password"]= '12345678';
+					$requestParameters["image"]= "image.png";
+					//$requestParameters["phone_number"]= "+2 01284064635";
+					//$requestParameters["work_number"]="+2 01284064635";
+					$requestParameters["about_the_teacher"]= "Online Facilitator and Teacher, British Columbia, Canada";
+					$requestParameters["is_active"]=1;
+
+					$obj = new addteacher($secretAcessKey,$access_key,$webServiceUrl,$requestParameters);
+		           
+					$result = $obj->return_result();
+
+					echo $result['teacher_id'];
+		            exit();
+				}  
+
+
+
 			
-		if($this->input->post('type')=='teacher'){
-
-            $access_key="NUh89jJp5jc=";
-			$secretAcessKey="X7Hxt9Fs383plSbsXWB3nQ==";
-			$webServiceUrl="http://class.api.wiziq.com/";
-			$requestParameters["name"]= $this->input->post('username');
-			$requestParameters["email"]= $this->input->post('email');
-			$requestParameters["password"]= '12345678';
-			$requestParameters["image"]= "image.png";
-			//$requestParameters["phone_number"]= "+2 01284064635";
-			//$requestParameters["work_number"]="+2 01284064635";
-			$requestParameters["about_the_teacher"]= "Online Facilitator and Teacher, British Columbia, Canada";
-			$requestParameters["is_active"]=1;
-
-			$obj = new addteacher($secretAcessKey,$access_key,$webServiceUrl,$requestParameters);
-           
-			$result = $obj->return_result();
-
-			echo $result['teacher_id'];
-            exit();
-		}  
 
 
+					 $this->load->model('user');
 
-			
-
-
-			 $this->load->model('user');
-
-			 $user=$this->user->get_user_by_email($data['user_email']); 
-			 $user_id= $user[0]->user_id;
-			 $config = Array(
-			  'protocol' => 'smtp',
-			  'smtp_host' => 'ssl://smtp.googlemail.com',
-			  'smtp_port' => 465,
-			  'smtp_user' => 'engy.elmoshrify@gmail.com', // change it to yours
-			  'smtp_pass' => 'engy751093', // change it to yours
-			  'mailtype' => 'html',
-			  'charset' => 'iso-8859-1',
-			  'wordwrap' => TRUE
-			);
+					 $user=$this->user->get_user_by_email($data['user_email']); 
+					 $user_id= $user[0]->user_id;
+					 $config = Array(
+					  'protocol' => 'smtp',
+					  'smtp_host' => 'ssl://smtp.googlemail.com',
+					  'smtp_port' => 465,
+					  'smtp_user' => 'engy.elmoshrify@gmail.com', // change it to yours
+					  'smtp_pass' => 'engy751093', // change it to yours
+					  'mailtype' => 'html',
+					  'charset' => 'iso-8859-1',
+					  'wordwrap' => TRUE
+					);
 
 
-			 $this->load->helper('url');
- 		     $message = "Welcome in our website ! To activate your account please visit the following link: localhost".base_url()."usercontroller/approve?id=".$user_id;
+					 $this->load->helper('url');
+		 		     $message = "Welcome in our website ! To activate your account please visit the following link: localhost".base_url()."usercontroller/approve?id=".$user_id;
 
 
-	         $this->load->library('email', $config);
-	         $this->email->set_newline("\r\n");
-	         $this->email->from('engy.elmoshrify@gmail.com'); 
-	         $this->email->to($data['user_email']);
-	         $this->email->subject('Activate Your Account !');
-	         $this->email->message($message);
-	         if($this->email->send()){
-	      			echo 'Email sent.';
-	     	 }else{
-	     			show_error($this->email->print_debugger());
-	         }
+			         $this->load->library('email', $config);
+			         $this->email->set_newline("\r\n");
+			         $this->email->from('engy.elmoshrify@gmail.com'); 
+			         $this->email->to($data['user_email']);
+			         $this->email->subject('Activate Your Account !');
+			         $this->email->message($message);
+			         if($this->email->send()){
+			      			echo 'Email sent.';
+			     	 }else{
+			     			show_error($this->email->print_debugger());
+			         }
 
 
-		    //redirect('coursecontroller/listcourses', 'location');
+				    //redirect('coursecontroller/listcourses', 'location');
 
-    echo "Check you mail box to activate account";
+		    		echo "Check you mail box to activate account";
+
+		}  		
 
 
 	}

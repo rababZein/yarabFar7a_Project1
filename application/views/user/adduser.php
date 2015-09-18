@@ -14,7 +14,7 @@
       
     <script src="../js/jquery-1.6.4.min.js" type="text/javascript"></script>
     <script src="../js/table/jquery.dataTables.min.js" type="text/javascript"></script>
-  <script src="../js/jquery-ui/jquery.ui.widget.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui/jquery.ui.widget.min.js" type="text/javascript"></script>
     <script src="../js/jquery-ui/jquery.ui.accordion.min.js" type="text/javascript"></script>
     <script src="../js/jquery-ui/jquery.effects.core.min.js" type="text/javascript"></script>
     <script src="../js/jquery-ui/jquery.effects.slide.min.js" type="text/javascript"></script>
@@ -30,25 +30,42 @@
 
 <h1>Add User </h1>
 
+
 <form action="adduser" method="post">
      <label for="username">Username:</label>
-     <input type="text" size="20" id="username" name="username"/>
+
+     <input type="text" size="20" id="username" name="username" value="<?php echo set_value('username');?>"/>
+     <span style="color:red"> <?php echo form_error('username'); ?> </span>
      <br/>
 
      <label for="email">Email:</label>
-     <input type="email" size="20" id="email" name="email"/>
+     <input type="email" size="20" id="email" name="email" value="<?php echo set_value('email');?>"/>
+     <span style="color:red"> <?php echo form_error('email'); ?> </span>
      <br/>
 
 
-<label for="password">Password</label>
+     <label for="password">Password</label>
      <input type="password" size="20" id="password" name="password"/>
+     <span style="color:red"> <?php echo form_error('password'); ?> </span>
      <br/>
+
+     <label for="password">Confirm Password</label>
+     <input type="password" size="20" id="passconf" name="passconf"/>
+     <span style="color:red"> <?php echo form_error('passconf'); ?> </span>
+     <br/>
+
+     <label for="phone">Phone</label>
+     <input type="number" size="20" id="phone" name="phone"/>
+     <span style="color:red"> <?php echo form_error('phone'); ?> </span>
+     <br/>
+
 
      <label for="type">Type:</label>
-<select id="type" name="type" onchange="fun()">
-  <option value="student">student</option>
-  <option value="teacher">teacher</option>
-</select>     <br/>
+     <select id="type" name="type" onchange="fun()">
+      <option value="student">student</option>
+      <option value="teacher">teacher</option>
+     </select> 
+     <br/>
 
 
 
