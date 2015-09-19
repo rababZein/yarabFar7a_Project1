@@ -23,6 +23,7 @@
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css">
 
+              <script src="http://code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
 
   <title>Add User</title>
 </head>
@@ -33,7 +34,6 @@
 
 <form action="adduser" method="post">
      <label for="username">Username:</label>
-
      <input type="text" size="20" id="username" name="username" value="<?php echo set_value('username');?>"/>
      <span style="color:red"> <?php echo form_error('username'); ?> </span>
      <br/>
@@ -54,26 +54,74 @@
      <span style="color:red"> <?php echo form_error('passconf'); ?> </span>
      <br/>
 
+
+     <label for="country">Country:</label>
+
+     <select id="country" name="country">
+
+     <?php
+
+          echo "<option value='empty'>Select Your Country</option>";
+          foreach ($countries as $country) {
+              echo "<option value='".$country->country_id."' >".$country->short_name."</option>";
+          }
+
+     ?>
+
+     </select>
+     <span style="color:red"> <?php  if(!empty($countryErrMsg)) echo $countryErrMsg; ?> </span>
+
+     <br/>
+
+     <p id='code'>
+       
+
+     </p>
+
      <label for="phone">Phone</label>
-     <input type="number" size="20" id="phone" name="phone"/>
+     <input type="number" size="20" id="phone" name="phone" value="<?php echo set_value('phone');?>"/>
      <span style="color:red"> <?php echo form_error('phone'); ?> </span>
      <br/>
 
 
+     <label for="question">Question:</label>
+
+     <select id="question" name="question">
+
+     <?php
+
+          echo "<option value='empty'>Select Question</option>";
+          foreach ($questions as $question) {
+              echo "<option value='".$question->id."' >".$question->question."</option>";
+          }
+
+     ?>
+
+     </select>
+     <span style="color:red"> <?php  if(!empty($countryErrMsg)) echo $countryErrMsg; ?> </span>
+
+     <br/>
+
+
+     <label for="answer">Answer: </label>
+     <input type="text" size="20" id="answer" name="answer" value="<?php echo set_value('answer');?>"/>
+     <span style="color:red"> <?php echo form_error('answer'); ?> </span>
+     <br/>
+
      <label for="type">Type:</label>
      <select id="type" name="type" onchange="fun()">
-      <option value="student">student</option>
-      <option value="teacher">teacher</option>
+     <option value="student">student</option>
+     <option value="teacher">teacher</option>
      </select> 
      <br/>
 
 
 
-<select id = "admin" name="admin">
-      <option value="not">not admin</option>
-  <option value="admin">admin</option>
+      <select id = "admin" name="admin">
+            <option value="not">not admin</option>
+        <option value="admin">admin</option>
 
-</select>     <br/>
+      </select>     <br/>
 
 
      <input type="submit" value="Add"/>
@@ -84,14 +132,74 @@
 <script> 
     document.getElementById("admin").style.visibility= "hidden";
 
-function fun()
-{
-if(document.getElementById("type").value == "teacher")
-    document.getElementById("admin").style.visibility= "visible";
+    function fun()
+    {
+    if(document.getElementById("type").value == "teacher")
+        document.getElementById("admin").style.visibility= "visible";
 
-if(document.getElementById("type").value == "student")
-    document.getElementById("admin").style.visibility= "hidden";
-}
+    if(document.getElementById("type").value == "student")
+        document.getElementById("admin").style.visibility= "hidden";
+    }
+
+    var base_url="<?=base_url()?>";
+
+
+
+
+   
+
+
+    $(document).ready(function(){
+        $('select#country').on('change', function() {
+
+            alert( this.value ); 
+
+            var codePrag = document.getElementById('code');
+
+            codePrag.innerHTML=" ";
+
+            $.get(base_url+"usercontroller/countrycode",{country:this.value},function(data){
+
+              console.log(data);
+
+              var label = document.createElement('label');
+              label.innerHTML= 'code of your country : ';
+              var sel = document.createElement('select');
+              sel.name='code';
+             // sel.setAttribute("id", "sel");
+             /* if (data=="") { 
+
+                    return;
+
+              }*/
+              for (var i=0; i<JSON.parse(data).length; i++) {
+                  
+                   code=JSON.parse(data)[i].calling_code;
+                   countryId=JSON.parse(data)[i].country_id;
+
+                   //console.log(catName);
+
+                   opt = document.createElement('option');
+                   opt.value = countryId;
+                   opt.innerHTML = code;
+                   sel.appendChild(opt);
+
+
+               }
+          
+               codePrag.appendChild(label);
+               codePrag.appendChild(sel);
+
+
+
+
+              });
+
+        });
+    });
+
+
+
 
 
 </script>

@@ -24,7 +24,11 @@ Class Liveclass extends CI_Model {
 
     function getAllClasses(){
 
-	    $query=$this->db->get('class');
+
+	    $this->db->from('class');
+        $this->db->order_by("class_start_time", "asc");
+        $query = $this->db->get();
+
 	    return $query->result();
 
     }

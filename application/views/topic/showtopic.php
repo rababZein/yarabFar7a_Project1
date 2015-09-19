@@ -43,7 +43,7 @@
 </p>
 
 
-<table class="data display datatable" id="example" cellpadding="0" cellspacing="0" border="2">
+<table class="data display datatable" id="example" cellpadding="2" cellspacing="2" border="4">
 <thead>
 
 <tr>
@@ -51,8 +51,12 @@
 
 
 <th> Class TiTle </th>
-<th> Duration </th>
+
 <th> Start Time</th>
+<th> Status </th>
+
+<th> Join </th>
+
 <th> Edit </th>
 <th> Delete </th>
 
@@ -66,8 +70,21 @@
         
         echo "<tr id='".$class->class_id."'>";
         echo "<td>".$class->class_title."</a></td>";
-        echo "<td>".$class->class_duration."</a></td>";
+      
         echo "<td>".$class->class_start_time."</a></td>";
+     
+        if (date('Y-m-d H:i:s') == $class->class_start_time) {
+                echo "<td style='color:green'> Started </td>";
+        }elseif(date('Y-m-d H:i:s') < $class->class_start_time){
+
+                echo "<td style='color:blue'> Upcoming </td>";
+        }else{
+
+                 echo "<td style='color:red'>  Finished </td>";
+        }
+
+        echo "<td><a href='".$class->class_recording_url."'>Join </a></td>";
+   
         echo "<td><a href='../classcontroller/edit?id=".$class->class_id."'>Edit</a></td>";
 
         echo "<td><button  onclick='deleteclass(".$class->class_id.")' > Delete button </button></td>";
@@ -106,7 +123,10 @@ var base_url="<?=base_url()?>";
     }
 
 
-
+$('#example').dataTable(
+{
+  "bSort" : false
+} );
 
 
 </script>

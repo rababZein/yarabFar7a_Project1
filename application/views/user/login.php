@@ -22,6 +22,11 @@
 <input type="submit" value="LoGiN" title="Sign In">
 
 <a title="Registration" href="usercontroller/registration"> Sign Up </a>
+<br/>
+
+<a title="Reset PassWord By Question & Answer" href="usercontroller/forgetpasswordView"> Forget Password  , Reset it By Question</a>
+
+<a title="Reset PassWord By Mail" href="usercontroller/forgetPasswordBySendMailView"> Forget Password , Reset it By Mail</a>
 
 </body>
 </html>

@@ -1,7 +1,32 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 require_once("add_techer.php");
 require_once("edit_techer.php");
+
 class Usercontroller extends CI_Controller {
+
+
+	function __construct(){
+	    parent::__construct();
+	
+	    if ( ! $this->session->userdata('logged_in'))
+	    { 
+	        // Allow some methods?
+	        $allowed = array(
+	            'registration',
+	            'approve',
+	            'forgetpasswordView',
+	            'forgetpasswordGetQuestion',
+	            'forgetpasswordCheckAnswer',
+	            'resetPassword',
+	            'forgetPasswordBySendMailView',
+	            'forgetPasswordBySendMail'
+	        );
+	        if ( ! in_array($this->router->fetch_method(), $allowed))
+	        {
+	            redirect('login');
+	        }
+	    }
+	}
 
 	public function registration(){
 		 $this->load->helper(array('form'));
@@ -36,8 +61,8 @@ class Usercontroller extends CI_Controller {
 
 		$this->load->model('user');
 		$data['users']=$this->user->get_users();
-
-
+        $this->load->helper(array('form', 'url'));
+        $data['error']= '';
 		$data['content'] = "user/user";
 		$this->load->view('lay',$data);
 
@@ -48,25 +73,37 @@ class Usercontroller extends CI_Controller {
 
 	
 	public function edit(){
-
-
         $data['id'] = $this->input->get('id');
-       // $this->uri->segment(4);
-        $data = $this->db->get_where(
-	        'user',
-	        array(
-	        'user_id' => $data['id']
-	        )
-        );
-		$data = $data->result_array();
+        $session_data = $this->session->userdata('logged_in'); 
+		if($session_data['id'] == $data['id'] || $session_data['type'] == 'admin' || $session_data['type'] == 'super admin'){
+	        
+	        $data = $this->db->get_where(
+		        'user',
+		        array(
+		        'user_id' => $data['id']
+		        )
+	        );
+			$data = $data->result_array();
 
-	    $data['result'] = $data[0];
-		$this->load->helper(array('form'));
+			if(!empty($data[0])){
 
+			    $data['result'] = $data[0];
+				$this->load->helper(array('form'));
+				$data['content'] = "user/updateuser";
+				$this->load->view('lay',$data);
+			}else{
 
+				$data['msg']= "There isn't user with this id here";
+				$data['content'] = "user/Msg";
+				$this->load->view('lay',$data);
 
-$data['content'] = "user/updateuser";
-$this->load->view('lay',$data);
+			}
+		}else{
+
+			$data['msg']= "You Don't Have A permission To Access This Profile";
+			$data['content'] = "user/Msg";
+			$this->load->view('lay',$data);
+		}
 
 
 	}
@@ -149,15 +186,20 @@ exit();
 	public function add()
 	   {
 
-		$data = array('content'=>'user/adduser');
-		$this->load->view('lay',$data);
+		   	$this->load->model('country_t');
+			$this->load->model('question');
+			$data['questions']=$this->question->get_questions();
+
+			$this->load->helper(array('form'));
+			$data['content'] ='user/adduser';
+			$data['countries']=$this->country_t->get_countries();
+			$this->load->view('lay',$data);
 
 	   	
 	   }
 
 	public function adduser()
 	{
-
 
 	    $this->load->library('form_validation');
 	    $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean|min_length[5]|max_length[12]|is_unique[user.user_name]');
@@ -166,21 +208,40 @@ exit();
         $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|min_length[5]|max_length[12]|matches[passconf]');
 	    $this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|required|xss_clean');
         $this->form_validation->set_rules('phone', 'Phone', 'trim|required|xss_clean|min_length[5]');
+        $this->form_validation->set_rules('question', 'Question', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('answer', 'Answer', 'trim|required|xss_clean');
 
-        if($this->form_validation->run() == FALSE){
+        $country=$this->input->post('country');
+       // echo $country; exit();
+        if ($country=='empty') {
+        	$countryErrMsg='please choose your country';
+        	# code...
+        }
+        if($this->form_validation->run() == FALSE || !empty($countryErrMsg)){
 
-        	    $data = array('content'=>'user/adduser');
+        	    $this->load->model('country_t');
+			    $data['countries']=$this->country_t->get_countries();
+			    $this->load->model('question');
+			    $data['questions']=$this->question->get_questions();
+                $this->load->helper(array('form'));
+        	    $data['content'] = 'user/adduser';
+        	    if(!empty($countryErrMsg)){
+        	    	$data['countryErrMsg']=$countryErrMsg;
+        	    }
 		        $this->load->view('lay',$data);
 
         }else{
 				$data['user_name']= $this->input->post('username');
 				$data['user_email']= $this->input->post('email');
+				$data['user_question']= $this->input->post('question');
+				$data['user_answer']= $this->input->post('answer');
+				$data['user_phone']=$this->input->post('code').' '.$this->input->post('phone');
 				$data['user_password']= MD5($this->input->post('password'));
 				if (empty($this->input->post('type'))) {
 					# code...
 					$data['user_type']='student';
 				}else{
-						$data['user_type']= $this->input->post('type');
+				    $data['user_type']= $this->input->post('type');
 			    }
 				
 				if($this->input->post('admin') == "admin")
@@ -256,6 +317,8 @@ exit();
 
 		    		echo "Check you mail box to activate account";
 
+				echo "done";
+
 		}  		
 
 
@@ -270,5 +333,216 @@ exit();
 	}
 
 
+	public function countrycode(){
 
+		$this->load->model('country_t');
+		$countryId=$this->input->get('country');
+		$country=$this->country_t->get_country($countryId);
+		echo json_encode($country);
+	}
+
+
+	public function forgetpasswordView(){
+
+
+		    
+		$this->load->helper(array('form'));
+		$data['content'] ='user/forgetpasswordView';
+		$this->load->view('lay',$data);
+
+
+	}
+
+
+
+	public function forgetpasswordGetQuestion(){
+
+		$email=$this->input->get('email');
+        $this->load->model('user');
+        $user=$this->user->get_user_by_email($email);
+        $questionId=$user[0]->user_question;
+        $this->load->model('question');
+        $question=$this->question->getQuestion($questionId);
+        $data['question']=$question;
+        $this->load->helper(array('form'));
+		$data['content'] ='user/forgetpasswordViewQuestion';
+		$this->load->view('lay',$data);
+
+
+	}
+
+
+	public function forgetpasswordCheckAnswer(){
+
+
+		//echo $this->input->get('question'); exit();
+
+		$this->load->library('form_validation');
+	    $this->form_validation->set_rules('answer', 'Answer', 'trim|required|xss_clean');
+	    $this->form_validation->set_rules('question', 'Question', 'trim|required|xss_clean');
+
+	    if($this->form_validation->run() == FALSE || !empty($countryErrMsg)){
+
+    	    $data['question']=$this->input->post('question');
+    	   // var_dump($this->input->post('question')); exit();
+	        $this->load->helper(array('form'));
+			$data['content'] ='user/forgetpasswordViewQuestion';
+			$this->load->view('lay',$data);
+
+        }else{
+
+            
+        	  $answer=$this->input->post('answer');
+
+        	  $this->load->model('user');
+              $checkAnswer=$this->user->checkAnswer($answer);
+
+
+
+        	if (!empty($checkAnswer)) {
+        		# code...
+
+        		//echo "correct";
+        		$data['user_id']=$checkAnswer[0]->user_id;
+        		$data['content'] ='user/resetPassword';
+				$this->load->view('lay',$data);
+
+        	}else{
+
+	        	
+				$data['wrongAnswerMsg']='your answer is wrong !!!';
+
+				$data['question']=$this->input->post('question');
+	    	   // var_dump($this->input->post('question')); exit();
+		        $this->load->helper(array('form'));
+				$data['content'] ='user/forgetpasswordViewQuestion';
+				$this->load->view('lay',$data);
+
+
+        	}
+
+
+        }
+
+
+	    
+	}
+
+	public function resetPassword(){
+        
+        $data['user_id']=$this->input->post('id');
+		$this->load->library('form_validation');
+	    $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|min_length[5]|max_length[12]|matches[passconf]');
+	    $this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|required|xss_clean');
+        
+        if($this->form_validation->run() == FALSE){
+
+    	    $data['content'] ='user/resetPassword';
+			$this->load->view('lay',$data);
+
+        }else{
+
+
+        	$data['user_password']= MD5($this->input->post('password'));
+        	$this->load->model('user');
+        	$this->user->update($data);
+
+        	redirect('coursecontroller/listcourses', 'location');
+
+
+        }
+
+	}
+
+
+	public function forgetPasswordBySendMailView(){
+
+		$this->load->helper(array('form'));
+		$data['content'] ='user/forgetpasswordViewuseEmail';
+		$this->load->view('lay',$data);
+
+
+	}
+
+	public function forgetPasswordBySendMail(){
+
+
+
+	     $this->load->model('user');
+         $data['user_email']=$this->input->post('email');
+		 $user=$this->user->get_user_by_email($data['user_email']); 
+		 //var_dump($user); exit();
+		 if(!empty($user)){
+				 $this->load->model('user');
+
+					 $user=$this->user->get_user_by_email($data['user_email']); 
+					 $user_id= $user[0]->user_id;
+
+					// var_dump($user); exit();
+					 $config = Array(
+					  'protocol' => 'smtp',
+					  'smtp_host' => 'ssl://smtp.googlemail.com',
+					  'smtp_port' => 465,
+					  'smtp_user' => 'engy.elmoshrify@gmail.com', // change it to yours
+					  'smtp_pass' => 'engy751093', // change it to yours
+					  'mailtype' => 'html',
+					  'charset' => 'iso-8859-1',
+					  'wordwrap' => TRUE
+					);
+
+
+					 $this->load->helper('url');
+		 		     $message = "To Reset Your Password Follow link: localhost".base_url().'usercontroller/resetpassword?id='.$user[0]->user_id;
+
+
+			         $this->load->library('email', $config);
+			         $this->email->set_newline("\r\n");
+			         $this->email->from('engy.elmoshrify@gmail.com'); 
+			         $this->email->to($user[0]->user_email);
+			         $this->email->subject('Reset Your Password');
+			         $this->email->message($message);
+			         if($this->email->send()){
+			         	    $data['msg']='check you mail';
+			      			$data['content'] ='user/Msg';
+							$this->load->view('lay',$data);
+			     	 }else{
+			     			
+			     			$data['wrongEmail']=show_error($this->email->print_debugger());
+							$this->load->helper(array('form'));
+						    $data['content'] ='user/forgetpasswordViewuseEmail';
+					        $this->load->view('lay',$data);
+			         }
+		}else{
+
+
+			$data['wrongEmail']='Your Email is Wrong , Please insert Your rigth Email';
+			$this->load->helper(array('form'));
+		    $data['content'] ='user/forgetpasswordViewuseEmail';
+	        $this->load->view('lay',$data);
+
+			
+		}
+
+	}
+
+
+	public function extractCSV(){
+
+
+		// $this->load->database();
+		// $query = $this->db->get('user');
+
+		$this->load->model('user');
+		$users=$this->user->getAllUsersAsObject();
+		 
+		$this->load->helper('csv');
+		query_to_csv($users, TRUE, 'AllUserInYourWebSite.csv');
+
+		//redirect('usercontroller/listuser');
+
+
+	}
+
+
+	
 }

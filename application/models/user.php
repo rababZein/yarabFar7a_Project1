@@ -60,5 +60,27 @@ function get_user_by_email($email){
     $this->db->delete('user');
 
  }
+
+
+ function checkAnswer($answer){
+
+
+      $this->db->where('user_answer',$answer);
+      $query=$this->db->get('user');
+      return $query->result();
+
+ }
+
+
+ function getAllUsersAsObject(){
+   
+     $query=$this->db->get('user');
+     return $query ;
+
+
+ }
+
+
+
 }
 ?>

@@ -6,12 +6,29 @@ require("CancelClass.php");
 
 class Classcontroller extends CI_Controller {
 
+
+	
+	function __construct(){
+	    parent::__construct();
+	    if ( ! $this->session->userdata('logged_in'))
+	    { 
+	        // Allow some methods?
+	        $allowed = array();
+	        if ( ! in_array($this->router->fetch_method(), $allowed))
+	        {
+	            redirect('login');
+	        }
+	    }
+	}
+
 	 public function addclass()
 	{
 		# code...
 		$data['courseId']= $this->input->get('courseId');
 		$data['topicId']= $this->input->get('topicId');
-
+        $this->load->model('country');
+		$data['countries']=$this->country->get_countries();
+//var_dump($data['countries']); exit();
 	    $this->load->helper(array('form'));
 		$data['content'] = "class/addclass";
 		$this->load->view('lay',$data);
@@ -65,7 +82,7 @@ class Classcontroller extends CI_Controller {
 		    //$parmeters["start_time"] = $array['start_time'];
 		    $parmeters["title"]= $this->input->post('title');//Required
 		    $parmeters["duration"]=$this->input->post('duration'); //optional
-		    $parmeters["time_zone"]="Africa/Cairo" ; //optional
+		    $parmeters["time_zone"]=$this->input->post('timezone'); //optional
 		    $parmeters["attendee_limit"]=""; //optional
 		    $parmeters["control_category_id"]=""; //optional
 		    $parmeters["create_recording"]=""; //optional
@@ -85,7 +102,7 @@ class Classcontroller extends CI_Controller {
 	            $data['class_topic_id']= $this->input->post('topicId');
 				$data['class_title'] = $this->input->post('title');
 				$data['class_duration'] = $this->input->post('duration');
-				$data["class_time_zone"]="Africa/Cairo" ;				
+				$data["class_time_zone"]= $this->input->post('timezone') ;				
 				$this->load->model('Liveclass');
 				$this->Liveclass->addclass($data);
 
@@ -215,5 +232,17 @@ class Classcontroller extends CI_Controller {
 
 
 		
+	}
+
+
+	public function gettimezone(){
+
+
+
+		$this->load->model('timezone');
+		$code=$this->input->get('code');
+		$time=$this->timezone->get_timezone($code);
+
+		echo json_encode($time);
 	}
 }

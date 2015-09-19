@@ -28,9 +28,25 @@
 
 </head>
 <body>
+<br>
 
-	<br>
 
+<a href="extractCSV"> Extract To CSV File</a>
+<br/>
+
+<?php echo $error;?>
+
+<?php echo form_open_multipart('upload/do_upload');?>
+
+<input type="file" name="userfile" size="20" />
+
+<br /><br />
+
+<input type="submit" value="upload" />
+
+</form>
+
+<br/>
 <table class="data display datatable" id="example" cellpadding="0" cellspacing="0" border="0">
 <thead>
 <tr>
@@ -47,9 +63,8 @@
 
 </tr>
 	
-	</thead>
-
-	                    <tbody>
+</thead>
+<tbody>
 
 <?php
 

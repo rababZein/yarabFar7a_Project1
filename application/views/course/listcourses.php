@@ -35,13 +35,15 @@
 <tr>
 
 
-<th> Course ID </th> 
+
 <th> Course TiTle </th>
 <th> Course category </th>
 <th> Course Teacher </th>
+<th> Status </th>
 <?php if($session_data['type']!='student'){?>
 <th> Send Invitation To Student </th>
 <th> Add Topic </th>
+
 <th> Edit </th>
 <th> Delete </th>
 <?php }?>
@@ -55,17 +57,27 @@
         if(!empty($courses)){
 				foreach ($courses as $course) {
 					
-					echo "<tr id='".$course->course_id."'>";
-					echo "<td>".$course->course_id."</td>";
-					echo "<td><a href='showcourse?id=".$course->course_id."'>".$course->course_title."</a></td>";
+					echo "<tr id='".$courses[$i]->course_id."'>";
+			
+					echo "<td><a href='showcourse?id=".$courses[$i]->course_id."'>".$courses[$i]->course_title."</a></td>";
 					echo "<td>".$category[$i]->cat_name."</td>";
 					echo "<td>".$teacher[$i]->user_name."</td>";
+					if ( date('Y-m-d H:i:s')  > $courses[$i]->course_end_time ) {
+						echo "<td style='color:red'>  Finished </td>";
+					}else {
+						if (date('Y-m-d H:i:s') >= $courses[$i]->course_start_time) {
+								echo "<td style='color:green'> Started </td>";
+						}else{
+
+							    echo "<td style='color:blue'> Upcoming </td>";
+						}
+					}
 				    if($session_data['type']!='student'){
-						echo "<td><a href='listStudent?courseId=".$course->course_id."'>Invite</a></td>";
-						echo "<td><a href='../topiccontroller/addtopic?id=".$course->course_id."'>Add Topic</a></td>";
-						echo "<td><a href='edit?id=".$course->course_id."'>Edit</a></td>";
+						echo "<td><a href='listStudent?courseId=".$courses[$i]->course_id."'>Invite</a></td>";
+						echo "<td><a href='../topiccontroller/addtopic?id=".$courses[$i]->course_id."'>Add Topic</a></td>";
+						echo "<td><a href='edit?id=".$courses[$i]->course_id."'>Edit</a></td>";
 						
-						echo "<td><button  onclick='deletecourse(".$course->course_id.")' > Delete button </button></td>";
+						echo "<td><button  onclick='deletecourse(".$courses[$i]->course_id.")' > Delete button </button></td>";
 						}
 					echo "</tr>";
 					$i++;
@@ -76,6 +88,8 @@
 ?>
 </tbody>
 </table>
+
+
 
 <script type="text/javascript">
 

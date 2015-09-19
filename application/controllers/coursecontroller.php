@@ -2,14 +2,27 @@
 
 class Coursecontroller extends CI_Controller {
 
+
+	function __construct(){
+	    parent::__construct();
+	    if ( ! $this->session->userdata('logged_in'))
+	    { 
+	        // Allow some methods?
+	        $allowed = array();
+	        if ( ! in_array($this->router->fetch_method(), $allowed))
+	        {
+	            redirect('login');
+	        }
+	    }
+	}
+
     public function addcourse(){
 
 		$this->load->model('category');		
 		$data['parentCategories']=$this->category->getByParent(0);
 
+		
         $this->load->helper(array('form'));
-
-		//$this->load->view('course/addcourse',$data);
 		$data['content'] = "course/addcourse";
 		$this->load->view('lay',$data);
 
@@ -93,6 +106,7 @@ class Coursecontroller extends CI_Controller {
 		$this->load->model('course');
 		if($session_data['type']=='admin' || $session_data['type']=='super admin'){
 			$data['courses']=$this->course->getAllCourses();
+			//var_dump($data['courses'][1]->course_title); exit();
 	    }elseif ($session_data['type']=='teacher') {
 	    	# code...
 

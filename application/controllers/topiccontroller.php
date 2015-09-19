@@ -2,6 +2,20 @@
 
 class Topiccontroller extends CI_Controller {
 
+	
+		function __construct(){
+		    parent::__construct();
+		    if ( ! $this->session->userdata('logged_in'))
+		    { 
+		        // Allow some methods?
+		        $allowed = array();
+		        if ( ! in_array($this->router->fetch_method(), $allowed))
+		        {
+		            redirect('login');
+		        }
+		    }
+		}
+
 	    public function addtopic(){
 
 			$data['courseId'] = $this->input->get('id');

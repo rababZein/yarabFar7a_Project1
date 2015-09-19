@@ -5,7 +5,9 @@ Class Course extends CI_Model {
 
     function getAllCourses(){
 
-	    $query=$this->db->get('course');
+	    $this->db->from('course');
+      $this->db->order_by("course_start_time", "desc");
+      $query = $this->db->get();
 	    return $query->result();
 
     }
