@@ -1,10 +1,10 @@
 <?php
 class CancelClass
 {
+	private $result = array();
 	
 	function CancelClass($secretAcessKey,$access_key,$webServiceUrl,$id)
 	{
-		private $result = array();
 		require_once("AuthBase.php");
 		$authBase = new AuthBase($secretAcessKey,$access_key);
 		$method = "cancel";

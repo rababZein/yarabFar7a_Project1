@@ -4,7 +4,6 @@ require("add_schedule.php");
 require("ModifyClass.php");
 require("CancelClass.php");
 
-require("DownloadRecording.php");
 
 class Classcontroller extends CI_Controller {
 
@@ -31,7 +30,7 @@ class Classcontroller extends CI_Controller {
         $this->load->model('country');
 		$data['countries']=$this->country->get_countries();
 //var_dump($data['countries']); exit();
-	    $this->load->helper(array('form'));
+	   $this->load->helper(array('form'));
 		$data['content'] = "class/addclass";
 		$this->load->view('lay',$data);
 
@@ -276,23 +275,26 @@ class Classcontroller extends CI_Controller {
 
 	public function downloadrecord(){
 
+		require("DownloadRecording.php");
+
+
 		$classId=$this->input->get('classId');
 
 		$access_key="NUh89jJp5jc=";
 	    $secretAcessKey="X7Hxt9Fs383plSbsXWB3nQ==";
 	    $webServiceUrl="http://class.api.wiziq.com/";
 
-	    $obj = new CancelClass($secretAcessKey,$access_key,$webServiceUrl,$classId);
+	    $obj = new DownloadRecording($secretAcessKey,$access_key,$webServiceUrl,$classId);
 	    $result = $obj->return_result();
 		if($result['state']){
 			
-			$data['msg']= $result['successMsg'];
+			$data['msg']= $result['message'];
 			$data['content'] = "user/Msg";
-		    $this->load->view('lay',$data);
+		   $this->load->view('lay',$data);
         }else{
-        	$data['msg']= $result['errorMsg'];
+         	$data['msg']= $result['message'];
 			$data['content'] = "user/Msg";
-		    $this->load->view('lay',$data);
+		   $this->load->view('lay',$data); 
         }
 
 	}

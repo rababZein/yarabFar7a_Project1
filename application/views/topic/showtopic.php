@@ -87,7 +87,7 @@
 
         echo "<td><a href='".$class->class_recording_url."'>Join </a></td>";
    
-        echo "<td><a href=../classcontroller/downloadrecord?classId='".$class->class_id."'>Download </a></td>";
+        echo "<td><a href=../classcontroller/downloadrecord?classId=".$class->class_id.">Download </a></td>";
 
         echo "<td><a href='../classcontroller/edit?id=".$class->class_id."'>Edit</a></td>";
 
