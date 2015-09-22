@@ -4,6 +4,8 @@ require("add_schedule.php");
 require("ModifyClass.php");
 require("CancelClass.php");
 
+require("DownloadRecording.php");
+
 class Classcontroller extends CI_Controller {
 
 
@@ -270,5 +272,28 @@ class Classcontroller extends CI_Controller {
 		$time=$this->timezone->get_timezone($code);
 
 		echo json_encode($time);
+	}
+
+	public function downloadrecord(){
+
+		$classId=$this->input->get('classId');
+
+		$access_key="NUh89jJp5jc=";
+	    $secretAcessKey="X7Hxt9Fs383plSbsXWB3nQ==";
+	    $webServiceUrl="http://class.api.wiziq.com/";
+
+	    $obj = new CancelClass($secretAcessKey,$access_key,$webServiceUrl,$classId);
+	    $result = $obj->return_result();
+		if($result['state']){
+			
+			$data['msg']= $result['successMsg'];
+			$data['content'] = "user/Msg";
+		    $this->load->view('lay',$data);
+        }else{
+        	$data['msg']= $result['errorMsg'];
+			$data['content'] = "user/Msg";
+		    $this->load->view('lay',$data);
+        }
+
 	}
 }

@@ -4,6 +4,7 @@ class CancelClass
 	
 	function CancelClass($secretAcessKey,$access_key,$webServiceUrl,$id)
 	{
+		private $result = array();
 		require_once("AuthBase.php");
 		$authBase = new AuthBase($secretAcessKey,$access_key);
 		$method = "cancel";
@@ -33,19 +34,27 @@ class CancelClass
     		$attribNode = $status->getAttribute("status");
 			if($attribNode=="ok")
 			{
+				$this->result['state'] = 1;
 				$methodTag=$objDOM->getElementsByTagName("method");
 				echo "method=".$method=$methodTag->item(0)->nodeValue;
 				$cancelTag=$objDOM->getElementsByTagName("cancel")->item(0);
 				echo "<br>cancel=".$cancel = $cancelTag->getAttribute("status");
+			    $this->result['successMsg']="<br>cancel=".$cancel = $cancelTag->getAttribute("status");
 			}
 			else if($attribNode=="fail")
 			{
+				$this->result['state'] = 0;
 				$error=$objDOM->getElementsByTagName("error")->item(0);
 				echo "<br>errorcode=".$errorcode = $error->getAttribute("code");	
 				echo "<br>errormsg=".$errormsg = $error->getAttribute("msg");	
+				$this->result['errorMsg']=$errormsg = $error->getAttribute("msg");
 			}
 	 	}//end if	
    }//end function
+
+   public function return_result(){
+   		return $this->result;
+   }
 	
 }
 ?>
