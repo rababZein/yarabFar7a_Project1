@@ -335,7 +335,7 @@ class Coursecontroller extends CI_Controller {
 
 		//$this->load->view('course/liststudent',$data);
 		$data['content'] = "course/liststudent";
-	   $this->load->view('lay',$data);
+	    $this->load->view('lay',$data);
 	}
 
 	public function inviteAll(){
@@ -531,6 +531,39 @@ Thanks');
 
 			$this->email->send();
 		 }
+    }
+
+
+    public function listUserInCourse(){
+
+    	$courseId=$this->input->get('courseId');
+    	//var_dump($courseId); exit();
+    	$this->load->model('course');
+    	$data['course']=$this->course->getCourse($courseId);
+    	
+    	$this->load->model('coursestudent');
+    	$students=$this->coursestudent->getStudentInCourse($courseId);
+    	//var_dump($students[0]->coursestudent_student_id); exit();
+   // 	$students=array();
+    	$i=0;
+    	$this->load->model('user');
+    	foreach ($students as $student) {
+//var_dump($student); exit();
+    		$students[$i]=$this->user->get_user($student->coursestudent_student_id);
+    		$i++;
+
+
+    		
+    	}
+
+    	$data['students']=$students;
+
+    //	var_dump($data['students'][0]); exit();
+
+    	$data['content'] = "course/liststudentincourse";
+	    $this->load->view('lay',$data);
+
+    	//return view()
     }
 
 

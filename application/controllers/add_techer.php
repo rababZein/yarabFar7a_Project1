@@ -47,24 +47,20 @@ class addteacher
     	$attribNode = $status->getAttribute("status");
 		if($attribNode=="ok")
 		{
+			$this->result['state'] = 1;
 			$methodTag=$objDOM->getElementsByTagName("method");
-			echo "method=".$method=$methodTag->item(0)->nodeValue;
-			$class_idTag=$objDOM->getElementsByTagName("class_id");
-			//echo "<br>Class ID=".$class_id=$class_idTag->item(0)->nodeValue;
-			$recording_urlTag=$objDOM->getElementsByTagName("recording_url");
-			//echo "<br>recording_url=".$recording_url=$recording_urlTag->item(0)->nodeValue;
-			$presenter_emailTag=$objDOM->getElementsByTagName("presenter_email");
-			//echo "<br>presenter_email=".$presenter_email=$presenter_emailTag->item(0)->nodeValue;
-			$presenter_urlTag=$objDOM->getElementsByTagName("presenter_url");
-			//echo "<br>presenter_url=".$presenter_url=$presenter_urlTag->item(0)->nodeValue;
-			echo 'teacher_id'.$objDOM->getElementsByTagName("teacher_id")->item(0)->nodeValue;
+			//echo "method=".$method=$methodTag->item(0)->nodeValue;
+			$this->result['teacher_id']=$objDOM->getElementsByTagName("teacher_id")->item(0)->nodeValue;
+			//$result['presenter_url']=$presenter_url=$presenter_urlTag->item(0)->nodeValue;
+			//echo 'teacher_id'.$objDOM->getElementsByTagName("teacher_id")->item(0)->nodeValue;
 
 		}
 		else if($attribNode=="fail")
 		{
+			$this->result['state'] = 0;
 			$error=$objDOM->getElementsByTagName("error")->item(0);
    			echo "<br>errorcode=".$errorcode = $error->getAttribute("code");	
-   			echo "<br>errormsg=".$errormsg = $error->getAttribute("msg");	
+   			$this->result['errorMsg']="<br>errormsg=".$errormsg = $error->getAttribute("msg");	
 		}
 	 }//end if	
    }//end function

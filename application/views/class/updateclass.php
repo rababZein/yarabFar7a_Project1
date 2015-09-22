@@ -66,9 +66,107 @@
      <br/>
 
 
+     <label for="country">Country:</label>
+
+     <select id="country" name="country">
+
+     <?php
+    
+          
+          foreach ($countries as $country) {
+              if ($timezone[0]->code==$country->country_code) {
+                echo "<option value='".$country->country_code."' selected>".$country->country_name."</option>";
+              }else{
+                echo "<option value='".$country->country_code."' >".$country->country_name."</option>";
+              }
+          }
+
+     ?>
+
+     </select>
+     <span style="color:red"> <?php  if(!empty($countryErrMsg)) echo $countryErrMsg; ?> </span>
+
+     <br/>
+
+     <p id='time zone'>
+
+     <label for="country">Time Zone of your country :</label>
+
+     <select  name="timezone">
+
+     <?php
+
+          
+        echo "<option value='".$result['class_time_zone']."' >".$result['class_time_zone']."</option>";
+          
+
+     ?>
+
+     </select>
+       
+
+     </p>
+
+
      <input type="submit" value="Edit"/>
    </form>
+<script src="http://code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
 
+
+<script type="text/javascript">
+
+ var base_url="<?=base_url()?>";
+ $(document).ready(function(){
+        $('select#country').on('change', function() {
+
+            alert( this.value ); 
+
+            var timezonePrag = document.getElementById('time zone');
+
+            timezonePrag.innerHTML=" ";
+
+            $.get(base_url+"classcontroller/gettimezone",{code:this.value},function(data){
+
+              console.log(data);
+
+              var label = document.createElement('label');
+              label.innerHTML= 'Time Zone of your country : ';
+              var sel = document.createElement('select');
+              sel.name='timezone';
+             // sel.setAttribute("id", "sel");
+             /* if (data=="") { 
+
+                    return;
+
+              }*/
+              for (var i=0; i<JSON.parse(data).length; i++) {
+                  
+                   //code=JSON.parse(data)[i].code;
+                   timezone=JSON.parse(data)[i].timezone;
+
+                   //console.log(catName);
+
+                   opt = document.createElement('option');
+                   opt.value = timezone;
+                   opt.innerHTML = timezone;
+                   sel.appendChild(opt);
+
+
+               }
+          
+               timezonePrag.appendChild(label);
+               timezonePrag.appendChild(sel);
+
+
+
+
+              });
+
+        });
+    });
+
+
+ </script>
 
    
 

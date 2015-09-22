@@ -19,4 +19,12 @@ Class Country extends CI_Model {
 
     }
 
+    function getCountryByCode($code){
+
+    	$this->db->where('country_code',$id);
+	    $query=$this->db->get('country');
+	    return $query->result();
+
+    }
+
 }

@@ -13,8 +13,9 @@ class ModifyClass
 		$requestParameters["start_time"] = $array['start_time'];; 
 		$requestParameters["title"]=$array['title']; //Required
 		$requestParameters["duration"]=$array['duration']; //optional
-		$requestParameters["time_zone"]="Africa/Cairo"; //optional
-		$requestParameters["attendee_limit"]=$array['name']; //optional
+		//$requestParameters["time_zone"]="Africa/Cairo"; //optional
+		$requestParameters["time_zone"]=$array['time_zone'];
+		//$requestParameters["attendee_limit"]=$array['name']; //optional
 		$requestParameters["control_category_id"]=""; //optional
 		$requestParameters["create_recording"]=""; //optional
 		$requestParameters["return_url"]=""; //optional
@@ -48,16 +49,16 @@ class ModifyClass
 				$this->result['state'] = 1;
 				$this->result['id'] = $array['class_id'];
 				$methodTag=$objDOM->getElementsByTagName("method");
-				echo "method=".$method=$methodTag->item(0)->nodeValue;
+				//echo "method=".$method=$methodTag->item(0)->nodeValue;
 				$modifyTag=$objDOM->getElementsByTagName("modify")->item(0);
-				echo "<br>modify=".$modify = $modifyTag->getAttribute("status");
+				$this->result['successMsg']="<br>modify=".$modify = $modifyTag->getAttribute("status");
 			}
 			else if($attribNode=="fail")
 			{
 				$this->result['state'] = 0;
 				$error=$objDOM->getElementsByTagName("error")->item(0);
-				echo "<br>errorcode=".$errorcode = $error->getAttribute("code");	
-				echo "<br>errormsg=".$errormsg = $error->getAttribute("msg");	
+				//echo "<br>errorcode=".$errorcode = $error->getAttribute("code");	
+				$this->result['errorMsg']="<br>errormsg=".$errormsg = $error->getAttribute("msg");	
 			}
 	 	}//end if	
    }//end function

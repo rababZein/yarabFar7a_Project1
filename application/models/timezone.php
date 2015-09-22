@@ -19,4 +19,14 @@ Class Timezone extends CI_Model {
 
     }
 
+    function getByTime($timezone){
+
+
+    	$this->db->where('timezone',$timezone);
+	    $query=$this->db->get('zoneandcode');
+	    return $query->result();
+
+
+    }
+
 }

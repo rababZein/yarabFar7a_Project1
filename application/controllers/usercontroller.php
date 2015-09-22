@@ -165,8 +165,8 @@ class Usercontroller extends CI_Controller {
 			//$requestParameters["work_number"]="+2 01284064635";
 			$requestParameters["about_the_teacher"]= "Online Facilitator and Teacher, British Columbia, Canada";
 			$requestParameters["is_active"]=1;
-			$requestParameters['teacher_id']=1;
-	    		$obj = new editteacher($secretAcessKey,$access_key,$webServiceUrl,$requestParameters);
+			$requestParameters['teacher_id']=$data['user_id'];
+	        $obj = new editteacher($secretAcessKey,$access_key,$webServiceUrl,$requestParameters);
 exit();
 	    }
 
@@ -250,8 +250,7 @@ exit();
 				if($this->input->post('admin') == "not")
 					 $data['user_admin']= 0;
 
-			    $this->load->model('user');
-			    $this->user->adduser($data);
+			    
 					
 				if($this->input->post('type')=='teacher'){
 
@@ -262,7 +261,7 @@ exit();
 					$requestParameters["email"]= $this->input->post('email');
 					$requestParameters["password"]= '12345678';
 					$requestParameters["image"]= "image.png";
-					//$requestParameters["phone_number"]= "+2 01284064635";
+					$requestParameters["phone_number"]= $data['user_phone'];
 					//$requestParameters["work_number"]="+2 01284064635";
 					$requestParameters["about_the_teacher"]= "Online Facilitator and Teacher, British Columbia, Canada";
 					$requestParameters["is_active"]=1;
@@ -271,12 +270,60 @@ exit();
 		           
 					$result = $obj->return_result();
 
-					echo $result['teacher_id'];
-		            exit();
-				}  
+					
+					if ($result['state']) {
+                        $data['user_id']=$result['teacher_id'];
+						$this->load->model('user');
+			            $this->user->adduser($data);
+			            $data['msg']= "Your Teacher Has created Successfully ";
+				        $data['content'] = "user/Msg";
+				        $this->load->view('lay',$data);
+					    $this->load->model('user');
+
+						$user=$this->user->get_user_by_email($data['user_email']); 
+						$user_id= $user[0]->user_id;
+						$config = Array(
+						  'protocol' => 'smtp',
+						  'smtp_host' => 'ssl://smtp.googlemail.com',
+						  'smtp_port' => 465,
+						  'smtp_user' => 'engy.elmoshrify@gmail.com', // change it to yours
+						  'smtp_pass' => 'engy751093', // change it to yours
+						  'mailtype' => 'html',
+						  'charset' => 'iso-8859-1',
+						  'wordwrap' => TRUE
+						);
 
 
+						$this->load->helper('url');
+			 		    $message = "Welcome in our website ! To activate your account please visit the following link: localhost".base_url()."usercontroller/approve?id=".$user_id;
 
+
+				        $this->load->library('email', $config);
+				        $this->email->set_newline("\r\n");
+				        $this->email->from('engy.elmoshrify@gmail.com'); 
+				        $this->email->to($data['user_email']);
+				        $this->email->subject('Activate Your Account !');
+				        $this->email->message($message);
+				        if($this->email->send()){
+				      			//echo 'Email sent.';
+				     	}else{
+				     			//show_error($this->email->print_debugger());
+				        }
+					}else{
+
+						$data['msg']= $result['errorMsg'];
+						$data['content'] = "user/Msg";
+				        $this->load->view('lay',$data);
+
+				        //exit();
+
+					}
+		            
+				} else{ 
+
+
+                $this->load->model('user');
+			    $this->user->adduser($data);
 			
 
 
@@ -315,9 +362,15 @@ exit();
 
 				    //redirect('coursecontroller/listcourses', 'location');
 
-		    		echo "Check you mail box to activate account";
+		    		//echo "Check you mail box to activate account";
 
-				echo "done";
+				//echo "done";
+
+				    $data['msg']= 'Your Teacher Account is Created Successfully please tell him to check his mail to activated his account';
+				    $data['content'] = "user/Msg";
+				    $this->load->view('lay',$data);
+
+				}
 
 		}  		
 

@@ -60,7 +60,7 @@
                     
                     <div class="floatleft marginleft10">
                         <ul class="inline-ul floatleft">
-                            <li>Hello </li>
+                            <li>Hello <?php echo $session_data['username']?></li>
                           
                             <li><a href="../home/logout">Logout</a></li>
                             <li><a href='../usercontroller/edit?id=<?php echo $session_data['id']?>'>Update Your Profile</a></li>
