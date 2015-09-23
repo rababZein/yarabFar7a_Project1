@@ -40,8 +40,9 @@
 <th> Course category </th>
 <th> Course Teacher </th>
 <th> Status </th>
+
+<?php if($session_data['type']=='admin' || $session_data['type']=='super admin' || $session_data['admin']==1){?>
 <th> Student </th>
-<?php if($session_data['type']!='student'){?>
 <th> Send Invitation To Student </th>
 
 <th> Add Topic </th>
@@ -74,8 +75,8 @@
 							    echo "<td style='color:blue'> Upcoming </td>";
 						}
 					}
-				   echo "<td><a href='listUserInCourse?courseId=".$courses[$i]->course_id."'>List</a></td>";
-				    if($session_data['type']!='student'){
+if($session_data['type']=='admin' || $session_data['type']=='super admin' || $session_data['admin']==1){
+					    echo "<td><a href='listUserInCourse?courseId=".$courses[$i]->course_id."'>List</a></td>";
 						echo "<td><a href='listStudent?courseId=".$courses[$i]->course_id."'>Invite</a></td>";
 						echo "<td><a href='../topiccontroller/addtopic?id=".$courses[$i]->course_id."'>Add Topic</a></td>";
 						echo "<td><a href='edit?id=".$courses[$i]->course_id."'>Edit</a></td>";

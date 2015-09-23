@@ -22,8 +22,7 @@
     <script src="../js/jquery-ui/jquery.ui.sortable.min.js" type="text/javascript"></script>
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css">
-
-              <script src="http://code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
+<script src="http://code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
 
   <title>Add User</title>
 </head>
@@ -78,10 +77,12 @@
 
      </p>
 
-     <label for="phone">Phone</label>
-     <input type="number" size="20" id="phone" name="phone" value="<?php echo set_value('phone');?>"/>
-     <span style="color:red"> <?php echo form_error('phone'); ?> </span>
-     <br/>
+   
+     <label for="mobile">Mobile</label> 
+     <input type="number" id="mobile" name="mobile" onkeyup="mob()" value="<?php echo set_value('mobile');?>"/> 
+     <span style="color:red"> <?php echo form_error('mobile'); ?> </span>
+     <br/> 
+     <div id="mob"> </div>
 
 
      <label for="question">Question:</label>
@@ -124,7 +125,7 @@
       </select>     <br/>
 
 
-     <input type="submit" value="Add"/>
+     <input type="submit" id='sub' value="Add"/>
    </form>
 
 
@@ -198,7 +199,34 @@
         });
     });
 
+function mob()
 
+{
+    arr=[];
+    len=document.getElementById("mobile").value.length;
+    if(document.getElementById("mobile").value[0] == document.getElementById("mobile").value[1]){
+        arr.push(0);
+        arr.push(0);
+
+        flag= document.getElementById("mobile").value[0];
+        for(i=2 ; i<len ; i++){
+            if(document.getElementById("mobile").value[i] == flag){
+                arr.push(0);
+            }
+        }
+
+    }
+    if(arr.length == len){ 
+      document.getElementById("mob").innerHTML="<span style='color:red'>enter valid mobile number </span> ";
+      document.getElementById('sub').disabled = 'disabled';
+    }else {
+      document.getElementById("mob").innerHTML="";
+      document.getElementById('sub').disabled = false;
+    }
+ 
+
+
+}
 
 
 

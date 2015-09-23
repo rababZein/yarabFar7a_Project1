@@ -13,6 +13,8 @@ class Usercontroller extends CI_Controller {
 	        // Allow some methods?
 	        $allowed = array(
 	            'registration',
+	            'registrationstore',
+	            'countrycode',
 	            'approve',
 	            'forgetpasswordView',
 	            'forgetpasswordGetQuestion',
@@ -29,10 +31,116 @@ class Usercontroller extends CI_Controller {
 	}
 
 	public function registration(){
+
+		 $this->load->model('country_t');
+		 $this->load->model('question');
+		 $data['questions']=$this->question->get_questions();
+
+		 $data['countries']=$this->country_t->get_countries();
 		 $this->load->helper(array('form'));
-		 $this->load->view('user/registration');
+		 $this->load->view('user/registration',$data);
 
 	}
+
+	public function registrationstore()
+	{
+
+	    $this->load->library('form_validation');
+	    $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean|min_length[5]|max_length[12]|is_unique[user.user_name]');
+	    $this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean|is_unique[user.user_email]');
+        $this->form_validation->set_rules('type', 'Type', 'trim|xss_clean');
+        $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|min_length[5]|max_length[12]|matches[passconf]');
+	    $this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('mobile', 'Mobile', 'trim|required|xss_clean|min_length[5]');
+        $this->form_validation->set_rules('question', 'Question', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('answer', 'Answer', 'trim|required|xss_clean');
+
+        $country=$this->input->post('country');
+       // echo $country; exit();
+        if ($country=='empty') {
+        	$countryErrMsg='please choose your country';
+        	# code...
+        }
+        if($this->form_validation->run() == FALSE || !empty($countryErrMsg)){
+
+        	    $this->load->model('country_t');
+			    $data['countries']=$this->country_t->get_countries();
+			    $this->load->model('question');
+			    $data['questions']=$this->question->get_questions();
+                $this->load->helper(array('form'));
+        	   // $data['content'] = 'user/registration';
+        	    if(!empty($countryErrMsg)){
+        	    	$data['countryErrMsg']=$countryErrMsg;
+        	    }
+		        $this->load->view('user/registration',$data);
+
+        }else{
+				$data['user_name']= $this->input->post('username');
+				$data['user_email']= $this->input->post('email');
+				$data['user_question']= $this->input->post('question');
+				$data['user_answer']= $this->input->post('answer');
+				$data['user_phone']=$this->input->post('code').' '.$this->input->post('mobile');
+				$data['user_password']= MD5($this->input->post('password'));					# code...
+				$data['user_type']='student';
+				
+				
+				
+			    $data['user_admin']= 0;
+
+			    
+					
+				
+
+
+                $this->load->model('user');
+			    $this->user->adduser($data);
+			
+
+
+				 $this->load->model('user');
+
+				 $user=$this->user->get_user_by_email($data['user_email']); 
+				 $user_id= $user[0]->user_id;
+				 $config = Array(
+				  'protocol' => 'smtp',
+				  'smtp_host' => 'ssl://smtp.googlemail.com',
+				  'smtp_port' => 465,
+				  'smtp_user' => 'engy.elmoshrify@gmail.com', // change it to yours
+				  'smtp_pass' => 'engy751093', // change it to yours
+				  'mailtype' => 'html',
+				  'charset' => 'iso-8859-1',
+				  'wordwrap' => TRUE
+				);
+
+
+				 $this->load->helper('url');
+	 		     $message = "Welcome in our website ! To activate your account please visit the following link: localhost".base_url()."usercontroller/approve?id=".$user_id;
+
+
+		         $this->load->library('email', $config);
+		         $this->email->set_newline("\r\n");
+		         $this->email->from('engy.elmoshrify@gmail.com'); 
+		         $this->email->to($data['user_email']);
+		         $this->email->subject('Activate Your Account !');
+		         $this->email->message($message);
+		         if($this->email->send()){
+		      			echo 'Email sent.';
+		     	 }else{
+		     			show_error($this->email->print_debugger());
+		         }
+
+
+			    $data['msg']= 'Your Account is Created Successfully please  check ypur mail to activated your account';
+			    //$data['content'] = "user/Msg";
+			    $this->load->view('user/Msg',$data);
+
+				
+
+		}  		
+
+
+	}
+
 
 	public function approve ()
 
@@ -207,7 +315,7 @@ exit();
         $this->form_validation->set_rules('type', 'Type', 'trim|xss_clean');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|min_length[5]|max_length[12]|matches[passconf]');
 	    $this->form_validation->set_rules('passconf', 'Password Confirmation', 'trim|required|xss_clean');
-        $this->form_validation->set_rules('phone', 'Phone', 'trim|required|xss_clean|min_length[5]');
+        $this->form_validation->set_rules('mobile', 'Mobile', 'trim|required|xss_clean|min_length[5]');
         $this->form_validation->set_rules('question', 'Question', 'trim|required|xss_clean');
         $this->form_validation->set_rules('answer', 'Answer', 'trim|required|xss_clean');
 
@@ -235,7 +343,7 @@ exit();
 				$data['user_email']= $this->input->post('email');
 				$data['user_question']= $this->input->post('question');
 				$data['user_answer']= $this->input->post('answer');
-				$data['user_phone']=$this->input->post('code').' '.$this->input->post('phone');
+				$data['user_phone']=$this->input->post('code').' '.$this->input->post('mobile');
 				$data['user_password']= MD5($this->input->post('password'));
 				if (empty($this->input->post('type'))) {
 					# code...
@@ -254,8 +362,15 @@ exit();
 					
 				if($this->input->post('type')=='teacher'){
 
-		            $access_key="NUh89jJp5jc=";
-					$secretAcessKey="X7Hxt9Fs383plSbsXWB3nQ==";
+		   //          $access_key="NUh89jJp5jc=";
+					// $secretAcessKey="X7Hxt9Fs383plSbsXWB3nQ==";
+
+					$this->load->model('settingwiziq');
+		            $data['result']=$this->settingwiziq->getSetting();
+
+		            $access_key=$data['result'][0]->access_key;
+		            $secretAcessKey=$data['result'][0]->secret_key;
+
 					$webServiceUrl="http://class.api.wiziq.com/";
 					$requestParameters["name"]= $this->input->post('username');
 					$requestParameters["email"]= $this->input->post('email');
@@ -594,6 +709,56 @@ exit();
 		//redirect('usercontroller/listuser');
 
 
+	}
+
+
+
+	public function settingView(){
+
+
+		$this->load->model('settingwiziq');
+		$data['result']=$this->settingwiziq->getSetting();
+//var_dump($data['result'][0]->secret_key); exit();
+
+	    $this->load->helper(array('form'));
+	    $data['content'] ='setting/settingupdate';
+        $this->load->view('lay',$data);
+
+
+	}
+
+	public function updatesetting(){
+
+
+	   $this->load->library('form_validation');
+	   $this->form_validation->set_rules('access_key', 'Access_key', 'trim|required|xss_clean');
+	   $this->form_validation->set_rules('secret_key', 'Secret_key', 'trim|xss_clean\required');
+	   
+	 
+	   if($this->form_validation->run() == FALSE )
+	   {
+	     
+	   	$this->load->model('settingwiziq');
+		$data['result']=$this->settingwiziq->getSetting();
+	    $this->load->helper(array('form'));
+	    $data['content'] ='setting/settingupdate';
+        $this->load->view('lay',$data);
+	   	    
+
+	   }
+	   else
+	   {
+	    
+	   	$this->load->model('settingwiziq');
+
+	    $data['access_key'] = $this->input->post('access_key');
+	    $data['secret_key'] = $this->input->post('secret_key'); 
+
+        $this->settingwiziq->update($data);
+
+	    redirect('coursecontroller/listcourses', 'location');
+
+	   }
 	}
 
 

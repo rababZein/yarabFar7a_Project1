@@ -74,8 +74,13 @@ class Classcontroller extends CI_Controller {
            // var_dump($presenter); exit();
 
 			//connect with web site 
-			$access_key="NUh89jJp5jc=";
-            $secretAcessKey="X7Hxt9Fs383plSbsXWB3nQ==";
+			// $access_key="NUh89jJp5jc=";
+   //          $secretAcessKey="X7Hxt9Fs383plSbsXWB3nQ==";
+            $this->load->model('settingwiziq');
+            $data['result']=$this->settingwiziq->getSetting();
+
+            $access_key=$data['result'][0]->access_key;
+            $secretAcessKey=$data['result'][0]->secret_key;
             $webServiceUrl="http://class.api.wiziq.com/";
             $parmeters = array();
             $parmeters['start_time'] = $this->input->post('start_time');
@@ -136,8 +141,13 @@ class Classcontroller extends CI_Controller {
 	$id = $this->input->get('classId');
 	$this->Liveclass->delete($id);
 
-	$access_key="NUh89jJp5jc=";
-    $secretAcessKey="X7Hxt9Fs383plSbsXWB3nQ==";
+	//$access_key="NUh89jJp5jc=";
+    //$secretAcessKey="X7Hxt9Fs383plSbsXWB3nQ==";
+    $this->load->model('settingwiziq');
+    $data['result']=$this->settingwiziq->getSetting();
+
+    $access_key=$data['result'][0]->access_key;
+    $secretAcessKey=$data['result'][0]->secret_key;
     $webServiceUrl="http://class.api.wiziq.com/";
     $obj = new CancelClass($secretAcessKey,$access_key,$webServiceUrl,$id);
 								
@@ -213,8 +223,13 @@ class Classcontroller extends CI_Controller {
         $this->Liveclass->update($data);
 
 
-		$access_key="NUh89jJp5jc=";
-        $secretAcessKey="X7Hxt9Fs383plSbsXWB3nQ==";
+		// $access_key="NUh89jJp5jc=";
+  //       $secretAcessKey="X7Hxt9Fs383plSbsXWB3nQ==";
+        $this->load->model('settingwiziq');
+        $data['result']=$this->settingwiziq->getSetting();
+
+        $access_key=$data['result'][0]->access_key;
+        $secretAcessKey=$data['result'][0]->secret_key;
         $webServiceUrl="http://class.api.wiziq.com/";
 
 		$parmeters = array();
@@ -280,8 +295,13 @@ class Classcontroller extends CI_Controller {
 
 		$classId=$this->input->get('classId');
 
-		$access_key="NUh89jJp5jc=";
-	    $secretAcessKey="X7Hxt9Fs383plSbsXWB3nQ==";
+		// $access_key="NUh89jJp5jc=";
+	 //    $secretAcessKey="X7Hxt9Fs383plSbsXWB3nQ==";
+		$this->load->model('settingwiziq');
+		$data['result']=$this->settingwiziq->getSetting();
+
+		$access_key=$data['result'][0]->access_key;
+		$secretAcessKey=$data['result'][0]->secret_key;
 	    $webServiceUrl="http://class.api.wiziq.com/";
 
 	    $obj = new DownloadRecording($secretAcessKey,$access_key,$webServiceUrl,$classId);

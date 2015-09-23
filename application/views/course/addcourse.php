@@ -87,12 +87,7 @@
      <input type="date"  id="course_end_time" name="course_end_time" value="<?php echo set_value('course_end_time'); ?>"/>
      <br/>
 
-     <label for="course_time_zone">Time Zone:</label>
-     <input type="text" size="20" id="course_time_zone" name="course_time_zone" value="<?php echo set_value('course_time_zone');?>"/>
-     <br/>
-
      
-
      <input type="submit" value="Add"/>
    </form>
               <script src="http://code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>

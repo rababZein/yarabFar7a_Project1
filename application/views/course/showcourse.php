@@ -114,7 +114,9 @@ var base_url="<?=base_url()?>";
     }
 
 
-
+$(document).ready(function() {
+    $('#example').dataTable();
+});
 
 
 </script>
