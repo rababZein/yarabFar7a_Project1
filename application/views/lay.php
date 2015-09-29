@@ -5,6 +5,10 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title>Typography | BlueWhale Admin</title>
+       <link rel="stylesheet"  href="../bootstrap-datetimepicker-0.0.11/css/bootstrap-datetimepicker.min.css">
+<script src="http://code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
+ <!-- Load jQuery and bootstrap datepicker scripts -->
+ <script src="../bootstrap-datetimepicker-0.0.11/js/bootstrap-datetimepicker.min.js"></script>
 
    
     <script type="text/javascript">
@@ -136,4 +140,5 @@
     </div>
 
 </body>
+
 </html>

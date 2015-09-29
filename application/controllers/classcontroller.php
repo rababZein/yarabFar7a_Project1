@@ -40,6 +40,11 @@ class Classcontroller extends CI_Controller {
 
 	public function storeClass(){
 
+		//  $parmeters['start_time'] = $this->input->post('start_time').' '.$this->input->post('hour').':'.$this->input->post('minute').':00';
+
+		// $date = new DateTime($parmeters['start_time']);
+  //       echo $date->format('Y-m-d H:i:s'); exit();
+
 	   $this->load->library('form_validation');
 	   $this->form_validation->set_rules('title', 'Title', 'trim|required|xss_clean');
 	   $this->form_validation->set_rules('duration', 'Duration', 'trim|xss_clean');
@@ -55,6 +60,8 @@ class Classcontroller extends CI_Controller {
 
         
        }else{
+
+       	 // echo $this->input->post('timezone'); exit();
             $courseId= $this->input->post('courseId');
 		    $topicId= $this->input->post('topicId');
       	   // $data['class_course_id'] = $this->input->post('courseId');
@@ -77,14 +84,17 @@ class Classcontroller extends CI_Controller {
 			// $access_key="NUh89jJp5jc=";
    //          $secretAcessKey="X7Hxt9Fs383plSbsXWB3nQ==";
             $this->load->model('settingwiziq');
-            $data['result']=$this->settingwiziq->getSetting();
+            $settingdata['setting']=$this->settingwiziq->getSetting();
 
-            $access_key=$data['result'][0]->access_key;
-            $secretAcessKey=$data['result'][0]->secret_key;
+            $access_key=$settingdata['setting'][0]->access_key;
+            $secretAcessKey=$settingdata['setting'][0]->secret_key;
             $webServiceUrl="http://class.api.wiziq.com/";
             $parmeters = array();
-            $parmeters['start_time'] = $this->input->post('start_time');
-            $parmeters["presenter_email"]=$presenter[0]->user_email;
+            $parmeters['start_time'] = $this->input->post('start_time').' '.$this->input->post('hour').':'.$this->input->post('minute').':00';
+
+		    $date = new DateTime($parmeters['start_time']);
+            $parmeters['start_time'] =  $date->format('Y-m-d H:i:s'); 
+            $parmeters["presenter_email"]=$presenter[0]->user_email; 
 		    #for room based account pass parameters 'presenter_id', 'presenter_name'
 		    //$requestParameters["presenter_id"] = "40";
 		    //$requestParameters["presenter_name"] = "vinugeorge";  
@@ -94,7 +104,7 @@ class Classcontroller extends CI_Controller {
 		    $parmeters["time_zone"]=$this->input->post('timezone'); //optional
 		    $parmeters["attendee_limit"]=""; //optional
 		    $parmeters["control_category_id"]=""; //optional
-		    $parmeters["create_recording"]=""; //optional
+		    $parmeters["create_recording"]=$this->input->post('gpRecordClass'); //optional
 		    $parmeters["return_url"]=""; //optional
 		    $parmeters["status_ping_url"]=""; //optional
 		    $parmeters["language_culture_name"]="ar-SA";
@@ -111,13 +121,14 @@ class Classcontroller extends CI_Controller {
 	            $data['class_topic_id']= $this->input->post('topicId');
 				$data['class_title'] = $this->input->post('title');
 				$data['class_duration'] = $this->input->post('duration');
-				$data["class_time_zone"]= $this->input->post('timezone') ;				
+				$data["class_time_zone"]= $this->input->post('timezone') ;	
+				$data['class_create_recording']=$parmeters["create_recording"];			
 				$this->load->model('Liveclass');
 				$this->Liveclass->addclass($data);
 
 				//redirect('coursecontroller/listcourses', 'location');
 
-				$data['msg']= "Your Class Has created Successfully  <br/> Recording Url is : ".$result['presenter_url']."<br/> Presenter Email is : ".$result['presenter_email'];
+				$data['msg']= "Your Class Has created Successfully  <br/> Recording Url is : ".$result['presenter_url']."<br/> Presenter Email is : ".$result['presenter_email']."<br/> Teacher Access By This Link : <br/>".$data['class_presenter_url'];
 				$data['content'] = "user/Msg";
 				$this->load->view('lay',$data);
 
