@@ -29,8 +29,7 @@ class Classcontroller extends CI_Controller {
 		$data['topicId']= $this->input->get('topicId');
         $this->load->model('country');
 		$data['countries']=$this->country->get_countries();
-//var_dump($data['countries']); exit();
-	   $this->load->helper(array('form'));
+	    $this->load->helper(array('form'));
 		$data['content'] = "class/addclass";
 		$this->load->view('lay',$data);
 
@@ -39,6 +38,37 @@ class Classcontroller extends CI_Controller {
 	}
 
 	public function storeClass(){
+
+
+		if ($this->input->post('repeatType')==1) {
+		//	echo "if";
+			# code...
+			$parmeters['start_time'] = $this->input->post('start_time').' '.$this->input->post('hour').':'.$this->input->post('minute').':00';
+
+			$x=$parmeters['start_time'];
+$date = new DateTime($parmeters['start_time']);
+            $parmeters['start_time'] =  $date->format('Y-m-d H:i:s'); 
+            for ($i=0; $i < $this->input->post('numberOfClasses'); $i++) { 
+            
+            	// $d[$i]=date('Y-m-d H:i:s', strtotime($parmeters['start_time']. ' + 1 days'));
+            	// $d[$i]=date('Y-m-d H:i:s', strtotime($parmeters['start_time']. ' + 1 week'));
+            	// $d[$i]=date('Y-m-d H:i:s', strtotime($parmeters['start_time']."+1 month"));
+
+            	$date = new DateTime( $parmeters['start_time']);
+$interval = new DateInterval('P1M');
+
+$date->add($interval);
+$d[$i]= $date->format('Y-m-d');
+ 
+            	 echo $d[$i].'<br/>'; 
+            	 $parmeters['start_time']=$d[$i];
+
+
+
+            }
+		}
+
+		exit();
 
 		//  $parmeters['start_time'] = $this->input->post('start_time').' '.$this->input->post('hour').':'.$this->input->post('minute').':00';
 
@@ -91,7 +121,6 @@ class Classcontroller extends CI_Controller {
             $webServiceUrl="http://class.api.wiziq.com/";
             $parmeters = array();
             $parmeters['start_time'] = $this->input->post('start_time').' '.$this->input->post('hour').':'.$this->input->post('minute').':00';
-
 		    $date = new DateTime($parmeters['start_time']);
             $parmeters['start_time'] =  $date->format('Y-m-d H:i:s'); 
             $parmeters["presenter_email"]=$presenter[0]->user_email; 

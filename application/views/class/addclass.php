@@ -190,6 +190,37 @@
     </div></div></div>
 
 
+<div id="RecurringControl1_dvRepeatType" class="fleft">
+<span>
+<select name="repeatType" id="RecurringControl1_drpRepeatType" class="dropbx_all" style="">
+  <option value="0">Select when class repeats</option>
+  <option value="1">Daily (all 7 days)</option>
+  <option value="2">6 Days(Mon-Sat)</option>
+  <option value="3">5 Days(Mon-Fri)</option>
+  <option value="4">Weekly</option>
+  <option value="5">Once every month</option>
+
+</select>
+</span></div>
+<div id="RecurringControl1_dvEndDate" class="schedulewhiteinn top30" style="padding-top: 20px; padding-bottom: 20px;">
+    <div class="dv100">
+        <span class="left">*Ends:</span> <span class="right"><span class="fleft padtop" style="margin-left:-5px">
+            <input value="0" name="RecurringControl1enddate" id="RecurringControl1_rdoEndAfter" class="fleft" checked="checked" style="cursor: pointer" type="radio">
+            <label for="RecurringControl1_rdoEndAfter" class="radio_align marleft">After </label>
+        </span><span class="fleft marleft" style="padding-left: 2px;">
+            <input name="numberOfClasses" maxlength="3" id="RecurringControl1_txtOccurence" class="aspNetDisabled" onkeypress="return onlyNumbers(event);" style="width: 30px;" type="text">
+        </span><span class="fleft marleft" style="padding-top:7px;">Classes</span> </span>
+    </div>
+    <div class="dv100 martop5">
+        <span class="left"></span><span class="right"><span class="fleft" style="margin-left:-5px">
+            <input value="1" name="RecurringControl1enddate" id="RecurringControl1_rdoEndBy" class="fleft" style="cursor: pointer" type="radio">
+            <label for="RecurringControl1_rdoEndBy" class="radio_align marleft">On </label>
+        </span><span class="fleft marleft">
+            <input disabled="" readonly="readonly" name="RecurringControl1txtEndDate" id="RecurringControl1_txtEndDate" class="txtbx_all hasDatepicker" style="width: 90px;" type="text">
+        </span><span class="fleft padtop marleft"></span></span>
+    </div>
+</div>
+
 
           
 
