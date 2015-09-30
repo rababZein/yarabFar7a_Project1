@@ -40,35 +40,35 @@ class Classcontroller extends CI_Controller {
 	public function storeClass(){
 
 
-		if ($this->input->post('repeatType')==1) {
-		//	echo "if";
-			# code...
-			$parmeters['start_time'] = $this->input->post('start_time').' '.$this->input->post('hour').':'.$this->input->post('minute').':00';
+// 		if ($this->input->post('repeatType')==1) {
+// 		//	echo "if";
+// 			# code...
+// 			$parmeters['start_time'] = $this->input->post('start_time').' '.$this->input->post('hour').':'.$this->input->post('minute').':00';
 
-			$x=$parmeters['start_time'];
-$date = new DateTime($parmeters['start_time']);
-            $parmeters['start_time'] =  $date->format('Y-m-d H:i:s'); 
-            for ($i=0; $i < $this->input->post('numberOfClasses'); $i++) { 
+// // 			$x=$parmeters['start_time'];
+// // $date = new DateTime($parmeters['start_time']);
+// //             $parmeters['start_time'] =  $date->format('Y-m-d H:i:s'); 
+//             for ($i=0; $i < $this->input->post('numberOfClasses'); $i++) { 
             
-            	// $d[$i]=date('Y-m-d H:i:s', strtotime($parmeters['start_time']. ' + 1 days'));
-            	// $d[$i]=date('Y-m-d H:i:s', strtotime($parmeters['start_time']. ' + 1 week'));
-            	// $d[$i]=date('Y-m-d H:i:s', strtotime($parmeters['start_time']."+1 month"));
+//             	// $d[$i]=date('Y-m-d H:i:s', strtotime($parmeters['start_time']. ' + 1 days'));
+//             	// $d[$i]=date('Y-m-d H:i:s', strtotime($parmeters['start_time']. ' + 1 week'));
+//             	// $d[$i]=date('Y-m-d H:i:s', strtotime($parmeters['start_time']."+1 month"));
 
-            	$date = new DateTime( $parmeters['start_time']);
-$interval = new DateInterval('P1M');
+// //             	$date = new DateTime( $parmeters['start_time']);
+// // $interval = new DateInterval('P1M');
 
-$date->add($interval);
-$d[$i]= $date->format('Y-m-d');
+// // $date->add($interval);
+// // $d[$i]= $date->format('Y-m-d');
  
-            	 echo $d[$i].'<br/>'; 
-            	 $parmeters['start_time']=$d[$i];
+//             	 echo $d[$i].'<br/>'; 
+//             	 $parmeters['start_time']=$d[$i];
 
 
 
-            }
-		}
+//             }
+// 		}
 
-		exit();
+// 		exit();
 
 		//  $parmeters['start_time'] = $this->input->post('start_time').' '.$this->input->post('hour').':'.$this->input->post('minute').':00';
 
@@ -137,41 +137,240 @@ $d[$i]= $date->format('Y-m-d');
 		    $parmeters["return_url"]=""; //optional
 		    $parmeters["status_ping_url"]=""; //optional
 		    $parmeters["language_culture_name"]="ar-SA";
-		    $obj = new addschedule($secretAcessKey,$access_key,$webServiceUrl,$parmeters);
-          
-            $result = $obj->return_result();
-	        if($result['state']){
+
+
+		    //repeat daily
+		    if ($this->input->post('repeatType')==1) {
+		
+				$parmeters['start_time'] = $this->input->post('start_time').' '.$this->input->post('hour').':'.$this->input->post('minute').':00';
+	            if(!empty($this->input->post('numberOfClasses'))){
+			            for ($i=0; $i < $this->input->post('numberOfClasses'); $i++) { 
+			            
+			            	$d[$i]=date('Y-m-d H:i:s', strtotime($parmeters['start_time']. ' + 1 days'));
+			            
+			 
+			            	//echo $d[$i].'<br/>'; 
+			            	$parmeters['start_time']=$d[$i];
+
+		                    $obj = new addschedule($secretAcessKey,$access_key,$webServiceUrl,$parmeters);
+		                    $result = $obj->return_result();
+					        if($result['state']){
+					            
+					            $data['class_id']=$result['id'];
+					            $data['class_presenter_url']=$result['presenter_url'];
+					            $data['class_start_time']=$parmeters['start_time'];
+					            $data['class_presenter_email']=$result['presenter_email'];
+					            $data['class_recording_url']=$result['recording_url'];
+					            $data['class_topic_id']= $this->input->post('topicId');
+								$data['class_title'] = $this->input->post('title');
+								$data['class_duration'] = $this->input->post('duration');
+								$data["class_time_zone"]= $this->input->post('timezone') ;	
+								$data['class_create_recording']=$parmeters["create_recording"];			
+								$this->load->model('Liveclass');
+								$this->Liveclass->addclass($data);
+
+								//redirect('coursecontroller/listcourses', 'location');
+
+								$data['msg']= "Your Class Has created Successfully  <br/> Recording Url is : ".$result['presenter_url']."<br/> Presenter Email is : ".$result['presenter_email']."<br/> Teacher Access By This Link : <br/>".$data['class_presenter_url'];
+								
+
+
+					        }else{
+
+					            $data['msg']= $result['errorMsg'];
+								
+					        }
+
+			            }
+
+			            
+				        $data['content'] = "user/Msg";
+					    $this->load->view('lay',$data);
+				}else{
+
+					if (!empty($this->input->post('enddate'))) {
+						# code...
+						$enddate=$parmeters['start_time'];
+						$i=0;
+						while ( $enddate <= $this->input->post('enddate')) {
+							# code...
+							$d[$i]=date('Y-m-d H:i:s', strtotime($parmeters['start_time']. ' + 1 days'));
+			            
+			 
+			            	//echo $d[$i].'<br/>'; 
+			            	$parmeters['start_time']=$d[$i];
+                            $enddate=$parmeters['start_time'];
+		                    $obj = new addschedule($secretAcessKey,$access_key,$webServiceUrl,$parmeters);
+		                    $result = $obj->return_result();
+					        if($result['state']){
+					            
+					            $data['class_id']=$result['id'];
+					            $data['class_presenter_url']=$result['presenter_url'];
+					            $data['class_start_time']=$parmeters['start_time'];
+					            $data['class_presenter_email']=$result['presenter_email'];
+					            $data['class_recording_url']=$result['recording_url'];
+					            $data['class_topic_id']= $this->input->post('topicId');
+								$data['class_title'] = $this->input->post('title');
+								$data['class_duration'] = $this->input->post('duration');
+								$data["class_time_zone"]= $this->input->post('timezone') ;	
+								$data['class_create_recording']=$parmeters["create_recording"];			
+								$this->load->model('Liveclass');
+								$this->Liveclass->addclass($data);
+
+								//redirect('coursecontroller/listcourses', 'location');
+
+								$data['msg']= "Your Class Has created Successfully  <br/> Recording Url is : ".$result['presenter_url']."<br/> Presenter Email is : ".$result['presenter_email']."<br/> Teacher Access By This Link : <br/>".$data['class_presenter_url'];
+								
+
+
+					        }else{
+
+					            $data['msg']= $result['errorMsg'];
+								
+					        }
+
+			            }
+
+			            
+				        $data['content'] = "user/Msg";
+					    $this->load->view('lay',$data);
+							$i++;
+						}
+					}
+				}
+
+			    // repeate weekly
+		    }elseif ($this->input->post('repeatType')==2) {
+		    	$parmeters['start_time'] = $this->input->post('start_time').' '.$this->input->post('hour').':'.$this->input->post('minute').':00';
+	 
+	            for ($i=0; $i < $this->input->post('numberOfClasses'); $i++) { 
 	            
-	            $data['class_id']=$result['id'];
-	            $data['class_presenter_url']=$result['presenter_url'];
-	            $data['class_start_time']=$this->input->post('start_time');
-	            $data['class_presenter_email']=$result['presenter_email'];
-	            $data['class_recording_url']=$result['recording_url'];
-	            $data['class_topic_id']= $this->input->post('topicId');
-				$data['class_title'] = $this->input->post('title');
-				$data['class_duration'] = $this->input->post('duration');
-				$data["class_time_zone"]= $this->input->post('timezone') ;	
-				$data['class_create_recording']=$parmeters["create_recording"];			
-				$this->load->model('Liveclass');
-				$this->Liveclass->addclass($data);
+	            	$d[$i]=date('Y-m-d H:i:s', strtotime($parmeters['start_time']. ' + 1 week'));
+	            
+	 
+	            	//echo $d[$i].'<br/>'; 
+	            	$parmeters['start_time']=$d[$i];
 
-				//redirect('coursecontroller/listcourses', 'location');
+                    $obj = new addschedule($secretAcessKey,$access_key,$webServiceUrl,$parmeters);
+                    $result = $obj->return_result();
+			        if($result['state']){
+			            
+			            $data['class_id']=$result['id'];
+			            $data['class_presenter_url']=$result['presenter_url'];
+			            $data['class_start_time']=$parmeters['start_time'];
+			            $data['class_presenter_email']=$result['presenter_email'];
+			            $data['class_recording_url']=$result['recording_url'];
+			            $data['class_topic_id']= $this->input->post('topicId');
+						$data['class_title'] = $this->input->post('title');
+						$data['class_duration'] = $this->input->post('duration');
+						$data["class_time_zone"]= $this->input->post('timezone') ;	
+						$data['class_create_recording']=$parmeters["create_recording"];			
+						$this->load->model('Liveclass');
+						$this->Liveclass->addclass($data);
 
-				$data['msg']= "Your Class Has created Successfully  <br/> Recording Url is : ".$result['presenter_url']."<br/> Presenter Email is : ".$result['presenter_email']."<br/> Teacher Access By This Link : <br/>".$data['class_presenter_url'];
-				$data['content'] = "user/Msg";
-				$this->load->view('lay',$data);
+						//redirect('coursecontroller/listcourses', 'location');
+
+						$data['msg']= "Your Class Has created Successfully  <br/> Recording Url is : ".$result['presenter_url']."<br/> Presenter Email is : ".$result['presenter_email']."<br/> Teacher Access By This Link : <br/>".$data['class_presenter_url'];
+						
 
 
-	        }else{
+			        }else{
 
-	            $data['msg']= $result['errorMsg'];
-				$data['content'] = "user/Msg";
-				$this->load->view('lay',$data);
-	        }
+			            $data['msg']= $result['errorMsg'];
+						
+			        }
 
-//		    redirect('coursecontroller/listcourses', 'location');
+	            }
+
+	            
+		        $data['content'] = "user/Msg";
+			    $this->load->view('lay',$data);
+
+			    //repeate moutnly
+		    }elseif ($this->input->post('repeatType')==3) {
+		    	# code...
+		    	$parmeters['start_time'] = $this->input->post('start_time').' '.$this->input->post('hour').':'.$this->input->post('minute').':00';
+	 
+	            for ($i=0; $i < $this->input->post('numberOfClasses'); $i++) { 
+	            
+	            	//$d[$i]=date('Y-m-d H:i:s', strtotime($parmeters['start_time']. ' + 1 week'));
+	            
+	                $date = strtotime(date("Y-m-d", strtotime($parmeters['start_time'])) . " +1 month");
+    				$date = date("Y-m-d",$date);
+	            	//echo $d[$i].'<br/>'; 
+	            	$parmeters['start_time']=$date;
+
+                    $obj = new addschedule($secretAcessKey,$access_key,$webServiceUrl,$parmeters);
+                    $result = $obj->return_result();
+			        if($result['state']){
+			            
+			            $data['class_id']=$result['id'];
+			            $data['class_presenter_url']=$result['presenter_url'];
+			            $data['class_start_time']=$parmeters['start_time'];
+			            $data['class_presenter_email']=$result['presenter_email'];
+			            $data['class_recording_url']=$result['recording_url'];
+			            $data['class_topic_id']= $this->input->post('topicId');
+						$data['class_title'] = $this->input->post('title');
+						$data['class_duration'] = $this->input->post('duration');
+						$data["class_time_zone"]= $this->input->post('timezone') ;	
+						$data['class_create_recording']=$parmeters["create_recording"];			
+						$this->load->model('Liveclass');
+						$this->Liveclass->addclass($data);
+
+						//redirect('coursecontroller/listcourses', 'location');
+
+						$data['msg']= "Your Class Has created Successfully  <br/> Recording Url is : ".$result['presenter_url']."<br/> Presenter Email is : ".$result['presenter_email']."<br/> Teacher Access By This Link : <br/>".$data['class_presenter_url'];
+						
 
 
+			        }else{
+
+			            $data['msg']= $result['errorMsg'];
+						
+			        }
+
+	            }
+
+	            
+		        $data['content'] = "user/Msg";
+			    $this->load->view('lay',$data);
+		    }else{
+
+
+	            $obj = new addschedule($secretAcessKey,$access_key,$webServiceUrl,$parmeters);
+	            $result = $obj->return_result();
+		        if($result['state']){
+		            
+		            $data['class_id']=$result['id'];
+		            $data['class_presenter_url']=$result['presenter_url'];
+		            $data['class_start_time']=$this->input->post('start_time');
+		            $data['class_presenter_email']=$result['presenter_email'];
+		            $data['class_recording_url']=$result['recording_url'];
+		            $data['class_topic_id']= $this->input->post('topicId');
+					$data['class_title'] = $this->input->post('title');
+					$data['class_duration'] = $this->input->post('duration');
+					$data["class_time_zone"]= $this->input->post('timezone') ;	
+					$data['class_create_recording']=$parmeters["create_recording"];			
+					$this->load->model('Liveclass');
+					$this->Liveclass->addclass($data);
+
+					//redirect('coursecontroller/listcourses', 'location');
+
+					$data['msg']= "Your Class Has created Successfully  <br/> Recording Url is : ".$result['presenter_url']."<br/> Presenter Email is : ".$result['presenter_email']."<br/> Teacher Access By This Link : <br/>".$data['class_presenter_url'];
+					$data['content'] = "user/Msg";
+					$this->load->view('lay',$data);
+
+
+		        }else{
+
+		            $data['msg']= $result['errorMsg'];
+					$data['content'] = "user/Msg";
+					$this->load->view('lay',$data);
+		        }
+
+	//		    redirect('coursecontroller/listcourses', 'location');
+
+            }
       }
 	}
 
