@@ -23,6 +23,7 @@
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css">
 
+<link rel="stylesheet" href="../css/bootstrap.css">
 
 	<title> Show Topic </title>
 </head>

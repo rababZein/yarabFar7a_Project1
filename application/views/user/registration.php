@@ -24,6 +24,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css">
 
 <script src="http://code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="../css/bootstrap.css">
 
   <title>Registration</title>
 </head>
