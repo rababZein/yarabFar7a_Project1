@@ -78,6 +78,8 @@ class Usercontroller extends CI_Controller {
 
         }else{
 				$data['user_name']= $this->input->post('username');
+				$data['user_first_name']= $this->input->post('firstname');
+				$data['user_last_name']= $this->input->post('lastname');
 				$data['user_email']= $this->input->post('email');
 				$data['user_question']= $this->input->post('question');
 				$data['user_answer']= $this->input->post('answer');
@@ -223,6 +225,8 @@ class Usercontroller extends CI_Controller {
 	   $id=$this->input->post('id');
 	   $this->load->library('form_validation');
 	   $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean');
+	   $this->form_validation->set_rules('firstname', 'First name', 'trim|required|xss_clean|min_length[5]|max_length[20]]');
+	   $this->form_validation->set_rules('lastname', 'Last name', 'trim|required|xss_clean|min_length[5]|max_length[20]');
 	   $this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean');
        $this->form_validation->set_rules('type', 'Type', 'trim|required|xss_clean');
 
@@ -251,6 +255,8 @@ class Usercontroller extends CI_Controller {
 	    
 	   	$this->load->model('user');
 		$data['user_name'] = $this->input->post('username');
+		$data['user_first_name']= $this->input->post('firstname');
+		$data['user_last_name']= $this->input->post('lastname');
 		$data['user_type'] = $this->input->post('type');
 		$data['user_email'] = $this->input->post('email');
 
@@ -344,6 +350,8 @@ exit();
 
         }else{
 				$data['user_name']= $this->input->post('username');
+				$data['user_first_name']= $this->input->post('firstname');
+				$data['user_last_name']= $this->input->post('lastname');
 				$data['user_email']= $this->input->post('email');
 				$data['user_question']= $this->input->post('question');
 				$data['user_answer']= $this->input->post('answer');
