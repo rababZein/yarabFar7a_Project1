@@ -195,8 +195,8 @@
 <select name="repeatType" id="RecurringControl1_drpRepeatType" class="dropbx_all" style="">
   <option value="0">Select when class repeats</option>
   <option value="1">Daily (all 7 days)</option>
-  <option value="2">6 Days(Mon-Sat)</option>
-  <option value="3">5 Days(Mon-Fri)</option>
+ <!--  <option value="2">6 Days(Mon-Sat)</option>
+  <option value="3">5 Days(Mon-Fri)</option> -->
   <option value="4">Weekly</option>
   <option value="5">Once every month</option>
 
@@ -205,19 +205,21 @@
 <div id="RecurringControl1_dvEndDate" class="schedulewhiteinn top30" style="padding-top: 20px; padding-bottom: 20px;">
     <div class="dv100">
         <span class="left">*Ends:</span> <span class="right"><span class="fleft padtop" style="margin-left:-5px">
-            <input value="0" name="RecurringControl1enddate" id="RecurringControl1_rdoEndAfter" class="fleft" checked="checked" style="cursor: pointer" type="radio">
+            <input value="0" name="after" id="after" class="fleft" checked="checked" style="cursor: pointer" type="radio">
             <label for="RecurringControl1_rdoEndAfter" class="radio_align marleft">After </label>
         </span><span class="fleft marleft" style="padding-left: 2px;">
-            <input name="numberOfClasses" maxlength="3" id="RecurringControl1_txtOccurence" class="aspNetDisabled" onkeypress="return onlyNumbers(event);" style="width: 30px;" type="text">
+            <input name="numberOfClasses" maxlength="3" id="numberOfClasses" class="aspNetDisabled" onkeypress="return onlyNumbers(event);" style="width: 30px;" type="text">
         </span><span class="fleft marleft" style="padding-top:7px;">Classes</span> </span>
     </div>
     <div class="dv100 martop5">
         <span class="left"></span><span class="right"><span class="fleft" style="margin-left:-5px">
-            <input value="1" name="RecurringControl1enddate" id="RecurringControl1_rdoEndBy" class="fleft" style="cursor: pointer" type="radio">
+            <input value="1" name="after" id="on" class="fleft" style="cursor: pointer" type="radio">
             <label for="RecurringControl1_rdoEndBy" class="radio_align marleft">On </label>
         </span><span class="fleft marleft">
-            <input disabled="" readonly="readonly" name="RecurringControl1txtEndDate" id="RecurringControl1_txtEndDate" class="txtbx_all hasDatepicker" style="width: 90px;" type="text">
-        </span><span class="fleft padtop marleft"></span></span>
+            <input  disabled="" readonly="readonly" type="text" placeholder="click to show datepicker" name="end_time" id="example2" value="<?php echo set_value('end_time');?>" class="txtbx_all hasDatepicker" >
+
+<!--             <input disabled="" readonly="readonly" name="RecurringControl1txtEndDate" id="RecurringControl1_txtEndDate" class="txtbx_all hasDatepicker" style="width: 90px;" type="text">
+ -->        </span><span class="fleft padtop marleft"></span></span>
     </div>
 </div>
 
@@ -239,6 +241,8 @@
 <script type="text/javascript">
 
  var base_url="<?=base_url()?>";
+
+
  $(document).ready(function(){
         $('select#country').on('change', function() {
 
@@ -291,10 +295,52 @@
      $(document).ready(function () {
                 
                 $('#example1').datepicker({
-                    format: "dd/mm/yyyy"
+                    format: "yyyy/mm/dd"
                 });  
             
-            });
+      });
+
+      $(document).ready(function () {
+                
+                $('#example2').datepicker({
+                    format: "yyyy/mm/dd"
+                });  
+            
+      });
+
+      $(document).ready(function(){
+
+            $("#after").change(function(){
+
+                 $('#numberOfClasses').attr('readonly', false);
+               
+                 $('#example2').prop("disabled", true); // Element(s) are now enabled.
+
+                 $('#example2').prop("readonly", true);
+            })
+
+      });
+
+
+        $(document).ready(function(){
+
+            $("#on").change(function(){
+
+                $('#numberOfClasses').attr('readonly', true);
+            
+                $('#example2').prop("disabled", false); // Element(s) are now enabled.
+
+                $('#example2').prop("readonly", false);
+            })
+
+      });
+
+        $(document).ready(function(){
+
+
+           //$('#example2').attr('readonly', true);
+          // $('#example2').removeClass('hasDatepicker');
+        });
 
  </script>
 
