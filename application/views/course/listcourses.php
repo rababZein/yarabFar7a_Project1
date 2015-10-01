@@ -22,7 +22,7 @@
     <script src="../js/jquery-ui/jquery.ui.sortable.min.js" type="text/javascript"></script>
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css">
-
+<link rel="stylesheet" href="../css/bootstrap.css">
 
 	<title>List Courses</title>
 </head>

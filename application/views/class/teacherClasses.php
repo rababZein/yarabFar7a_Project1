@@ -2,7 +2,6 @@
 <html>
 <head>
 
- 
   <link rel="stylesheet" type="text/css" href="../css/reset.css" media="screen" />
     <link rel="stylesheet" type="text/css" href=".../css/text.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="../css/grid.css" media="screen" />
@@ -21,16 +20,20 @@
     <script src="../js/jquery-ui/jquery.ui.mouse.min.js" type="text/javascript"></script>
     <script src="../js/jquery-ui/jquery.ui.sortable.min.js" type="text/javascript"></script>
 
+
+
+        
+    
+
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css">
-
-
+<link rel="stylesheet" href="../css/bootstrap.css">
 	<title> Show Topic </title>
 </head>
 <body>
 
 
 
-<table class="data display datatable" id="example" cellpadding="2" cellspacing="2" border="4">
+<table class="data display datatable" id="example" cellpadding="0" cellspacing="0" border="0">
 <thead>
 
 <tr>
@@ -52,7 +55,9 @@
 
 </tr>
 </thead>
-    
+
+
+<tbody>   
 <?php
 
 for ($i=0; $i <sizeof($classes) ; $i++) { 
@@ -91,16 +96,18 @@ for ($i=0; $i <sizeof($classes) ; $i++) {
 
 
 ?>
-
+</tbody>
 </table>
+
+
+
 
 <script type="text/javascript">
 
 
-$('#example').dataTable(
-{
-  "bSort" : false
-} );
+$(document).ready(function() {
+    $('#example').dataTable();
+});
 
 
 </script>
