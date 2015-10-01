@@ -87,8 +87,16 @@
                               <?php } ?>  
                             </ul>
                         </li>
-                       
 
+<?php if($session_data['type']=='teacher'){?>
+                         <li><a class="menuitem">Live Classes</a>
+                            <ul class="submenu">
+                                <li><a href="../classcontroller/teacherClasses">Your Classes</a> </li>
+                           
+                            </ul>
+                        </li>
+                       
+<?php }?>
                      
 
 <?php if($session_data['type']=='admin' || $session_data['type']=='super admin' ){?>

@@ -20,7 +20,9 @@ class Coursecontroller extends CI_Controller {
 
 		$this->load->model('category');		
 		$data['parentCategories']=$this->category->getByParent(0);
+		$this->load->model('course');
 
+		$data['teachers']=$this->course->listTeacher();
 		
         $this->load->helper(array('form'));
 		$data['content'] = "course/addcourse";
@@ -50,9 +52,11 @@ class Coursecontroller extends CI_Controller {
 	 public	function storecourse(){
 
        $this->load->library('form_validation');
-	   $this->form_validation->set_rules('course_title', 'Course_title', 'trim|required|xss_clean');
-	   $this->form_validation->set_rules('course_start_time', 'Course_start_time', 'trim|xss_clean');
-       $this->form_validation->set_rules('course_end_time', 'Course_end_time', 'trim|required|xss_clean');
+	   $this->form_validation->set_rules('course_title', ' Title  Of Course ', 'trim|required|xss_clean');
+	   $this->form_validation->set_rules('course_start_time', ' Start Time Of Course ', 'trim|xss_clean');
+       $this->form_validation->set_rules('course_end_time', ' End Time Of Course ', 'trim|required|xss_clean');
+       $this->form_validation->set_rules('course_cat_id', ' Category ', 'trim|required|xss_clean');
+       $this->form_validation->set_rules('course_teacher_id', ' Teacher ', 'trim|required|xss_clean');
 
 	   if($this->form_validation->run() == FALSE){
 
@@ -61,9 +65,12 @@ class Coursecontroller extends CI_Controller {
 
 		$data['parentCategories']=$this->category->getByParent(0);
 
+		$this->load->model('course');
+
+		$data['teachers']=$this->course->listTeacher();
+
         $this->load->helper(array('form'));
 
-		//$this->load->view('course/addcourse',$data);
 		$data['content'] = "course/addcourse";
 		$this->load->view('lay',$data);
 
@@ -74,7 +81,7 @@ class Coursecontroller extends CI_Controller {
 
         	$data['course_cat_id'] = $this->input->post('category');
 
-	        $data['course_teacher_id'] = '1';
+	        $data['course_teacher_id'] = $this->input->post('teacher');;
 
 			
 			$data['course_title'] = $this->input->post('course_title');

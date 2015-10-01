@@ -627,8 +627,45 @@ class Classcontroller extends CI_Controller {
         }else{
          	$data['msg']= $result['message'];
 			$data['content'] = "user/Msg";
-		   $this->load->view('lay',$data); 
+		    $this->load->view('lay',$data); 
         }
 
+	}
+
+
+	public function teacherClasses(){
+
+        $session_data = $this->session->userdata('logged_in');
+		$teacherId=$session_data['id'];
+
+		$this->load->model('course');
+		$teacherCourses=$this->course->getCoursesOfTeacher($teacherId);
+
+
+		//var_dump($teacherCourses);
+		$i=0;
+		$y=0;
+		foreach ($teacherCourses as $teacherCourse) {
+			# code...
+			$this->load->model('topic');
+			$topics[$i]=$this->topic->getTopicByCourseId($teacherCourse->course_id);
+
+			foreach ($topics[$i] as $topic) {
+				# code...
+				$this->load->model('liveclass');
+			    $data['classes'][$y]=$this->liveclass->getAllClassesByTopicId($topic->topic_id);
+			    $y++;
+			
+			}
+
+			$i++;
+
+
+
+		}
+
+		//var_dump($data['classes'][0]);
+		$data['content'] = "class/teacherClasses.php";
+		$this->load->view('lay',$data); 
 	}
 }

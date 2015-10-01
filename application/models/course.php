@@ -82,6 +82,17 @@ Class Course extends CI_Model {
        return $query->result();
     }
 
+
+
+    function listTeacher(){
+
+       $this->db->where('user_type','teacher');
+       $query=$this->db->get('user');
+       return $query->result();
+    }
+
+    
+
 }
 
 

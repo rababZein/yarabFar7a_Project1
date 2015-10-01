@@ -49,4 +49,13 @@ Class Liveclass extends CI_Model {
 
     }
 
+
+    function getAllClassesByTopicId($topicId){
+
+        $this->db->where('class_topic_id',$topicId);
+        $query=$this->db->get('class');
+        return $query->result();
+
+    }
+
 }

@@ -4,7 +4,7 @@
 <html>
 <head>
  
-  <link rel="stylesheet" type="text/css" href="../css/reset.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../css/reset.css" media="screen" />
     <link rel="stylesheet" type="text/css" href=".../css/text.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="../css/grid.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="../css/layout.css" media="screen" />
@@ -15,15 +15,17 @@
       
     <script src="../js/jquery-1.6.4.min.js" type="text/javascript"></script>
     <script src="../js/table/jquery.dataTables.min.js" type="text/javascript"></script>
-  <script src="../js/jquery-ui/jquery.ui.widget.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui/jquery.ui.widget.min.js" type="text/javascript"></script>
     <script src="../js/jquery-ui/jquery.ui.accordion.min.js" type="text/javascript"></script>
     <script src="../js/jquery-ui/jquery.effects.core.min.js" type="text/javascript"></script>
     <script src="../js/jquery-ui/jquery.effects.slide.min.js" type="text/javascript"></script>
     <script src="../js/jquery-ui/jquery.ui.mouse.min.js" type="text/javascript"></script>
     <script src="../js/jquery-ui/jquery.ui.sortable.min.js" type="text/javascript"></script>
 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css">
-
+        <!-- Bootstrap CSS and bootstrap datepicker CSS used for styling the demo pages-->
+        <link rel="stylesheet" href="../css/datepicker.css">
+        <link rel="stylesheet" href="../css/bootstrap.css">
+    
 
 	<title>Add New Course</title>
 </head>
@@ -78,20 +80,49 @@
      <br/>
 
 
+     <label for="teacher">Select Teacher:</label>
+
+     <select name="teacher">
+
+     <?php
+
+            
+        if (count($teachers)) {
+          echo "<option value='empty'> Select Teacher</option>";
+          foreach ($teachers as $teacher) {
+              echo "<option value='".$teacher->user_id."' >".$teacher->user_name."</option>";
+          }
+      }
+
+
+
+     ?>
+
+     </select>
+
+     <br/>
+
+
      <label for="course_start_time">Start Time:</label>
 
-     <input type="date"  id="course_start_time" name="course_start_time" value="<?php echo set_value('course_start_time'); ?>"/>
+     <input  type="text" placeholder="click to show datepicker" name="course_start_time" id="example1" value="<?php echo set_value('course_start_time');?>">
+
      <br/>
 
      <label for="course_end_time">End Time:</label>
-     <input type="date"  id="course_end_time" name="course_end_time" value="<?php echo set_value('course_end_time'); ?>"/>
+     <input  type="text" placeholder="click to show datepicker" name="course_end_time" id="example2" value="<?php echo set_value('course_end_time');?>">
+
      <br/>
 
      
      <input type="submit" value="Add"/>
    </form>
-              <script src="http://code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
 
+
+<script src="http://code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
+ <!-- Load jQuery and bootstrap datepicker scripts -->
+<script src="../bootstrap-datetimepicker-0.0.11/js/bootstrap-datetimepicker.min.js"></script>
+<script src="../js/bootstrap-datepicker.js"></script>
 
    <script type="text/javascript">
 
@@ -150,6 +181,22 @@
               });
            }); 
 
+
+    $(document).ready(function () {
+                
+                $('#example1').datepicker({
+                    format: "yyyy/mm/dd"
+                });  
+            
+    });
+
+    $(document).ready(function () {
+                
+                $('#example2').datepicker({
+                    format: "yyyy/mm/dd"
+                });  
+            
+    });
 
 
 
