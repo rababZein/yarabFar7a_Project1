@@ -407,6 +407,41 @@ class Classcontroller extends CI_Controller {
 
 
 
+				//single class
+			}elseif ($this->input->post('repeatType')==6) {
+				# code...
+
+				$parmeters['start_time'] = $this->input->post('start_time').' '.$this->input->post('hour').':'.$this->input->post('minute').':00';
+				$obj = new addschedule($secretAcessKey,$access_key,$webServiceUrl,$parmeters);
+                $result = $obj->return_result();
+		        if($result['state']){
+		            
+		            $data['class_id']=$result['id'];
+		            $data['class_presenter_url']=$result['presenter_url'];
+		            $data['class_start_time']=$parmeters['start_time'];
+		            $data['class_presenter_email']=$result['presenter_email'];
+		            $data['class_recording_url']=$result['recording_url'];
+		            $data['class_topic_id']= $this->input->post('topicId');
+					$data['class_title'] = $this->input->post('title');
+					$data['class_duration'] = $this->input->post('duration');
+					$data["class_time_zone"]= $this->input->post('timezone') ;	
+					$data['class_create_recording']=$parmeters["create_recording"];			
+					$this->load->model('Liveclass');
+					$this->Liveclass->addclass($data);
+
+
+					$dat['msg']= "Your Class Has created Successfully  <br/> Recording Url is : ".$result['presenter_url']."<br/> Presenter Email is : ".$result['presenter_email']."<br/> Teacher Access By This Link : <br/>".$data['class_presenter_url'];
+					
+
+		        }else{
+
+		            $dat['msg']= $result['errorMsg'];
+					
+		        }
+
+		        $dat['content'] = "user/Msg";
+				$this->load->view('lay',$dat);
+
 
 			}
 

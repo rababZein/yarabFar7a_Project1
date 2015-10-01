@@ -192,17 +192,18 @@
 
 <div id="RecurringControl1_dvRepeatType" class="fleft">
 <span>
-<select name="repeatType" id="RecurringControl1_drpRepeatType" class="dropbx_all" style="">
+<select name="repeatType" id="repeatType" class="dropbx_all" style="">
   <option value="0">Select when class repeats</option>
   <option value="1">Daily (all 7 days)</option>
  <!--  <option value="2">6 Days(Mon-Sat)</option>
   <option value="3">5 Days(Mon-Fri)</option> -->
   <option value="4">Weekly</option>
   <option value="5">Once every month</option>
+  <option value="6">Single</option>
 
 </select>
 </span></div>
-<div id="RecurringControl1_dvEndDate" class="schedulewhiteinn top30" style="padding-top: 20px; padding-bottom: 20px;">
+<div id="repeatediv" class="schedulewhiteinn top30" style="padding-top: 20px; padding-bottom: 20px;">
     <div class="dv100">
         <span class="left">*Ends:</span> <span class="right"><span class="fleft padtop" style="margin-left:-5px">
             <input value="0" name="after" id="after" class="fleft" checked="checked" style="cursor: pointer" type="radio">
@@ -241,6 +242,12 @@
 <script type="text/javascript">
 
  var base_url="<?=base_url()?>";
+
+
+ $(document).ready(function(){
+
+  $('#repeatediv').hide();
+ });
 
 
  $(document).ready(function(){
@@ -336,10 +343,29 @@
       });
 
         $(document).ready(function(){
+            $("#repeatType").change(function(){
+            var e = document.getElementById("repeatType");
+                       if(e.value==6){
+
+alert('if');
+                        var repeatediv = document.getElementById("repeatediv");
+
+                        // repeatediv.style.display = "none";
+
+                         $('#repeatediv').hide();
+    
 
 
-           //$('#example2').attr('readonly', true);
-          // $('#example2').removeClass('hasDatepicker');
+
+                       }else{
+
+                        alert('else');
+
+                        // repeatediv.style.display = "block";
+                         $('#repeatediv').show();
+
+                       }
+             });          
         });
 
  </script>
