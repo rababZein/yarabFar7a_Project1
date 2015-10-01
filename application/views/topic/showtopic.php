@@ -128,10 +128,14 @@ var base_url="<?=base_url()?>";
     }
 
 
-$('#example').dataTable(
-{
-  "bSort" : false
-} );
+// $('#example').dataTable(
+// {
+//   "bSort" : false
+// } );
+
+$(document).ready(function() {
+    $('#example').dataTable();
+});
 
 
 </script>

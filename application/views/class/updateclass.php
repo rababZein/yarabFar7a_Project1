@@ -1,3 +1,10 @@
+<?php 
+$date = date_parse($result['class_start_time']);
+
+//echo $date['year'];
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,6 +28,10 @@
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css">
 
+        <!-- Bootstrap CSS and bootstrap datepicker CSS used for styling the demo pages-->
+        <link rel="stylesheet" href="../css/datepicker.css">
+        <link rel="stylesheet" href="../css/bootstrap.css">
+    
 
 	<title>Update Class</title>
 </head>
@@ -33,7 +44,7 @@
      
 
      
-     <input type="text" size="20" id="id" name="id" value="<?php echo $result['class_id'];?>"  hidden/>
+     <input type="hidden" size="20" id="id" name="id" value="<?php echo $result['class_id'];?>"/>
      
      <br/>
 
@@ -57,12 +68,14 @@
 
 
      <label for="start_time">Start Time:</label>
-     <input type="text" size="20" id="start_time" name="start_time" value="<?php if(empty( set_value('start_time') ) ){ 
-                                                                              echo $result['class_start_time'];
+     <input type="text" placeholder="click to show datepicker"  id="example1" name="start_time" value="<?php if(empty( set_value('start_time') ) ){ 
+                                                                              echo $date['year'].'/'.$date['month'].'/'.$date['day'];
                                                                              }else{ 
                                                                               echo set_value('start_time');
                                                                               }
                                                               ?>"/>
+
+
      <br/>
 
 
@@ -107,11 +120,41 @@
 
      </p>
 
+     <div class=" fleft" style="margin-top: 10px;">
+                                            
+     <div class="left" style="padding-top: 0px">Record this class: </div><div class="right" style="margin-left: 0px;">
+      <div id="divRecordClass" class="dv100">
+        
+        <?php if($result['class_create_recording'] != 1){?>
+        <label>
+            <span class="fleft" style="cursor: pointer"><input id="rdbRecordClass" name="gpRecordClass" value="1" checked="checked" onclick="ShowUploadRecordingAsMP4();" type="radio"></span>
+            <label for="rdbRecordClass" class="radio_align">Yes </label>
+        </label>
+        <label>
+            <span class="fleft fleft10" style="cursor: pointer"><input id="rdbDontRecord" name="gpRecordClass" value="0" onclick="ShowUploadRecordingAsMP4();" type="radio"></span>
+            <label for="rdbDontRecord" class="radio_align">No</label>
+        </label>
+        <?php }else{?>
+
+         <label>
+            <span class="fleft" style="cursor: pointer"><input id="rdbRecordClass" name="gpRecordClass" value="1" checked="checked"  type="radio"></span>
+            <label for="rdbRecordClass" class="radio_align">Yes </label>
+        </label>
+        <label>
+            <span class="fleft fleft10" style="cursor: pointer"><input id="rdbDontRecord" name="gpRecordClass" value="0"  type="radio"></span>
+            <label for="rdbDontRecord" class="radio_align">No</label>
+        </label>
+
+        <?php }?>
+    </div></div></div>
+
 
      <input type="submit" value="Edit"/>
    </form>
 <script src="http://code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
-
+ <!-- Load jQuery and bootstrap datepicker scripts -->
+<script src="../bootstrap-datetimepicker-0.0.11/js/bootstrap-datetimepicker.min.js"></script>
+<script src="../js/bootstrap-datepicker.js"></script>
 
 <script type="text/javascript">
 
@@ -164,6 +207,15 @@
 
         });
     });
+
+
+  $(document).ready(function () {
+                
+                $('#example1').datepicker({
+                    format: "yyyy/mm/dd"
+                });  
+            
+  });
 
 
  </script>
