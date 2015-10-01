@@ -38,6 +38,17 @@
      <span style="color:red"> <?php echo form_error('username'); ?> </span>
      <br/>
 
+
+     <label for="firstname">First Name:</label>
+     <input type="text" size="20" id="firstname" name="firstname" value="<?php echo set_value('firstname');?>"/>
+     <span style="color:red"> <?php echo form_error('firstname'); ?> </span>
+     <br/>
+
+     <label for="lastname">Last Name:</label>
+     <input type="text" size="20" id="lastname" name="lastname" value="<?php echo set_value('lastname');?>"/>
+     <span style="color:red"> <?php echo form_error('lastname'); ?> </span>
+     <br/>
+
      <label for="email">Email:</label>
      <input type="email" size="20" id="email" name="email" value="<?php echo set_value('email');?>"/>
      <span style="color:red"> <?php echo form_error('email'); ?> </span>
@@ -82,7 +93,6 @@
      <label for="mobile">Mobile</label> 
      <input type="number" id="mobile" name="mobile" onkeyup="mob()" value="<?php echo set_value('mobile');?>"/> 
      <span style="color:red"> <?php echo form_error('mobile'); ?> </span>
-     <br/> 
      <div id="mob"> </div>
 
 

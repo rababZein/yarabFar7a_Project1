@@ -46,7 +46,9 @@ class Usercontroller extends CI_Controller {
 	{
 
 	    $this->load->library('form_validation');
-	    $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean|min_length[5]|max_length[12]|is_unique[user.user_name]');
+	    $this->form_validation->set_rules('username', 'User name', 'trim|required|xss_clean|min_length[5]|max_length[12]|is_unique[user.user_name]');
+	    $this->form_validation->set_rules('firstname', 'First name', 'trim|required|xss_clean|min_length[5]|max_length[20]]');
+	    $this->form_validation->set_rules('lastname', 'Last name', 'trim|required|xss_clean|min_length[5]|max_length[20]');
 	    $this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean|is_unique[user.user_email]');
         $this->form_validation->set_rules('type', 'Type', 'trim|xss_clean');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|min_length[5]|max_length[12]|matches[passconf]');
@@ -311,6 +313,8 @@ exit();
 
 	    $this->load->library('form_validation');
 	    $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean|min_length[5]|max_length[12]|is_unique[user.user_name]');
+	    $this->form_validation->set_rules('firstname', 'First name', 'trim|required|xss_clean|min_length[5]|max_length[20]]');
+	    $this->form_validation->set_rules('lastname', 'Last name', 'trim|required|xss_clean|min_length[5]|max_length[20]');
 	    $this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean|is_unique[user.user_email]');
         $this->form_validation->set_rules('type', 'Type', 'trim|xss_clean');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|min_length[5]|max_length[12]|matches[passconf]');

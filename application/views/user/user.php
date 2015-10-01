@@ -55,6 +55,8 @@
 
 <th> User ID </th> 
 <th> User Name </th>
+<th> First Name</th>
+<th> Last Name </th>
 <th> User Type </th>
 <th> User Email </th>
 <th> Active </th>
@@ -73,6 +75,8 @@
 		echo "<tr id='".$row->user_id."'>";
 		echo "<td>".$row->user_id."</td>";
 		echo "<td>".$row->user_name."</td>";
+		echo "<td>".$row->user_first_name."</td>";
+		echo "<td>".$row->user_last_name."</td>";
 		echo "<td>".$row->user_type."</td>";
 		echo "<td>".$row->user_email."</td>";
 		if($row->user_active == 0)
