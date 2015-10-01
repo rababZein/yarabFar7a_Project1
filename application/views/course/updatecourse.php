@@ -2,7 +2,7 @@
 <html>
 <head>
  
-  <link rel="stylesheet" type="text/css" href="../css/reset.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../css/reset.css" media="screen" />
     <link rel="stylesheet" type="text/css" href=".../css/text.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="../css/grid.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="../css/layout.css" media="screen" />
@@ -13,7 +13,7 @@
       
     <script src="../js/jquery-1.6.4.min.js" type="text/javascript"></script>
     <script src="../js/table/jquery.dataTables.min.js" type="text/javascript"></script>
-  <script src="../js/jquery-ui/jquery.ui.widget.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui/jquery.ui.widget.min.js" type="text/javascript"></script>
     <script src="../js/jquery-ui/jquery.ui.accordion.min.js" type="text/javascript"></script>
     <script src="../js/jquery-ui/jquery.effects.core.min.js" type="text/javascript"></script>
     <script src="../js/jquery-ui/jquery.effects.slide.min.js" type="text/javascript"></script>
@@ -21,6 +21,7 @@
     <script src="../js/jquery-ui/jquery.ui.sortable.min.js" type="text/javascript"></script>
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="../css/bootstrap.css">
 
 
 	<title>Update Course</title>

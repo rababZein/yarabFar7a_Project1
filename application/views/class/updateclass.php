@@ -22,11 +22,11 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css">
 
 
-	<title>Update Course</title>
+	<title>Update Class</title>
 </head>
 <body>
 
-<h1>Update Course </h1>
+<h1>Update Class </h1>
    <?php echo validation_errors(); ?>
 
    <?php echo form_open('classcontroller/updateclass'); ?>
