@@ -59,7 +59,7 @@ class addteacher
 		{
 			$this->result['state'] = 0;
 			$error=$objDOM->getElementsByTagName("error")->item(0);
-   			echo "<br>errorcode=".$errorcode = $error->getAttribute("code");	
+   			//echo "<br>errorcode=".$errorcode = $error->getAttribute("code");	
    			$this->result['errorMsg']="<br>errormsg=".$errormsg = $error->getAttribute("msg");	
 		}
 	 }//end if	
