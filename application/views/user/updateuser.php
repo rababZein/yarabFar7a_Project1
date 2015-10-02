@@ -41,7 +41,7 @@
                                                                         ?>"/>
      <br/>
      
-     <input type="text" size="20" id="id" name="id" value="<?php echo $result['user_id'];?>"  hidden/>
+     <input type="hidden" size="20" id="id" name="id" value="<?php echo $result['user_id'];?>"  />
      <br/>
 
      <label for="email">Email:</label>

@@ -225,8 +225,8 @@ class Usercontroller extends CI_Controller {
 	   $id=$this->input->post('id');
 	   $this->load->library('form_validation');
 	   $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean');
-	   $this->form_validation->set_rules('firstname', 'First name', 'trim|required|xss_clean|min_length[5]|max_length[20]]');
-	   $this->form_validation->set_rules('lastname', 'Last name', 'trim|required|xss_clean|min_length[5]|max_length[20]');
+	   // $this->form_validation->set_rules('firstname', 'First name', 'trim|required|xss_clean|min_length[5]|max_length[20]]');
+	   // $this->form_validation->set_rules('lastname', 'Last name', 'trim|required|xss_clean|min_length[5]|max_length[20]');
 	   $this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean');
        $this->form_validation->set_rules('type', 'Type', 'trim|required|xss_clean');
 
@@ -270,8 +270,14 @@ class Usercontroller extends CI_Controller {
 	    $this->user->update($data);
 
 	    if($this->input->post('type')=='teacher'){
-            $access_key="NUh89jJp5jc=";
-			$secretAcessKey="X7Hxt9Fs383plSbsXWB3nQ==";
+   //          $access_key="NUh89jJp5jc=";
+			// $secretAcessKey="X7Hxt9Fs383plSbsXWB3nQ==";
+			$this->load->model('settingwiziq');
+
+		    $d['result']=$this->settingwiziq->getSetting();
+		    $access_key=$d['result'][0]->access_key;
+		    $secretAcessKey=$d['result'][0]->secret_key;
+
 			$webServiceUrl="http://class.api.wiziq.com/";
 			$requestParameters["name"]= $this->input->post('username');
 			$requestParameters["email"]= $this->input->post('email');
@@ -283,13 +289,31 @@ class Usercontroller extends CI_Controller {
 			$requestParameters["is_active"]=1;
 			$requestParameters['teacher_id']=$data['user_id'];
 	        $obj = new editteacher($secretAcessKey,$access_key,$webServiceUrl,$requestParameters);
-exit();
+//exit();
+
+            $result = $obj->return_result();
+
+					
+			if ($result['state']) {
+            	# code...
+            	$data['msg']='update teacher account Done';
+            }else{
+
+            	$data['msg']= $result['errorMsg'];
+						
+            }
+
+            $data['content'] = "user/Msg";
+		    $this->load->view('lay',$data);
+	    }else{
+
+	    	redirect('usercontroller/listuser', 'location');
 	    }
 
 
 // $data['content'] = "listuser";
 // $this->load->view('lay',$data);
-	    redirect('usercontroller/listuser', 'location');
+	    
 	   }
 
 
@@ -319,8 +343,8 @@ exit();
 
 	    $this->load->library('form_validation');
 	    $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean|min_length[5]|max_length[12]|is_unique[user.user_name]');
-	    $this->form_validation->set_rules('firstname', 'First name', 'trim|required|xss_clean|min_length[5]|max_length[20]]');
-	    $this->form_validation->set_rules('lastname', 'Last name', 'trim|required|xss_clean|min_length[5]|max_length[20]');
+	    $this->form_validation->set_rules('firstname', 'First name', 'trim|required|xss_clean|min_length[5]|max_length[12]');
+	    $this->form_validation->set_rules('lastname', 'Last name', 'trim|required|xss_clean|min_length[5]|max_length[12]');
 	    $this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean|is_unique[user.user_email]');
         $this->form_validation->set_rules('type', 'Type', 'trim|xss_clean');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|min_length[5]|max_length[12]|matches[passconf]');
@@ -378,10 +402,10 @@ exit();
 					// $secretAcessKey="X7Hxt9Fs383plSbsXWB3nQ==";
 
 					$this->load->model('settingwiziq');
-		            $data['result']=$this->settingwiziq->getSetting();
+		            $d['result']=$this->settingwiziq->getSetting();
 
-		            $access_key=$data['result'][0]->access_key;
-		            $secretAcessKey=$data['result'][0]->secret_key;
+		            $access_key=$d['result'][0]->access_key;
+		            $secretAcessKey=$d['result'][0]->secret_key;
 
 					$webServiceUrl="http://class.api.wiziq.com/";
 					$requestParameters["name"]= $this->input->post('username');
@@ -430,12 +454,16 @@ exit();
 				        $this->email->from('engy.elmoshrify@gmail.com'); 
 				        $this->email->to($data['user_email']);
 				        $this->email->subject('Activate Your Account !');
-				        $this->email->message($message);
-				        if($this->email->send()){
-				      			//echo 'Email sent.';
-				     	}else{
-				     			//show_error($this->email->print_debugger());
-				        }
+				      //   $this->email->message($message);
+				      //   if($this->email->send()){
+				      // 			//echo 'Email sent.';
+				     	// }else{
+				     	// 		//show_error($this->email->print_debugger());
+				      //   }
+				        $data['msg']= 'Your Teacher account was created Successfully , please tell him to check his mail to activate account';
+						$data['content'] = "user/Msg";
+				        $this->load->view('lay',$data);
+
 					}else{
 
 						$data['msg']= $result['errorMsg'];
@@ -479,12 +507,12 @@ exit();
 			         $this->email->from('engy.elmoshrify@gmail.com'); 
 			         $this->email->to($data['user_email']);
 			         $this->email->subject('Activate Your Account !');
-			         $this->email->message($message);
-			         if($this->email->send()){
-			      			echo 'Email sent.';
-			     	 }else{
-			     			show_error($this->email->print_debugger());
-			         }
+			       //   $this->email->message($message);
+			       //   if($this->email->send()){
+			      	// 		echo 'Email sent.';
+			     	 // }else{
+			     		// 	show_error($this->email->print_debugger());
+			       //   }
 
 
 				    //redirect('coursecontroller/listcourses', 'location');
