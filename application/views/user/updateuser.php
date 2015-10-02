@@ -40,6 +40,26 @@
                                                                               }
                                                                         ?>"/>
      <br/>
+
+     <label for="firstname">First Name:</label>
+     <input type="text" size="20" id="firstname" name="firstname" value="<?php if(empty( set_value('firstname') ) ){ 
+                                                                              echo $result['user_first_name'];
+                                                                             }else{ 
+                                                                              echo set_value('firstname');
+                                                                              }
+                                                                        ?>"/>
+     <span style="color:red"> <?php echo form_error('firstname'); ?> </span>
+     <br/>
+
+     <label for="lastname">Last Name:</label>
+     <input type="text" size="20" id="lastname" name="lastname" value="<?php if(empty( set_value('lastname') ) ){ 
+                                                                              echo $result['user_last_name'];
+                                                                             }else{ 
+                                                                              echo set_value('lastname');
+                                                                              }
+                                                                        ?>"/>
+     <span style="color:red"> <?php echo form_error('lastname'); ?> </span>
+     <br/>
      
      <input type="hidden" size="20" id="id" name="id" value="<?php echo $result['user_id'];?>"  />
      <br/>
@@ -52,6 +72,8 @@
                                                                               }
                                                                  ?>"/>
      <br/>
+
+
 
   
 
@@ -134,6 +156,35 @@ if(document.getElementById("type").value == "teacher")
 
 if(document.getElementById("type").value == "student")
     document.getElementById("admin").style.visibility= "hidden";
+}
+
+function mob()
+
+{
+    arr=[];
+    len=document.getElementById("mobile").value.length;
+    if(document.getElementById("mobile").value[0] == document.getElementById("mobile").value[1]){
+        arr.push(0);
+        arr.push(0);
+
+        flag= document.getElementById("mobile").value[0];
+        for(i=2 ; i<len ; i++){
+            if(document.getElementById("mobile").value[i] == flag){
+                arr.push(0);
+            }
+        }
+
+    }
+    if(arr.length == len){ 
+      document.getElementById("mob").innerHTML="<span style='color:red'>enter valid mobile number </span> ";
+      document.getElementById('sub').disabled = 'disabled';
+    }else {
+      document.getElementById("mob").innerHTML="";
+      document.getElementById('sub').disabled = false;
+    }
+ 
+
+
 }
 
 

@@ -47,8 +47,8 @@ class Usercontroller extends CI_Controller {
 
 	    $this->load->library('form_validation');
 	    $this->form_validation->set_rules('username', 'User name', 'trim|required|xss_clean|min_length[5]|max_length[12]|is_unique[user.user_name]');
-	    $this->form_validation->set_rules('firstname', 'First name', 'trim|required|xss_clean|min_length[5]|max_length[20]]');
-	    $this->form_validation->set_rules('lastname', 'Last name', 'trim|required|xss_clean|min_length[5]|max_length[20]');
+	    $this->form_validation->set_rules('firstname', 'First name', 'trim|required|xss_clean|min_length[5]|max_length[12]');
+	    $this->form_validation->set_rules('lastname', 'Last name', 'trim|required|xss_clean|min_length[5]|max_length[12]');
 	    $this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean|is_unique[user.user_email]');
         $this->form_validation->set_rules('type', 'Type', 'trim|xss_clean');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|min_length[5]|max_length[12]|matches[passconf]');
@@ -225,10 +225,11 @@ class Usercontroller extends CI_Controller {
 	   $id=$this->input->post('id');
 	   $this->load->library('form_validation');
 	   $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean');
-	   // $this->form_validation->set_rules('firstname', 'First name', 'trim|required|xss_clean|min_length[5]|max_length[20]]');
-	   // $this->form_validation->set_rules('lastname', 'Last name', 'trim|required|xss_clean|min_length[5]|max_length[20]');
+	   $this->form_validation->set_rules('firstname', 'First name', 'trim|required|xss_clean|min_length[5]|max_length[12]');
+	   $this->form_validation->set_rules('lastname', 'Last name', 'trim|required|xss_clean|min_length[5]|max_length[12]');
 	   $this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean');
        $this->form_validation->set_rules('type', 'Type', 'trim|required|xss_clean');
+     //  $this->form_validation->set_rules('mobile', 'Mobile', 'trim|required|xss_clean|min_length[5]');
 
 	   if($this->form_validation->run() == FALSE)
 	   {
@@ -259,7 +260,7 @@ class Usercontroller extends CI_Controller {
 		$data['user_last_name']= $this->input->post('lastname');
 		$data['user_type'] = $this->input->post('type');
 		$data['user_email'] = $this->input->post('email');
-
+		//$data['user_phone']=$this->input->post('code').' '.$this->input->post('mobile');
 		if($this->input->post('admin') == "admin")
 		$data['user_admin']= 1;
 
@@ -288,6 +289,7 @@ class Usercontroller extends CI_Controller {
 			$requestParameters["about_the_teacher"]= "Online Facilitator and Teacher, British Columbia, Canada";
 			$requestParameters["is_active"]=1;
 			$requestParameters['teacher_id']=$data['user_id'];
+			$requestParameters['phone_number']=$data['user_phone'];
 	        $obj = new editteacher($secretAcessKey,$access_key,$webServiceUrl,$requestParameters);
 //exit();
 

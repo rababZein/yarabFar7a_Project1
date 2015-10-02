@@ -49,7 +49,7 @@ class editteacher
 		{
 			$this->result['state'] = 1;
 			$methodTag=$objDOM->getElementsByTagName("method");
-			echo "method=".$method=$methodTag->item(0)->nodeValue;
+			//echo "method=".$method=$methodTag->item(0)->nodeValue;
 			// $class_idTag=$objDOM->getElementsByTagName("class_id");
 			// echo "<br>Class ID=".$class_id=$class_idTag->item(0)->nodeValue;
 			// $recording_urlTag=$objDOM->getElementsByTagName("recording_url");
