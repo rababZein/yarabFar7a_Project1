@@ -51,7 +51,12 @@ $date = date_parse(date('Y-m-d H:i:s'));
  
 
 <label for="start_time">start_time:</label>
- <input  type="text" placeholder="click to show datepicker" name="start_time" id="example1" value="<?php echo set_value('start_time');?>">
+ <input  type="text" placeholder="click to show datepicker" name="start_time" id="example1" value="<?php if(empty( set_value('start_time') ) ){ 
+                                                                              echo $date['year'].'/'.$date['month'].'/'.$date['day'];
+                                                                             }else{ 
+                                                                              echo set_value('start_time');
+                                                                              }
+                                                              ?>"/>
  <br/>
 
 

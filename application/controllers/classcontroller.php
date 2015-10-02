@@ -44,7 +44,7 @@ class Classcontroller extends CI_Controller {
 	   $this->load->library('form_validation');
 	   $this->form_validation->set_rules('title', 'Title', 'trim|required|xss_clean');
 	   $this->form_validation->set_rules('duration', 'Duration', 'trim|xss_clean');
-	   $this->form_validation->set_rules('start_time', 'Start_time', 'trim|xss_clean');
+	   $this->form_validation->set_rules('start_time', 'Start_time', 'trim|required|xss_clean');
 	   //$this->form_validation->set_rules('attendee_limit', 'Attendee_limit', 'trim|xss_clean');
 
 	   if($this->form_validation->run() == FALSE){
