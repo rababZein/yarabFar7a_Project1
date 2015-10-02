@@ -530,19 +530,21 @@ class Classcontroller extends CI_Controller {
 	    $data['class_title'] = $this->input->post('title');
 	    $data['class_duration'] = $this->input->post('duration');
         $data['class_start_time'] = $this->input->post('start_time');
+        $data['class_start_time'] = $this->input->post('start_time').' '.$this->input->post('hour').':'.$this->input->post('minute').':00';
+
 		$data['class_id']=$this->input->post('id');
 		$data["class_time_zone"]=$this->input->post('timezone'); ;
 
-        $this->Liveclass->update($data);
+        //$this->Liveclass->update($data);
 
 
 		// $access_key="NUh89jJp5jc=";
   //       $secretAcessKey="X7Hxt9Fs383plSbsXWB3nQ==";
         $this->load->model('settingwiziq');
-        $data['result']=$this->settingwiziq->getSetting();
+        $d['result']=$this->settingwiziq->getSetting();
 
-        $access_key=$data['result'][0]->access_key;
-        $secretAcessKey=$data['result'][0]->secret_key;
+        $access_key=$d['result'][0]->access_key;
+        $secretAcessKey=$d['result'][0]->secret_key;
         $webServiceUrl="http://class.api.wiziq.com/";
 
 		$parmeters = array();
@@ -566,15 +568,23 @@ class Classcontroller extends CI_Controller {
 								
 		$obj = new ModifyClass($secretAcessKey,$access_key,$webServiceUrl,$parmeters);
 		$result = $obj->return_result();
-		if($result['state']){
-			
-			$data['msg']= $result['successMsg'];
-			$data['content'] = "user/Msg";
-		    $this->load->view('lay',$data);
+		if(!empty($result)){
+			if($result['state']){
+				$this->Liveclass->update($data);
+				$data['msg']= $result['successMsg'];
+				$data['content'] = "user/Msg";
+			    $this->load->view('lay',$data);
+	        }else{
+	        	$data['msg']= $result['errorMsg'];
+				$data['content'] = "user/Msg";
+			    $this->load->view('lay',$data);
+	        }
         }else{
-        	$data['msg']= $result['errorMsg'];
+
+        	$data['msg']= 'There are error in your internet connection please try agin later';
 			$data['content'] = "user/Msg";
-		    $this->load->view('lay',$data);
+			$this->load->view('lay',$data);
+
         }
        // exit();
 

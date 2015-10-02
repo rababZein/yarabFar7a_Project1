@@ -1,14 +1,20 @@
 <?php 
 $date = date_parse($result['class_start_time']);
 
-//echo $date['year'];
+// echo $date['hour'];
+
+//var_dump($date); exit();
+// if ($date['hour']==0) {
+//   # code...
+//   echo "yarab fae7a";
+// }
 
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" type="text/css" href="../css/reset.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../css/reset.css" media="screen" />
     <link rel="stylesheet" type="text/css" href=".../css/text.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="../css/grid.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="../css/layout.css" media="screen" />
@@ -19,7 +25,7 @@ $date = date_parse($result['class_start_time']);
       
     <script src="../js/jquery-1.6.4.min.js" type="text/javascript"></script>
     <script src="../js/table/jquery.dataTables.min.js" type="text/javascript"></script>
-  <script src="../js/jquery-ui/jquery.ui.widget.min.js" type="text/javascript"></script>
+    <script src="../js/jquery-ui/jquery.ui.widget.min.js" type="text/javascript"></script>
     <script src="../js/jquery-ui/jquery.ui.accordion.min.js" type="text/javascript"></script>
     <script src="../js/jquery-ui/jquery.effects.core.min.js" type="text/javascript"></script>
     <script src="../js/jquery-ui/jquery.effects.slide.min.js" type="text/javascript"></script>
@@ -79,6 +85,74 @@ $date = date_parse($result['class_start_time']);
      <br/>
 
 
+     <div class="schedulewhiteinn" style="padding-top:10px;padding-bottom:18px;">
+  <div class="dv100">
+        <span class="left"></span><span class="right"><span class="lighttxt11" style="margin-left: 0px;">Hour</span> <span class="lighttxt11" style="margin-left: 30px;">Minutes</span></span>
+  </div>
+  <div class="dv100">
+  <span class="right"><span class="fleft">
+  <select name="hour" id="RecurringControl1_drpHour" class="dropbx_all" style="width: 53px">
+  <?php for ($i=0; $i < 24; $i++) { 
+    # code...
+  
+      if ($date['hour']==$i) {
+        # code...
+             if ($i > 9) {
+               # code...
+                echo '<option selected="selected" value="'.$i.'">'.$i.'</option>';
+             }else{
+                echo '<option selected="selected" value="0'.$i.'">0'.$i.'</option>';
+
+             }
+      }else{
+
+             if ($i > 9) {
+               # code...
+                echo '<option value="'.$i.'">'.$i.'</option>';
+             }else{
+                echo '<option value="0'.$i.'">0'.$i.'</option>';
+
+             }
+
+      }
+  }?>
+
+</select>
+</span><span class="fleft marleft">
+<select name="minute" id="RecurringControl1_drpMinute" class="dropbx_all" style="width: 53px">
+    <?php for ($i=0; $i < 60; $i++) { 
+    # code...
+  
+      if ($date['minute']==$i) {
+        # code...
+             if ($i > 9) {
+               # code...
+                echo '<option selected="selected" value="'.$i.'">'.$i.'</option>';
+             }else{
+                echo '<option selected="selected" value="0'.$i.'">0'.$i.'</option>';
+
+             }
+      }else{
+
+             if ($i > 9) {
+               # code...
+                echo '<option value="'.$i.'">'.$i.'</option>';
+             }else{
+                echo '<option value="0'.$i.'">0'.$i.'</option>';
+
+             }
+
+      }
+  }?>
+
+</select>
+
+</div>
+
+</div>
+
+
+
      <label for="country">Country:</label>
 
      <select id="country" name="country">
@@ -125,7 +199,7 @@ $date = date_parse($result['class_start_time']);
      <div class="left" style="padding-top: 0px">Record this class: </div><div class="right" style="margin-left: 0px;">
       <div id="divRecordClass" class="dv100">
         
-        <?php if($result['class_create_recording'] != 1){?>
+        <?php if($result['class_create_recording'] == 1){?>
         <label>
             <span class="fleft" style="cursor: pointer"><input id="rdbRecordClass" name="gpRecordClass" value="1" checked="checked" onclick="ShowUploadRecordingAsMP4();" type="radio"></span>
             <label for="rdbRecordClass" class="radio_align">Yes </label>
